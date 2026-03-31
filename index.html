@@ -334,8 +334,8 @@ header{background:var(--negro);padding:0 24px;position:fixed;top:var(--bar-h);le
 .sug-btn-float:hover{background:var(--naranja);transform:translateY(-2px)}
 
 /* ══ TOAST ══ */
-.toast{position:fixed;bottom:130px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--negro);color:var(--blanco);padding:10px 20px;border-radius:8px;font-size:13px;font-weight:bold;z-index:500;transition:transform .25s;pointer-events:none;white-space:nowrap}
-.toast.show{transform:translateX(-50%) translateY(0)}
+.toast{position:fixed;bottom:130px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--negro);color:var(--blanco);padding:10px 20px;border-radius:8px;font-size:13px;font-weight:bold;z-index:500;transition:transform .25s;pointer-events:none;white-space:nowrap;opacity:0;visibility:hidden}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1;visibility:visible}
 
 /* ══ REDES ══ */
 .social-btns{display:flex;gap:10px;align-items:center}
@@ -1166,19 +1166,12 @@ function getValidItems(){
   });
 }
 function buildOrderText(items,total){
-  const lineas=items.map(([cod,i])=>`▪ Cód:${cod} ${i.nombre} x${i.qty} = $${(i.precio*i.qty).toLocaleString("es-AR")}`).join("
-");
+  const lineas=items.map(([cod,i])=>`▪ Cód:${cod} ${i.nombre} x${i.qty} = $${(i.precio*i.qty).toLocaleString("es-AR")}`).join("\n");
   let extra="";
   const de=getDescEscalonado(total);
-  if(de){const td=Math.round(total*(1-de.pct/100)/100)*100;extra+=`
-🎉 ${de.label}: TOTAL CON DESCUENTO $${td.toLocaleString("es-AR")}`;}
-  if(total>=50000)extra+=`
-🏦 Pagando por transferencia: $${Math.round(total*.95/100)*100 .toLocaleString("es-AR")} (5% OFF)`;
-  return `Hola! Quiero hacer el siguiente pedido:
-
-${lineas}
-
-TOTAL: $${total.toLocaleString("es-AR")}${extra}`;
+  if(de){const td=Math.round(total*(1-de.pct/100)/100)*100;extra+="\n🎉 "+de.label+": TOTAL CON DESCUENTO $"+td.toLocaleString("es-AR");}
+  if(total>=50000){var tp=Math.round(total*.95/100)*100;extra+="\n🏦 Pagando por transferencia: $"+tp.toLocaleString("es-AR")+" (5% OFF)";}
+  return "Hola! Quiero hacer el siguiente pedido:\n\n"+lineas+"\n\nTOTAL: $"+total.toLocaleString("es-AR")+extra;
 }
 function sendWhatsApp(){
   const items=getValidItems();if(!items.length)return;
@@ -1205,11 +1198,7 @@ function pagarMP(){
   const pedidoData={items:items.map(([cod,i])=>({codigo:cod,nombre:i.nombre,precio:i.precio,qty:i.qty})),metodoPago:"Mercado Pago",total,notas:`ID MP: ${pedidoId}`};
   fetch(API_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"guardarPedido",data:pedidoData})}).catch(()=>{});
   // Also open WA with order detail
-  window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent("📦 PEDIDO CON MERCADO PAGO
-
-"+buildOrderText(items,total)+"
-
-ID de referencia: "+pedidoId)}`,"_blank");
+  window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent("📦 PEDIDO CON MERCADO PAGO\n\n"+buildOrderText(items,total)+"\n\nID de referencia: "+pedidoId)}`,"_blank");
   // Create MP preference
   try{localStorage.setItem("galpon_cart_backup",JSON.stringify(cart));}catch(e){}
   fetch(API_URL,{method:"POST",headers:{"Content-Type":"application/json"},
