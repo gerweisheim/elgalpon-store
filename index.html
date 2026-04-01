@@ -811,20 +811,50 @@ function loadProducts(){
   const cached=sessionStorage.getItem("galpon_products");
   if(cached){
     try{
-      allProducts=JSON.parse(cached);
-      onProductsLoaded();
-      return;
-    }catch(e){sessionStorage.removeItem("galpon_products")}
+      var parsed=JSON.parse(cached);
+      // Handle double-encoded string from old cache
+      if(typeof parsed==="string") parsed=JSON.parse(parsed);
+      if(Array.isArray(parsed) && parsed.length>0){
+        allProducts=parsed;
+        onProductsLoaded();
+        return;
+      }
+    }catch(e){}
+    sessionStorage.removeItem("galpon_products");
   }
-  fetch(API_URL+"?action=getProducts").then(r=>r.json()).then(data=>{
-      allProducts=data;
-      try{sessionStorage.setItem("galpon_products",JSON.stringify(data));}catch(e){}
-      onProductsLoaded();
-    }).catch(()=>{
+  // JSONP para evitar el redirect CORS de Apps Script
+  var cbName = "galponCB_" + Date.now();
+  var timeout = setTimeout(function(){
+    document.getElementById("skeletonGrid").style.display="none";
+    document.getElementById("productGrid").style.display="grid";
+    document.getElementById("productGrid").innerHTML='<div class="empty">❌ Error al cargar. Recargá la página.</div>';
+    delete window[cbName];
+  }, 10000);
+
+  window[cbName] = function(data){
+    clearTimeout(timeout);
+    delete window[cbName];
+    if(!Array.isArray(data)||data.length===0){
       document.getElementById("skeletonGrid").style.display="none";
       document.getElementById("productGrid").style.display="grid";
       document.getElementById("productGrid").innerHTML='<div class="empty">❌ Error al cargar. Recargá la página.</div>';
-    });
+      return;
+    }
+    allProducts=data;
+    try{sessionStorage.setItem("galpon_products",JSON.stringify(data));}catch(e){}
+    onProductsLoaded();
+  };
+
+  var s=document.createElement("script");
+  s.src=API_URL+"?action=getProducts&callback="+cbName+"&r="+Date.now();
+  s.onerror=function(){
+    clearTimeout(timeout);
+    delete window[cbName];
+    document.getElementById("skeletonGrid").style.display="none";
+    document.getElementById("productGrid").style.display="grid";
+    document.getElementById("productGrid").innerHTML='<div class="empty">❌ Error al cargar. Recargá la página.</div>';
+  };
+  document.head.appendChild(s);
 }
 function onProductsLoaded(){
   const n=allProducts.length;
