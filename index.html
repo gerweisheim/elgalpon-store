@@ -1037,6 +1037,24 @@ function renderProducts(){
   }
 }
 
+
+// -- URGENCIA ---------------------------------------------------------------
+const URGENCY_POCAS=[12728,13012,13017,13224,11725,13092,13095,13096,13097,
+  13098,13213,13346,13119,13118,13051,11991,13365,12310,12814,12812];
+const URGENCY_NUEVO=[13530,13531,13513,13527,13525,13503,13502,13501,13497,
+  13498,13526,13524,13523,13492,13495,13491,13490,13512,13510,13511];
+const URGENCY_TREND=[13012,13017,13224,13213,13346,12728,13119,13118,12310,
+  13051,11991,13365,13092,13098,13500,13271,13127];
+function getUrgencyBadge(cod){
+  if(URGENCY_NUEVO.includes(cod)) return '<span class="u-badge u-nuevo">&#x1F195; Nuevo</span>';
+  if(URGENCY_TREND.includes(cod)) return '<span class="u-badge u-trend">&#x1F525; Tendencia</span>';
+  if(URGENCY_POCAS.includes(cod)) return '<span class="u-badge u-pocas">&#x26A1; Pocas unidades</span>';
+  return '';
+}
+function esLamboTech(nombre){
+  return nombre&&nombre.toUpperCase().includes('LAMBO');
+}
+
 function cardHTML(p){
   const icon=ICON_CAT[p.categoria.toUpperCase()]||"📦";
   const ss=p.stock==="Sin Stock";
