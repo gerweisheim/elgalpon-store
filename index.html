@@ -20,11 +20,11 @@
 [data-theme="dark"]{--bg:#1a1a1a;--card-bg:#242424;--text:#F0F0F0;--text2:#AAAAAA;--border:#333333;--gris-l:#2a2a2a}
 body{font-family:Arial,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;transition:background .25s,color .25s}
 
-/* ══ ANUNCIO ══ */
+/* -- ANUNCIO -- */
 #anuncio-bar{position:fixed;top:0;left:0;right:0;z-index:102;background:var(--naranja);color:var(--blanco);font-size:12px;font-weight:bold;padding:0 16px;height:var(--bar-h);display:flex;align-items:center;justify-content:center;letter-spacing:.2px;white-space:nowrap;overflow:hidden}
 #anuncio-bar span{margin:0 8px;opacity:.55}
 
-/* ══ LANDING ══ */
+/* -- LANDING -- */
 #landing{min-height:100vh;background:var(--negro);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 24px;padding-top:calc(60px + var(--bar-h));gap:28px}
 .landing-logo-img{width:220px;max-width:78vw;height:auto;object-fit:contain;filter:drop-shadow(0 4px 18px rgba(255,107,53,.35))}
 .landing-logo-fallback{display:none;font-size:52px;font-weight:900;font-family:"Arial Black",Arial;color:var(--blanco);letter-spacing:-2px}
@@ -38,11 +38,11 @@ body{font-family:Arial,sans-serif;background:var(--bg);color:var(--text);min-hei
 .landing-btn:hover{background:var(--naranja2);transform:scale(1.03)}
 .landing-footer{font-size:12px;color:#444}
 
-/* ══ MÁS VENDIDOS LANDING ══ */
+/* -- MÁS VENDIDOS LANDING -- */
 .mv-landing{width:100%;max-width:860px;text-align:left}
 .mv-title{font-size:18px;font-weight:900;color:var(--blanco);margin-bottom:14px;display:flex;align-items:center;gap:8px}
 .mv-title span{color:var(--naranja)}
-.mv-grid-landing{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.mv-grid-landing{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding-bottom:8px}.mv-grid-landing::-webkit-scrollbar{display:none}
 .mv-card-landing{background:#1e1e1e;border-radius:10px;border:2px solid #2a2a2a;cursor:pointer;overflow:hidden;transition:border-color .2s,transform .15s}
 .mv-card-landing:hover{border-color:var(--naranja);transform:translateY(-3px)}
 .mv-card-landing img{width:100%;height:90px;object-fit:contain;background:#151515;padding:8px}
@@ -50,10 +50,10 @@ body{font-family:Arial,sans-serif;background:var(--bg);color:var(--text);min-hei
 .mv-card-landing-name{font-size:10px;font-weight:bold;color:var(--blanco);line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:3px}
 .mv-card-landing-price{font-size:13px;font-weight:bold;color:var(--naranja)}
 
-/* ══ TIENDA ══ */
+/* -- TIENDA -- */
 #tienda{display:none;padding-top:calc(var(--bar-h) + 112px)}
 
-/* ══ HEADER DESKTOP ══ */
+/* -- HEADER DESKTOP -- */
 header{background:var(--negro);padding:0 24px;position:fixed;top:var(--bar-h);left:0;right:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,0.3);transition:top .3s}
 .header-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;height:60px;gap:12px}
 .header-logo-img{height:38px;width:auto;object-fit:contain;cursor:pointer;flex-shrink:0}
@@ -84,11 +84,11 @@ header{background:var(--negro);padding:0 24px;position:fixed;top:var(--bar-h);le
 .cart-btn:hover{background:var(--naranja2)}
 .cart-count{background:var(--blanco);color:var(--naranja);border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:bold}
 
-/* ══ HEADER MOBILE ICONS ROW ══ */
+/* -- HEADER MOBILE ICONS ROW -- */
 .header-icons-row{display:none;align-items:center;gap:8px;width:100%;padding:4px 0 6px}
 .header-icons-row.collapsed{display:none!important}
 
-/* ══ FILTROS ══ */
+/* -- FILTROS -- */
 .filters-bar{background:var(--card-bg);border-bottom:2px solid var(--naranja);padding:0 24px;overflow-x:auto;scrollbar-width:none;position:fixed;top:calc(var(--bar-h) + 60px);left:0;right:0;z-index:99}
 .filters-bar::-webkit-scrollbar{display:none}
 .filters-inner{max-width:1200px;margin:0 auto;display:flex;gap:6px;padding:8px 0;align-items:center}
@@ -96,7 +96,7 @@ header{background:var(--negro);padding:0 24px;position:fixed;top:var(--bar-h);le
 .filter-chip:hover{border-color:var(--naranja);color:var(--naranja)}
 .filter-chip.active{background:var(--naranja);border-color:var(--naranja);color:var(--blanco)}
 
-/* ══ TOOLBAR ══ */
+/* -- TOOLBAR -- */
 .toolbar{max-width:1200px;margin:12px auto 0;padding:0 24px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 .toolbar-group{display:flex;align-items:center;gap:6px}
 .toolbar-label{font-size:12px;color:var(--text2);font-weight:bold;white-space:nowrap}
@@ -107,7 +107,7 @@ header{background:var(--negro);padding:0 24px;position:fixed;top:var(--bar-h);le
 .view-btn.active{background:var(--naranja);border-color:var(--naranja);color:var(--blanco)}
 .results-info{font-size:12px;color:var(--text2);margin-left:auto}
 
-/* ══ MÁS VENDIDOS TIENDA ══ */
+/* -- MÁS VENDIDOS TIENDA -- */
 .mv-section{max-width:1200px;margin:12px auto 0;padding:0 24px}
 .mv-section-title{font-size:16px;font-weight:900;color:var(--text);margin-bottom:10px;display:flex;align-items:center;gap:8px;padding-bottom:8px;border-bottom:2px solid var(--naranja)}
 .mv-section-title span{color:var(--naranja)}
@@ -121,7 +121,7 @@ header{background:var(--negro);padding:0 24px;position:fixed;top:var(--bar-h);le
 .mv-chip-name{font-size:11px;font-weight:bold;color:var(--text);max-width:120px;overflow:hidden;text-overflow:ellipsis}
 .mv-chip-price{font-size:12px;font-weight:bold;color:var(--naranja)}
 
-/* ══ SKELETON ══ */
+/* -- SKELETON -- */
 .skeleton-grid{max-width:1200px;margin:12px auto 40px;padding:0 24px;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 .skeleton-card{background:var(--card-bg);border-radius:10px;overflow:hidden;border-top:3px solid var(--border)}
 .skel{background:linear-gradient(90deg,var(--gris-l) 25%,#e8e8e8 50%,var(--gris-l) 75%);background-size:200% 100%;animation:shimmer 1.4s infinite;border-radius:4px}
@@ -131,12 +131,12 @@ header{background:var(--negro);padding:0 24px;position:fixed;top:var(--bar-h);le
 .skel-btn{height:34px;margin-top:4px}
 @keyframes shimmer{to{background-position:-200% 0}}
 
-/* ══ GRID ══ */
+/* -- GRID -- */
 .grid{max-width:1200px;margin:10px auto 120px;padding:0 24px;display:grid;gap:16px;grid-template-columns:repeat(3,1fr)}
 .grid.cols-1{grid-template-columns:1fr}.grid.cols-2{grid-template-columns:repeat(2,1fr)}
 .grid.cols-3{grid-template-columns:repeat(3,1fr)}.grid.cols-4{grid-template-columns:repeat(4,1fr)}
 
-/* ══ CARD ══ */
+/* -- CARD -- */
 .card{background:var(--card-bg);border-radius:10px;box-shadow:var(--sombra);overflow:hidden;display:flex;flex-direction:column;border-top:3px solid var(--naranja);cursor:pointer;opacity:0;transform:translateY(14px);transition:box-shadow .15s}
 .card.visible{opacity:1;transform:translateY(0)}
 .card:hover{box-shadow:0 6px 20px rgba(0,0,0,0.13)}
@@ -170,7 +170,7 @@ header{background:var(--negro);padding:0 24px;position:fixed;top:var(--bar-h);le
 .grid.cols-4 .card-nombre{font-size:11px}.grid.cols-4 .card-precio{font-size:16px}
 .grid.cols-4 .card-desc{-webkit-line-clamp:2;font-size:10px}
 
-/* ══ BARRA FLOTANTE ══ */
+/* -- BARRA FLOTANTE -- */
 .cart-bar{position:fixed;bottom:0;left:0;right:0;background:var(--negro);border-top:2px solid var(--naranja);z-index:90;padding:10px 24px;display:none;align-items:center;gap:14px}
 .cart-bar.visible{display:flex}
 .cart-bar-info{flex:1;display:flex;flex-direction:column}
@@ -185,11 +185,11 @@ header{background:var(--negro);padding:0 24px;position:fixed;top:var(--bar-h);le
 .cart-bar-btn{background:var(--naranja);color:var(--blanco);border:none;border-radius:8px;padding:10px 20px;font-size:14px;font-weight:bold;cursor:pointer;white-space:nowrap;transition:background .15s}
 .cart-bar-btn:hover{background:var(--naranja2)}
 
-/* ══ MISC ══ */
+/* -- MISC -- */
 .loading,.empty{grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--text2)}
 .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200}.overlay.open{display:block}
 
-/* ══ CART DRAWER ══ */
+/* -- CART DRAWER -- */
 .cart-drawer{position:fixed;top:0;right:-440px;width:420px;max-width:100vw;height:100vh;background:var(--card-bg);box-shadow:-4px 0 24px rgba(0,0,0,.18);z-index:201;display:flex;flex-direction:column;transition:right .28s cubic-bezier(.4,0,.2,1)}
 .cart-drawer.open{right:0}
 .cart-header{background:var(--negro);color:var(--blanco);padding:16px 20px;display:flex;align-items:center;justify-content:space-between}
@@ -225,7 +225,7 @@ header{background:var(--negro);padding:0 24px;position:fixed;top:var(--bar-h);le
 .clear-btn{background:none;border:1px solid var(--border);border-radius:6px;padding:8px;font-size:12px;color:var(--text2);cursor:pointer;transition:all .15s}
 .clear-btn:hover{border-color:var(--rojo);color:var(--rojo)}
 
-/* ══ CONFIRMACIÓN PEDIDO ══ */
+/* -- CONFIRMACIÓN PEDIDO -- */
 .confirm-panel{display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:32px 20px;gap:16px;flex:1}
 .confirm-panel.open{display:flex}
 .confirm-icon{font-size:56px;animation:popIn .4s ease}
@@ -235,7 +235,7 @@ header{background:var(--negro);padding:0 24px;position:fixed;top:var(--bar-h);le
 .confirm-back{background:var(--naranja);color:var(--blanco);border:none;border-radius:8px;padding:12px 24px;font-size:14px;font-weight:bold;cursor:pointer;transition:background .15s;margin-top:8px}
 .confirm-back:hover{background:var(--naranja2)}
 
-/* ══ HISTORIAL ══ */
+/* -- HISTORIAL -- */
 .history-section{padding:12px 16px;border-top:1px solid var(--border)}
 .history-title{font-size:11px;font-weight:bold;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
 .history-item{background:var(--gris-l);border-radius:6px;padding:8px 10px;margin-bottom:6px;cursor:pointer;transition:background .15s;display:flex;justify-content:space-between;align-items:center}
@@ -244,7 +244,7 @@ header{background:var(--negro);padding:0 24px;position:fixed;top:var(--bar-h);le
 .history-item-total{font-size:12px;font-weight:bold;color:var(--naranja)}
 .history-repedir{font-size:10px;color:var(--naranja);font-weight:bold}
 
-/* ══ MODAL PRODUCTO ══ */
+/* -- MODAL PRODUCTO -- */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:300;overflow-y:auto;padding:20px}
 .modal-overlay.open{display:flex;align-items:flex-start;justify-content:center}
 .modal{background:var(--card-bg);border-radius:14px;width:100%;max-width:860px;margin:auto;overflow:hidden;position:relative}
@@ -281,11 +281,11 @@ header{background:var(--negro);padding:0 24px;position:fixed;top:var(--bar-h);le
 .related-card-name{font-size:10px;font-weight:bold;color:var(--text);padding:4px 6px;line-height:1.2;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .related-card-price{font-size:11px;font-weight:bold;color:var(--naranja);padding:2px 6px 6px}
 
-/* ══ SIN STOCK CARRITO ══ */
+/* -- SIN STOCK CARRITO -- */
 .cart-item.sin-stock-warn .cart-item-name::after{content:" ⛔";font-size:10px}
 .cart-item.sin-stock-warn{background:#fff5f5;border-left:3px solid var(--rojo);padding-left:8px}
 
-/* ══ MODAL CÓMO COMPRAR ══ */
+/* -- MODAL CÓMO COMPRAR -- */
 .how-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:400;overflow-y:auto;padding:20px}
 .how-overlay.open{display:flex;align-items:flex-start;justify-content:center}
 .how-modal{background:var(--card-bg);border-radius:16px;width:100%;max-width:680px;margin:auto;overflow:hidden;position:relative}
@@ -318,7 +318,7 @@ header{background:var(--negro);padding:0 24px;position:fixed;top:var(--bar-h);le
 .how-ref-item span{font-weight:bold;color:var(--naranja)}
 .how-garantia-box{background:#EBF5FB;border-radius:10px;padding:14px;border-left:4px solid #1A5276;font-size:12px;color:#1A5276;line-height:1.6}
 
-/* ══ MODAL SUGERENCIA ══ */
+/* -- MODAL SUGERENCIA -- */
 .sug-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:400;padding:20px;align-items:center;justify-content:center}
 .sug-overlay.open{display:flex}
 .sug-modal{background:var(--card-bg);border-radius:16px;width:100%;max-width:440px;overflow:hidden}
@@ -333,11 +333,11 @@ header{background:var(--negro);padding:0 24px;position:fixed;top:var(--bar-h);le
 .sug-btn-float{position:fixed;bottom:80px;right:20px;background:var(--negro);color:var(--blanco);border:2px solid var(--naranja);border-radius:30px;padding:10px 18px;font-size:13px;font-weight:bold;cursor:pointer;display:flex;align-items:center;gap:8px;z-index:89;transition:background .2s,transform .15s;box-shadow:0 4px 16px rgba(0,0,0,.3)}
 .sug-btn-float:hover{background:var(--naranja);transform:translateY(-2px)}
 
-/* ══ TOAST ══ */
+/* -- TOAST -- */
 .toast{position:fixed;bottom:130px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--negro);color:var(--blanco);padding:10px 20px;border-radius:8px;font-size:13px;font-weight:bold;z-index:500;transition:transform .25s;pointer-events:none;white-space:nowrap;opacity:0;visibility:hidden}
 .toast.show{transform:translateX(-50%) translateY(0);opacity:1;visibility:visible}
 
-/* ══ REDES ══ */
+/* -- REDES -- */
 .social-btns{display:flex;gap:10px;align-items:center}
 .social-btn{display:flex;align-items:center;gap:7px;padding:8px 14px;border-radius:8px;border:none;font-size:13px;font-weight:bold;cursor:pointer;text-decoration:none;transition:transform .15s,opacity .15s;white-space:nowrap}
 .social-btn:hover{transform:translateY(-2px);opacity:.88}
@@ -356,21 +356,21 @@ header{background:var(--negro);padding:0 24px;position:fixed;top:var(--bar-h);le
 .footer-social-btn.fb{background:#1877F2}
 .footer-social-btn svg{width:14px;height:14px;fill:#fff}
 
-/* ══ FOOTER ══ */
+/* -- FOOTER -- */
 footer{background:var(--negro);color:var(--gris-m);text-align:center;padding:16px;font-size:12px}
 
-/* ══ SVG ICONS ══ */
+/* -- SVG ICONS -- */
 .svg-ig{width:17px;height:17px;fill:#fff}
 .svg-fb{width:17px;height:17px;fill:#fff}
 
-/* ══ MOBILE ══ */
+/* -- MOBILE -- */
 @media(max-width:600px){
   :root{--bar-h:36px}
   #landing{padding:32px 20px;padding-top:calc(60px + var(--bar-h))}
   .landing-logo-img{width:170px}
   .landing-stats{gap:20px}.stat-num{font-size:26px}
   .landing-btn{font-size:16px;padding:14px 32px}
-  .mv-grid-landing{grid-template-columns:repeat(2,1fr)}
+  .mv-grid-landing{gap:8px}
   .mv-landing{max-width:100%}
 
   header{padding:0 12px}
@@ -448,22 +448,38 @@ footer{background:var(--negro);color:var(--gris-m);text-align:center;padding:16p
 }
 
 /* MOBILE HEADER: search icon + cart icon buttons */
-.mobile-search-btn{display:none}
-.cart-icon-btn{position:relative;padding:8px 12px;font-size:18px;line-height:1;min-width:44px;justify-content:center}
-.cart-icon-btn .cart-count{position:absolute;top:-6px;right:-6px;background:#fff;color:#111;border-radius:50%;width:18px;height:18px;font-size:10px;font-weight:900;display:flex;align-items:center;justify-content:center;line-height:1}
-@media(max-width:600px){
-  .mobile-search-btn{display:flex;background:var(--naranja);color:#fff;border:none;border-radius:8px;padding:8px 12px;font-size:18px;cursor:pointer;align-items:center;justify-content:center;min-width:44px;transition:background .2s}
-  .cart-icon-btn{font-size:20px;padding:8px 12px;min-width:44px}
-  /* Hide full search bar on mobile by default, show as overlay */
-  .search-bar{display:none}
-  .search-bar.mobile-open{display:flex;position:fixed;top:0;left:0;right:0;z-index:1000;border-radius:0;border:none;border-bottom:2px solid var(--naranja);padding:0 12px;height:56px}
-  .search-bar.mobile-open input{font-size:16px}
+
 }
-</style>
+.cart-hdr{background:var(--negro);color:#fff;padding:16px 20px;display:flex;align-items:center;justify-content:space-between}.cart-hdr h2{font-size:16px}.cart-view{display:flex;flex-direction:column;flex:1;overflow:hidden;}.cart-view.hidden{display:none;}.payment-view{display:none;flex-direction:column;flex:1;overflow-y:auto;}.payment-view.open{display:flex;}.payment-hdr{background:var(--negro);color:#fff;padding:14px 20px;display:flex;align-items:center;gap:10px;flex-shrink:0;}.payment-hdr h3{font-size:15px;font-weight:bold;flex:1;}.payment-back{background:none;border:none;color:var(--naranja);font-size:13px;font-weight:bold;cursor:pointer;padding:0;}.payment-body{padding:16px;display:flex;flex-direction:column;gap:12px;}.payment-resumen{background:var(--gris-l);border-radius:10px;padding:12px 14px;display:flex;justify-content:space-between;align-items:center;}.pr-lbl{font-size:12px;color:var(--text2);}.pr-total{font-size:20px;font-weight:bold;color:var(--naranja);}.pr-desc{font-size:11px;color:var(--verde);font-weight:bold;margin-top:2px;}.payment-method{border:2px solid var(--border);border-radius:12px;overflow:hidden;transition:border-color .2s;}.payment-method.best{border-color:var(--verde);}.payment-method.mp{border-color:var(--azul-mp);}.pm-hdr{padding:12px 14px;display:flex;align-items:center;gap:10px;cursor:pointer;}.pm-icon{font-size:24px;flex-shrink:0;}.pm-info{flex:1;}.pm-title{font-size:14px;font-weight:bold;color:var(--text);}.pm-sub{font-size:11px;color:var(--text2);margin-top:2px;}.pm-badge{font-size:11px;font-weight:bold;padding:3px 9px;border-radius:20px;white-space:nowrap;flex-shrink:0;}.pm-body{padding:0 14px 14px;border-top:1px solid var(--border);}.pd-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--gris-l);font-size:12px;}.pd-row:last-of-type{border-bottom:none;}.pd-lbl{color:var(--text2);}.pd-val{font-weight:bold;color:var(--text);}.pd-val.verde{color:var(--verde);}.pd-val.rojo{color:var(--rojo);}.pd-val.naranja{color:var(--naranja);}.pp-hi{background:var(--gris-l);border-radius:8px;padding:10px 12px;margin-top:8px;display:flex;justify-content:space-between;align-items:center;}.pp-lbl{font-size:12px;color:var(--text2);}.pp-val{font-size:18px;font-weight:bold;}.pp-val.verde{color:var(--verde);}.pp-val.naranja{color:var(--naranja);}.pp-val.azul{color:var(--azul-mp);}.payment-btn-wa{background:#25D366;color:#fff;border:none;border-radius:8px;padding:12px;font-size:14px;font-weight:bold;cursor:pointer;width:100%;margin-top:10px;display:flex;align-items:center;justify-content:center;gap:8px;transition:background .15s;}.payment-btn-wa:hover{background:#1ebe59;}.payment-btn-mp{background:var(--azul-mp);color:#fff;border:none;border-radius:8px;padding:12px;font-size:14px;font-weight:bold;cursor:pointer;width:100%;margin-top:10px;display:flex;align-items:center;justify-content:center;gap:8px;transition:background .15s;}.payment-btn-mp:hover{background:#007ab8;}.payment-btn-mp:disabled{background:#CCC;cursor:not-allowed;}.payment-mp-nota{font-size:10px;color:var(--text2);text-align:center;margin-top:6px;line-height:1.4;}.payment-cuotas-info{background:#EBF5FB;border-radius:8px;padding:10px 12px;margin-top:8px;font-size:11px;color:#1A5276;line-height:1.6;}
+.mobile-search-btn{display:none}
+@media(max-width:600px){
+  .mobile-search-btn{display:flex;background:var(--naranja);color:#fff;border:none;border-radius:8px;
+    padding:8px 12px;font-size:18px;cursor:pointer;align-items:center;justify-content:center;
+    min-width:44px;transition:background .2s}
+  .search-bar{display:none!important}
+  .search-bar.mobile-open{
+    display:flex!important;position:fixed;top:56px;left:0;right:0;z-index:999;
+    border-radius:0;border:none;border-bottom:2px solid var(--naranja);
+    padding:0 16px;height:50px;background:var(--bg2)
+  }
+  .search-bar.mobile-open input{font-size:16px;width:100%;background:transparent;
+    border:none;outline:none;color:var(--blanco)}
+  .search-bar.mobile-open .search-icon{font-size:16px;margin-right:8px}
+}
+
+@media(max-width:600px){
+  #v3, #v4{display:none!important}
+}
+.mv-card-landing{flex:0 0 140px;scroll-snap-align:start}.mv-card-landing img{width:140px;height:120px;object-fit:contain}
+.filter-disponibles{background:#222;border:1.5px solid #444;color:var(--blanco);
+  border-radius:20px;padding:5px 12px;font-size:11px;font-weight:bold;cursor:pointer;
+  white-space:nowrap;transition:all .2s;flex-shrink:0}
+.filter-disponibles.active{background:var(--verde);border-color:var(--verde);color:#fff}
+.history-section{padding:16px;max-width:600px;margin:0 auto}.history-title{font-size:13px;font-weight:bold;color:var(--text2);margin-bottom:8px}</style>
 </head>
 <body>
 
-<!-- ══ ANUNCIO ══ -->
+<!-- -- ANUNCIO -- -->
 <div id="anuncio-bar">
   <div class="anuncio-full" style="align-items:center;gap:0;width:100%;justify-content:center">
     🚚 Entrega personal en Luján <span>·</span> 💰 Seña del 50% para confirmar pedido <span>·</span> 📦 +260 productos disponibles
@@ -473,7 +489,7 @@ footer{background:var(--negro);color:var(--gris-m);text-align:center;padding:16p
   </div>
 </div>
 
-<!-- ══ LANDING ══ -->
+<!-- -- LANDING -- -->
 <div id="landing">
   <div id="landing-logo-fallback" class="landing-logo-fallback" style="display:block">El <span>Galpón</span></div>
   <div class="landing-tagline">Todo lo que buscás, en un solo lugar. Pedidos personales con entrega en Luján.</div>
@@ -501,7 +517,7 @@ footer{background:var(--negro);color:var(--gris-m);text-align:center;padding:16p
   <div class="landing-footer">Precios en ARS · Stock sujeto a disponibilidad</div>
 </div>
 
-<!-- ══ TIENDA ══ -->
+<!-- -- TIENDA -- -->
 <div id="tienda">
 <header id="mainHeader">
   <div class="header-inner">
@@ -533,9 +549,6 @@ footer{background:var(--negro);color:var(--gris-m);text-align:center;padding:16p
   </div>
   <!-- Mobile icons row (collapses on scroll) -->
   <div class="header-icons-row" id="mobileIconsRow">
-    <a href="https://www.instagram.com/elgalpon.store" target="_blank" class="social-icon ig"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
-    <a href="https://www.facebook.com/profile.php?id=61587433577342" target="_blank" class="social-icon fb"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
-    <button class="theme-btn" onclick="toggleTheme()" id="themeBtnMobile">🌙</button>
     <button class="how-btn-mobile" onclick="openHow()">❓ Cómo comprar</button>
   </div>
 </header>
@@ -555,8 +568,12 @@ footer{background:var(--negro);color:var(--gris-m);text-align:center;padding:16p
 <div class="toolbar">
   <div class="toolbar-group">
     <span class="toolbar-label">Ordenar:</span>
-    <select class="sort-select" id="sortSelect" onchange="renderProducts()">
-      <option value="az">A → Z</option><option value="za">Z → A</option>
+    <button class="filter-disponibles" id="btnDisponibles" onclick="toggleDisponibles()" title="Ver solo productos en stock">
+        📦 Solo disponibles
+      </button>
+      <select class="sort-select" id="sortSelect" onchange="renderProducts()">
+      <option value="nuevo">🆕 Novedades</option>
+        <option value="az">A → Z</option><option value="za">Z → A</option>
       <option value="asc">Menor precio</option><option value="desc">Mayor precio</option>
     </select>
   </div>
@@ -579,38 +596,9 @@ footer{background:var(--negro);color:var(--gris-m);text-align:center;padding:16p
 <div class="overlay" id="overlay" onclick="toggleCart()"></div>
 
 <!-- Cart Drawer -->
-<div class="cart-drawer" id="cartDrawer">
-  <div class="cart-header"><h2>🛒 Tu pedido</h2><button class="close-btn" onclick="toggleCart()">✕</button></div>
-
-  <!-- Confirmation panel (replaces items when order sent) -->
-  <div class="confirm-panel" id="confirmPanel">
-    <div class="confirm-icon" id="confirmIcon">✅</div>
-    <div class="confirm-title" id="confirmTitle">¡Pedido enviado!</div>
-    <div class="confirm-msg" id="confirmMsg">Te contactamos a la brevedad para confirmar tu pedido y coordinar la seña.</div>
-    <button class="confirm-back" onclick="closeConfirm()">Volver a la tienda</button>
-  </div>
-
-  <div class="cart-items" id="cartItems"><div class="cart-empty-msg">Tu carrito está vacío.<br>Agregá productos desde la tienda.</div></div>
-  <div id="historySection" class="history-section" style="display:none">
-    <div class="history-title">📋 Pedidos anteriores</div>
-    <div id="historyList"></div>
-  </div>
-  <div class="cart-footer" id="cartFooter">
-    <div class="cart-total-row">
-      <span class="cart-total-label">Total</span>
-      <span class="cart-total-val" id="cartTotal">$0</span>
-    </div>
-    <div class="cart-progress-wrap"><div class="cart-progress-bar" id="cartProgressBar" style="width:0%"></div></div>
-    <div class="cart-minimo falta" id="cartMinimo">⚠️ Mínimo de compra: $40.000</div>
-    <div class="cart-desc-escalon" id="cartDescEscalon"></div>
-    <div class="cart-descuento-transf" id="cartDescTransf">
-      🏦 Pagando por transferencia:<br>
-      <span class="d-precio" id="cartDescPrecio"></span><small style="color:#1A5276"> · 5% OFF</small>
-    </div>
-    <button class="wa-btn" id="waBtn" onclick="sendWhatsApp()" disabled>📲 Coordinar por WhatsApp</button>
-    <button class="mp-btn" id="mpBtn" onclick="pagarMP()" disabled>💳 Pagar con Mercado Pago</button>
-    <button class="clear-btn" onclick="clearCart()">🗑 Vaciar carrito</button>
-  </div>
+<div class="cart-drawer" id="cartDrawer"><div class="cart-hdr"><h2>🛒 Tu pedido</h2><button class="close-btn" onclick="toggleCart()">✕</button></div><div class="confirm-panel" id="confirmPanel"><div class="confirm-icon" id="confirmIcon">✅</div><div class="confirm-title" id="confirmTitle">¡Pedido enviado!</div><div class="confirm-msg" id="confirmMsg">Te contactamos a la brevedad para confirmar.</div><button class="confirm-back" onclick="closeConfirm()">Volver a la tienda</button></div><div class="cart-view" id="cartView"><div class="cart-items" id="cartItems"><div class="cart-empty">Tu carrito está vacío.</div><div class="desc-panel" id="descPanel"><div class="dp-title">🎉 Tus beneficios y descuentos</div><div class="desc-rule" id="drTransf"><div class="dr-icon">🏦</div><div class="dr-body"><div class="dr-title">Descuento por transferencia</div><div class="dr-detail">Pagá el total en 1 pago por transferencia bancaria y llevate un 5% de descuento. Sin mínimo de productos.</div><div class="dr-badge azul">5% OFF — pagando el total en 1 pago</div><div class="dr-active" id="drTransfOk">✅ ¡Activado! Tu precio con transferencia: <span id="drTransfPrecio"></span></div><div class="dr-prox" id="drTransfProx">💡 <span id="drTransfFalta"></span> para activar este descuento</div></div></div><div class="desc-rule" id="dr1"><div class="dr-icon">📦</div><div class="dr-body"><div class="dr-title">Descuento por volumen — Nivel 1</div><div class="dr-detail">Comprá 3 o más productos y alcanzá $100.000 en tu pedido.</div><div class="dr-badge">5% OFF</div><div class="dr-active" id="dr1Ok">✅ ¡Activado! Descuento aplicado en tu total.</div><div class="dr-prox" id="dr1Prox"></div></div></div><div class="desc-rule" id="dr2"><div class="dr-icon">🛍️</div><div class="dr-body"><div class="dr-title">Descuento por volumen — Nivel 2</div><div class="dr-detail">Comprá 4 o más productos y alcanzá $200.000 en tu pedido.</div><div class="dr-badge">8% OFF</div><div class="dr-active" id="dr2Ok">✅ ¡Activado! Descuento aplicado en tu total.</div><div class="dr-prox" id="dr2Prox"></div></div></div><div class="desc-rule" id="dr3"><div class="dr-icon">🏆</div><div class="dr-body"><div class="dr-title">Descuento por volumen — Nivel 3</div><div class="dr-detail">Comprá 5 o más productos y alcanzá $300.000 en tu pedido.</div><div class="dr-badge">12% OFF</div><div class="dr-active" id="dr3Ok">✅ ¡Activado! Descuento aplicado en tu total.</div><div class="dr-prox" id="dr3Prox"></div></div></div><div class="desc-rule"><div class="dr-icon">🤝</div><div class="dr-body"><div class="dr-title">Sistema de referidos</div><div class="dr-detail">Recomendá El Galpón y ganás descuento en tu próxima compra según lo que gaste tu referido.</div><div class="dr-badge verde">Hasta $20.000 OFF</div></div></div></div></div><div class="cart-ftr" id="cartFtr"><div class="ct-row"><span class="ct-lbl">Subtotal</span><span class="ct-val" id="cartTotal">$0</span></div><div class="ct-row" id="cartEntregaRow" style="display:none;font-size:13px"><span class="ct-lbl">Costo de entrega</span><span class="ct-val" id="cartEntregaVal" style="font-size:14px"></span></div><div class="ct-row" id="cartTotalFinalRow" style="display:none;border-top:2px solid var(--naranja);margin-top:4px;padding-top:4px"><span class="ct-lbl" style="font-weight:900">TOTAL</span><span class="ct-val" id="cartTotalFinalVal" style="color:var(--naranja)">$0</span></div><div id="cartEntregaHint" style="font-size:11px;color:#1A5276;font-weight:bold;padding:4px 0;display:none"></div><div class="cart-prog-wrap"><div class="cart-prog-bar" id="cartProgBar" style="width:0%"></div></div><div class="cart-min falta" id="cartMin">⚠️ Mínimo de compra: $40.000</div><div class="cart-esc" id="cartEsc"></div><button class="go-pay-btn" id="goPayBtn" onclick="openPaymentView()" disabled>💳 Elegir método de pago →</button><button class="clear-btn" onclick="clearCart()">🗑 Vaciar carrito</button></div></div><div class="payment-view" id="paymentView"><div class="payment-hdr"><button class="payment-back" onclick="closePaymentView()">← Volver</button><h3>¿Cómo querés pagar?</h3></div><div class="payment-body"><div class="payment-resumen"><div><div class="pr-lbl">Total de tu pedido</div><div class="pr-desc" id="payDescuento"></div></div><div class="pr-total" id="payTotal">$0</div></div><div class="payment-method best"><div class="pm-hdr"><div class="pm-icon">🏦</div><div class="pm-info"><div class="pm-title">Transferencia bancaria</div><div class="pm-sub">Sin recargos + 5% OFF si pagás el total en un pago</div></div><div class="pm-badge badge-verde">⭐ RECOMENDADO</div></div><div class="pm-body"><div class="pd-row"><span class="pd-lbl">Seña mínima para confirmar</span><span class="pd-val naranja" id="payTransfSena">$0</span></div><div class="pd-row"><span class="pd-lbl">Saldo restante al recibir</span><span class="pd-val" id="payTransfResto">$0</span></div><div class="pd-row"><span class="pd-lbl">Recargo por plataforma</span><span class="pd-val verde">Sin recargo</span></div><div class="pd-row"><span class="pd-lbl">Seña mínima para confirmar (50%)</span><span class="pd-val naranja" id="payTransfSena2">$0</span></div><div class="pd-row"><span class="pd-lbl">5% OFF pagando el total en un solo pago</span><span class="pd-val verde">Acumulable con descuentos por volumen</span></div><div class="pp-hi"><div><div class="pp-lbl">Total pagando todo de una vez</div><div style="font-size:10px;color:var(--verde)">Con 5% de descuento aplicado</div></div><div class="pp-val verde" id="payTransfTotal">$0</div></div><div id="payEntregaTransf" style="font-size:11px;font-weight:bold;padding:6px 0;text-align:center"></div><button class="payment-btn-wa" onclick="sendWhatsApp('Transferencia')">📲 Coordinar por WhatsApp</button></div></div><div class="payment-method"><div class="pm-hdr"><div class="pm-icon">💵</div><div class="pm-info"><div class="pm-title">Efectivo</div><div class="pm-sub">Sin recargos — requiere 50% de seña para confirmar</div></div><div class="pm-badge badge-azul">Sin recargo</div></div><div class="pm-body"><div class="pd-row"><span class="pd-lbl">Seña mínima para confirmar</span><span class="pd-val naranja" id="payEfectivoSena">$0</span></div><div class="pd-row"><span class="pd-lbl">Saldo restante (al recibir en Luján)</span><span class="pd-val" id="payEfectivoResto">$0</span></div><div class="pd-row"><span class="pd-lbl">Recargo por plataforma</span><span class="pd-val verde">Sin recargo</span></div><div class="pd-row"><span class="pd-lbl">5% OFF pagando el total en un solo pago</span><span class="pd-val verde">Acumulable con descuentos por volumen</span></div><div class="pp-hi"><div><div class="pp-lbl">Total pagando todo de una vez</div><div style="font-size:10px;color:var(--verde)">Con 5% de descuento aplicado</div></div><div class="pp-val verde" id="payEfectivoTotal">$0</div></div><div id="payEntregaEfectivo" style="font-size:11px;font-weight:bold;padding:6px 0;text-align:center"></div><button class="payment-btn-wa" onclick="sendWhatsApp('Efectivo')">📲 Coordinar por WhatsApp</button></div></div><div class="payment-method mp"><div class="pm-hdr"><div class="pm-icon">💳</div><div class="pm-info"><div class="pm-title">Tarjeta con Mercado Pago</div><div class="pm-sub">Crédito, débito o saldo MP — con recargo</div></div><div class="pm-badge badge-rojo">Tiene recargo</div></div><div class="pm-body"><div class="pd-row"><span class="pd-lbl">Tarjeta de débito</span><span class="pd-val rojo">+1.5% recargo</span></div><div class="pd-row"><span class="pd-lbl">Tarjeta de crédito 1 pago</span><span class="pd-val rojo">+5.2% recargo</span></div><div class="pd-row"><span class="pd-lbl">Cuotas con tarjeta</span><span class="pd-val rojo">+5.2% + intereses del banco</span></div><div class="pd-row"><span class="pd-lbl">Descuento transferencia</span><span class="pd-val" style="color:var(--gris-m)">No aplica</span></div><div class="payment-cuotas-info">
+            💡 <strong>¿Pagás en cuotas?</strong> Vos elegís cuántas cuotas en la pantalla de MP. El recargo de cuotas lo fija tu banco/tarjeta y lo pagás vos. Nosotros recibimos el total de una sola vez.
+          </div><div class="pp-hi"><div><div class="pp-lbl">Total estimado con recargo MP</div><div style="font-size:10px;color:var(--rojo)">Varía según medio de pago elegido</div></div><div class="pp-val azul" id="payMPTotal">$0</div></div><button class="payment-btn-mp" id="mpBtn" onclick="pagarMP()">💳 Pagar con Mercado Pago</button><div id="payEntregaMP" style="font-size:11px;font-weight:bold;padding:6px 0;text-align:center"></div><div class="payment-mp-nota">Al confirmar se abrirá la pantalla de pago de Mercado Pago.<br>También te llegará un resumen del pedido por WhatsApp.</div></div></div></div></div>
 </div>
 
 <!-- Barra flotante -->
@@ -665,13 +653,13 @@ footer{background:var(--negro);color:var(--gris-m);text-align:center;padding:16p
           <div class="how-pay-card destacado">
             <div class="how-pay-emoji">🏦</div>
             <div class="how-pay-name">Transferencia</div>
-            <div class="how-pay-desc">En compras mayores a $50.000</div>
+            <div class="how-pay-desc">5% OFF pagando el total en 1 pago</div>
             <div class="how-pay-precio">5% OFF</div>
           </div>
           <div class="how-pay-card">
             <div class="how-pay-emoji">💵</div>
             <div class="how-pay-name">Efectivo</div>
-            <div class="how-pay-desc">Al momento de la entrega en Luján</div>
+            <div class="how-pay-desc">50% de seña + resto al recibir</div>
             <div class="how-pay-precio">Sin recargo</div>
           </div>
           <div class="how-pay-card">
@@ -750,12 +738,11 @@ footer{background:var(--negro);color:var(--gris-m);text-align:center;padding:16p
       <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>@elgalpon.store
     </a>
     <a href="https://www.facebook.com/profile.php?id=61587433577342" target="_blank" class="footer-social-btn fb">
-      <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>El Galpón en Facebook
+      <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 
     </a>
   </div>
-  El Galpón &nbsp;·&nbsp; Precios en ARS &nbsp;·&nbsp; Stock sujeto a disponibilidad &nbsp;·&nbsp; Pedidos por WhatsApp
+  <div class="footer-copy">El Galpón — Todo lo que buscás, en un solo lugar. Luján, Buenos Aires.</div>
 </footer>
-
 <script>
 // -- LOGO: SVG inline (no depende de archivos externos) --
 // Si querés usar tu logo PNG: subilo a un hosting y cambiá las src de
@@ -774,7 +761,7 @@ const ICON_CAT  = {
   "SOPORTES":"📱","MUEBLES":"🛋️"
 };
 
-let allProducts=[], cart={}, activeCategory="", searchTerm="";
+let allProducts=[], cart={}, soloDisponibles=false, activeCategory="", searchTerm="";
 let currentCols=3, modalList=[], modalIdx=0, touchStartX=0;
 let searchDebounce=null, cardObserver=null;
 
@@ -871,6 +858,7 @@ function loadProducts(){
   document.head.appendChild(s);
 }
 function onProductsLoaded(){
+  const available=allProducts.filter(p=>p.stock!=="Sin Stock").length;
   const n=allProducts.length;
   document.getElementById("landingCount").textContent="+"+n;
   localStorage.setItem("galpon_product_count",n);
@@ -913,7 +901,7 @@ function renderMasVendidos(){
   const dest=allProducts.filter(p=>p.destacado&&p.stock!=="Sin Stock");
   if(!dest.length)return;
 
-  // Landing grid
+  // Landing carousel
   const landingDiv=document.getElementById("mvLanding");
   const landingGrid=document.getElementById("mvGridLanding");
   landingGrid.innerHTML=dest.map(p=>`
@@ -926,6 +914,15 @@ function renderMasVendidos(){
       </div>
     </div>`).join("");
   landingDiv.style.display="block";
+
+  // Auto-scroll carousel
+  var idx=0;
+  if(window._mvCarousel) clearInterval(window._mvCarousel);
+  window._mvCarousel=setInterval(function(){
+    idx=(idx+1)%dest.length;
+    var cardW=148;
+    landingGrid.scrollTo({left:idx*cardW,behavior:"smooth"});
+  },2500);
 
   // Tienda horizontal chips
   const mvSection=document.getElementById("mvSection");
@@ -1026,9 +1023,17 @@ function initCardObserver(){
 }
 
 // -- RENDER ---------------------------------------------------------------
+
+function toggleDisponibles(){
+  soloDisponibles=!soloDisponibles;
+  var btn=document.getElementById("btnDisponibles");
+  if(btn) btn.classList.toggle("active", soloDisponibles);
+  renderProducts();
+}
 function renderProducts(){
   const grid=document.getElementById("productGrid");
   let f=[...allProducts];
+  if(soloDisponibles) f=f.filter(p=>p.stock!=="Sin Stock");
   if(activeCategory)f=f.filter(p=>p.categoria===activeCategory);
   if(searchTerm)f=f.filter(p=>
     p.producto.toLowerCase().includes(searchTerm)||
@@ -1037,7 +1042,8 @@ function renderProducts(){
     p.categoria.toLowerCase().includes(searchTerm)
   );
   const s=document.getElementById("sortSelect").value;
-  if(s==="az")f.sort((a,b)=>a.producto.localeCompare(b.producto));
+  if(s==="nuevo")f.sort((a,b)=>(b.fechaScrape||0)-(a.fechaScrape||0));
+  else if(s==="az")f.sort((a,b)=>a.producto.localeCompare(b.producto));
   else if(s==="za")f.sort((a,b)=>b.producto.localeCompare(a.producto));
   else if(s==="asc")f.sort((a,b)=>a.precio-b.precio);
   else if(s==="desc")f.sort((a,b)=>b.precio-a.precio);
@@ -1053,16 +1059,23 @@ function renderProducts(){
 
 
 // -- URGENCIA ---------------------------------------------------------------
-const URGENCY_POCAS=[12728,13012,13017,13224,11725,13092,13095,13096,13097,
-  13098,13213,13346,13119,13118,13051,11991,13365,12310,12814,12812];
-const URGENCY_NUEVO=[13530,13531,13513,13527,13525,13503,13502,13501,13497,
-  13498,13526,13524,13523,13492,13495,13491,13490,13512,13510,13511];
-const URGENCY_TREND=[13012,13017,13224,13213,13346,12728,13119,13118,12310,
-  13051,11991,13365,13092,13098,13500,13271,13127];
-function getUrgencyBadge(cod){
-  if(URGENCY_NUEVO.includes(cod)) return '<span class="u-badge u-nuevo">&#x1F195; Nuevo</span>';
-  if(URGENCY_TREND.includes(cod)) return '<span class="u-badge u-trend">&#x1F525; Tendencia</span>';
-  if(URGENCY_POCAS.includes(cod)) return '<span class="u-badge u-pocas">&#x26A1; Pocas unidades</span>';
+function getUrgencyBadge(p){
+  if(!p) return '';
+  var cod = p.codigo;
+  var hoy = Date.now();
+  var dias3 = 3*24*60*60*1000;
+  var fechaScrape = p.fechaScrape ? new Date(p.fechaScrape).getTime() : 0;
+  var esNuevo = fechaScrape && (hoy - fechaScrape) < dias3;
+  var esViejo = fechaScrape && (hoy - fechaScrape) > dias3;
+  
+  // Tendencia: productos con mas clics (guardamos en localStorage)
+  var clicks = {};
+  try{ clicks = JSON.parse(localStorage.getItem('galpon_clicks')||'{}'); }catch(e){}
+  var esTrend = clicks[cod] && clicks[cod] >= 3;
+  
+  if(esNuevo) return '<span class="u-badge u-nuevo">&#x1F7E2; Recién Ingresado</span>';
+  if(esTrend) return '<span class="u-badge u-trend">&#x1F525; Tendencia</span>';
+  if(esViejo) return '<span class="u-badge u-pocas">&#x26A1; Pocas unidades</span>';
   return '';
 }
 function esLamboTech(nombre){
@@ -1074,7 +1087,7 @@ function cardHTML(p){
   const ss=p.stock==="Sin Stock";
   const l=getPrecioLista(p.precio),b=getBadge(p.precio,l);
   const gBadge=esLamboTech(p.producto)?'<span class="garantia-badge">🛡️ 6m garantía</span>':"";
-  const ub=getUrgencyBadge(p.codigo);
+  const ub=getUrgencyBadge(p);
   const stockBadge=ss?'<span class="stock-badge stock-no">🔴 Sin stock</span>':'<span class="stock-badge stock-ok">✅ Disponible</span>';
   return `
   <div class="card${ss?" sin-stock":""}" onclick="openModal(${p.codigo},event)">
@@ -1129,58 +1142,158 @@ function clearCart(){
   cart={};updateCart();
 }
 
-function updateCart(){
-  const items=Object.entries(cart);
-  const count=items.reduce((s,[,i])=>s+i.qty,0);
-  document.getElementById("cartCount").textContent=count;
-  const ce=document.getElementById("cartItems");
-  if(!items.length){
-    ce.innerHTML='<div class="cart-empty-msg">Tu carrito está vacío.<br>Agregá productos desde la tienda.</div>';
-  }else{
-    ce.innerHTML=items.map(([cod,item])=>{
-      const pr=allProducts.find(p=>p.codigo===parseInt(cod));
-      const ss=pr&&pr.stock==="Sin Stock";
-      return `<div class="cart-item${ss?' sin-stock-warn':''} ">
-        <div class="cart-item-info">
-          <div class="cart-item-name">${item.nombre}</div>
-          <div class="cart-item-meta">Cód:${cod} · x${item.qty} · $${item.precio.toLocaleString("es-AR")} c/u</div>
-          ${ss?'<div style="font-size:10px;color:var(--rojo);font-weight:bold">⛔ Sin stock</div>':''}
-        </div>
-        <div class="cart-item-price">$${(item.precio*item.qty).toLocaleString("es-AR")}</div>
-        <button class="cart-item-remove" onclick="removeFromCart(${cod})">✕</button>
-      </div>`;
-    }).join("");
-  }
-  const vi=items.filter(([cod])=>{const p=allProducts.find(x=>x.codigo===parseInt(cod));return !p||p.stock!=="Sin Stock"});
-  const vt=vi.reduce((s,[,i])=>s+i.precio*i.qty,0);
-  document.getElementById("cartTotal").textContent="$"+vt.toLocaleString("es-AR");
-  const pct=Math.min(100,Math.round(vt/MINIMO*100));
-  const pb=document.getElementById("cartProgressBar");
-  pb.style.width=pct+"%";pb.classList.toggle("full",pct>=100);
-  const me=document.getElementById("cartMinimo"),wb=document.getElementById("waBtn"),mb=document.getElementById("mpBtn");
-  if(vt>=MINIMO){me.className="cart-minimo ok";me.textContent="✅ ¡Mínimo alcanzado! Listo para pedir.";wb.disabled=false;mb.disabled=false;}
-  else{me.className="cart-minimo falta";me.textContent=`⚠️ Faltan $${(MINIMO-vt).toLocaleString("es-AR")} para el mínimo`;wb.disabled=true;mb.disabled=true;}
-  const de=document.getElementById("cartDescEscalon");
-  const da=getDescEscalonado(vt),dp=getProxDesc(vt);
-  if(da){const td=Math.round(vt*(1-da.pct/100)/100)*100;de.className="cart-desc-escalon activo";de.textContent=`🎉 ${da.label} → Total: $${td.toLocaleString("es-AR")}`;}
-  else if(dp&&vt>0){de.className="cart-desc-escalon proximo";de.textContent=`💡 Agregá $${dp.faltan.toLocaleString("es-AR")} más → ${dp.pct}% OFF`;}
-  else{de.className="cart-desc-escalon";de.textContent="";}
-  const tr=document.getElementById("cartDescTransf");
-  if(vt>=50000){document.getElementById("cartDescPrecio").textContent="$"+Math.round(vt*.95/100)*100 .toLocaleString("es-AR");tr.style.display="block";}
-  else tr.style.display="none";
-  const bar=document.getElementById("cartBar");
-  if(count>0){
-    bar.classList.add("visible");
-    document.getElementById("cartBarItems").textContent=`${count} producto${count>1?"s":""}`;
-    document.getElementById("cartBarTotal").textContent="$"+vt.toLocaleString("es-AR");
-    const bm=document.getElementById("cartBarMinimo");
-    if(vt>=MINIMO){bm.className="cart-bar-minimo ok show";bm.textContent="✅ Mínimo alcanzado";}
-    else{bm.className="cart-bar-minimo falta show";bm.textContent=`⚠️ Faltan $${(MINIMO-vt).toLocaleString("es-AR")}`;}
-    clearTimeout(window._minimoTimer);
-    window._minimoTimer=setTimeout(()=>bm.classList.remove("show"),3000);
-    const fi=document.getElementById("cartBarProgressFill");fi.style.width=pct+"%";fi.classList.toggle("full",pct>=100);
-  }else bar.classList.remove("visible");
+function updateCart() {
+var keys = Object.keys(cart);
+var count = 0;
+for (var i = 0; i < keys.length; i++) count += cart[keys[i]].qty;
+document.getElementById('cartCount').textContent = count;
+
+var ci = document.getElementById('cartItems');
+if (!keys.length) {
+ci.innerHTML = '<div class="cart-empty">Tu carrito está vacío.<br>Agregá productos desde la tienda.</div>';
+} else {
+var html = '';
+for (var i = 0; i < keys.length; i++) {
+var cod = keys[i];
+var item = cart[cod];
+var p = null;
+for (var j = 0; j < allProducts.length; j++) {
+if (allProducts[j].codigo === parseInt(cod)) { p = allProducts[j]; break; }
 }
+var ss = p && p.stock === 'Sin Stock';
+html += '<div class="cart-item' + (ss ? ' sin-stock-warn' : '') + '">';
+html += '<div class="cart-item-info">';
+html += '<div class="cart-item-name">' + item.nombre + '</div>';
+html += '<div class="cart-item-meta">Cód:' + cod + ' · x' + item.qty + ' · ' + fmtARS(item.precio) + ' c/u</div>';
+if (ss) html += '<div style="font-size:10px;color:var(--rojo);font-weight:bold">⛔ Sin stock</div>';
+html += '</div>';
+html += '<div class="cart-item-price">' + fmtARS(item.precio * item.qty) + '</div>';
+html += '<button class="cart-item-rm" onclick="removeFromCart(' + cod + ')">✕</button>';
+html += '</div>';
+}
+ci.innerHTML = html;
+}
+
+var vi = getValidItems();
+var vt = 0;
+for (var i = 0; i < vi.length; i++) vt += vi[i][1].precio * vi[i][1].qty;
+
+
+var entrega  = getCostoEntrega(vt);
+var vtFinal  = vt + entrega;
+
+var ctEl = document.getElementById('cartTotal');
+if (ctEl) ctEl.textContent = fmtARS(vt);
+
+
+var entregaRow = document.getElementById('cartEntregaRow');
+var entregaVal = document.getElementById('cartEntregaVal');
+var entregaLbl = entregaRow ? entregaRow.querySelector('.ct-lbl') : null;
+var totalFinalRow = document.getElementById('cartTotalFinalRow');
+var totalFinalVal = document.getElementById('cartTotalFinalVal');
+var entregaHint   = document.getElementById('cartEntregaHint');
+
+if (vt > 0) {
+if (entregaRow) entregaRow.style.display = '';
+if (totalFinalRow) totalFinalRow.style.display = '';
+if (entregaVal) {
+if (entrega > 0) {
+entregaVal.textContent = fmtARS(entrega);
+entregaVal.style.color = 'var(--rojo)';
+if (entregaLbl) entregaLbl.textContent = 'Costo de entrega';
+if (entregaHint) {
+entregaHint.textContent = '🚚 Faltán ' + fmtARS(ENTREGA_GRATIS - vt) + ' para entrega sin cargo';
+entregaHint.style.display = '';
+}
+} else {
+entregaVal.textContent = 'Sin cargo ✅';
+entregaVal.style.color = 'var(--verde)';
+if (entregaLbl) entregaLbl.textContent = 'Entrega en Luján';
+if (entregaHint) entregaHint.style.display = 'none';
+}
+}
+if (totalFinalVal) totalFinalVal.textContent = fmtARS(vtFinal);
+} else {
+if (entregaRow) entregaRow.style.display = 'none';
+if (totalFinalRow) totalFinalRow.style.display = 'none';
+if (entregaHint) entregaHint.style.display = 'none';
+}
+
+var pct = Math.min(100, Math.round(vt / MINIMO * 100));
+var pb = document.getElementById('cartProgBar');
+pb.style.width = pct + '%';
+pb.classList.toggle('full', pct >= 100);
+
+var cm = document.getElementById('cartMin');
+if (cm) {
+if (vt >= MINIMO) {
+cm.className = 'cart-min ok';
+cm.textContent = '✅ ¡Mínimo alcanzado! Listo para pedir.';
+} else {
+cm.className = 'cart-min falta';
+cm.textContent = '⚠️ Faltan ' + fmtARS(MINIMO - vt) + ' para el mínimo';
+}
+}
+
+var ce = document.getElementById('cartEsc');
+var da = getDescEsc(vt);
+var dp = getProxDesc(vt);
+if (da) {
+var td = Math.round(vt * (1 - da.pct / 100) / 100) * 100;
+ce.className = 'cart-esc activo';
+ce.textContent = '🎉 ' + da.label + ' → Total: ' + fmtARS(td);
+} else if (dp && vt > 0) {
+ce.className = 'cart-esc proximo';
+var msg = '💡 ';
+var partes = [];
+if (dp.faltan > 0) partes.push('$' + dp.faltan.toLocaleString('es-AR') + ' más');
+if (dp.faltanProds > 0) partes.push(dp.faltanProds + ' producto' + (dp.faltanProds > 1 ? 's' : '') + ' más');
+if (partes.length > 0) {
+ce.textContent = msg + 'Agregá ' + partes.join(' y ') + ' → ' + dp.pct + '% OFF';
+} else {
+ce.textContent = '';
+ce.className = 'cart-esc';
+}
+} else {
+ce.className = 'cart-esc';
+ce.textContent = '';
+}
+
+
+
+var bar = document.getElementById('cartBar');
+if (bar && count > 0) {
+bar.classList.add('visible');
+var ci = document.getElementById('cbiItems'); if (ci) ci.textContent = count + ' producto' + (count > 1 ? 's' : '');
+var ct2 = document.getElementById('cbiTotal'); if (ct2) ct2.textContent = fmtARS(vt);
+var bm = document.getElementById('cbiMin');
+if (bm) {
+if (vt >= MINIMO) {
+bm.className = 'cbi-min ok show';
+bm.textContent = '✅ Mínimo alcanzado';
+} else {
+bm.className = 'cbi-min falta show';
+bm.textContent = '⚠️ Faltan ' + fmtARS(MINIMO - vt);
+}
+clearTimeout(minimoTimer);
+minimoTimer = setTimeout(function() { bm.classList.remove('show'); }, 3000);
+}
+var pf = document.getElementById('cbiProgFill');
+if (pf) { pf.style.width = pct + '%'; pf.classList.toggle('full', pct >= 100); }
+} else {
+bar.classList.remove('visible');
+}
+
+var goPayBtn = document.getElementById('goPayBtn');
+var clearBtn = document.querySelector('.clear-btn');
+if (goPayBtn) {
+goPayBtn.disabled = vt < MINIMO;
+goPayBtn.style.display = count > 0 ? '' : 'none';
+}
+if (clearBtn) clearBtn.style.display = count > 0 ? '' : 'none';
+updateDescPanel(vt, count);
+
+  try{localStorage.setItem('galpon_cart',JSON.stringify(cart));}catch(e){}}
 function toggleCart(){
   const drawer=document.getElementById("cartDrawer");
   const isOpen=drawer.classList.toggle("open");
@@ -1235,49 +1348,41 @@ function buildOrderText(items,total){
   if(total>=50000){var tp=Math.round(total*.95/100)*100;extra+="\n🏦 Pagando por transferencia: $"+tp.toLocaleString("es-AR")+" (5% OFF)";}
   return "Hola! Quiero hacer el siguiente pedido:\n\n"+lineas+"\n\nTOTAL: $"+total.toLocaleString("es-AR")+extra;
 }
-function sendWhatsApp(){
-  const items=getValidItems();if(!items.length)return;
-  const total=items.reduce((s,[,i])=>s+i.precio*i.qty,0);
-  const pedidoData={items:items.map(([cod,i])=>({codigo:cod,nombre:i.nombre,precio:i.precio,qty:i.qty})),metodoPago:"WhatsApp",total};
-  // Save to Sheet
-  fetch(API_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"guardarPedido",data:pedidoData})}).catch(()=>{});
-  window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(buildOrderText(items,total))}`,"_blank");
-  saveHistory(items,total);
-  showConfirm("pedido");
+function sendWhatsApp(metodo) {
+var items = getValidItems();
+if (!items.length) return;
+var subtotal = getSubtotal(items);
+var entrega  = getCostoEntrega(subtotal);
+var total    = subtotal + entrega;
+var met = metodo || 'WhatsApp';
+var pedidoData = { items: [], metodoPago: met, total: total };
+for (var i = 0; i < items.length; i++) {
+pedidoData.items.push({ codigo: items[i][0], nombre: items[i][1].nombre, precio: items[i][1].precio, qty: items[i][1].qty });
+}
+try { fetch(API_URL, {method:'POST', headers:{'Content-Type':'application/json'},
+body: JSON.stringify({action:'guardarPedido', data:pedidoData})}).catch(function(){}); } catch(e) {}
+window.open('https://wa.me/' + WA_NUM + '?text=' + encodeURIComponent(buildMsg(items, total)), '_blank');
+closePaymentView();
+showConfirm('wa');
 }
 
 // -- MERCADO PAGO ----------------------------------------------------------
-function pagarMP(){
-  const items=getValidItems();if(!items.length)return;
-  const total=items.reduce((s,[,i])=>s+i.precio*i.qty,0);
-  const pedidoId=Date.now();
-  const descripcion=`Pedido El Galpón — ${items.length} producto${items.length>1?"s":""}`;
-  // Apply recargo MP ~4%
-  const totalMP=Math.round(total/0.96/100)*100;
-  document.getElementById("mpBtn").textContent="⏳ Generando link...";
-  document.getElementById("mpBtn").disabled=true;
-  // Save pedido to Sheet
-  const pedidoData={items:items.map(([cod,i])=>({codigo:cod,nombre:i.nombre,precio:i.precio,qty:i.qty})),metodoPago:"Mercado Pago",total,notas:`ID MP: ${pedidoId}`};
-  fetch(API_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"guardarPedido",data:pedidoData})}).catch(()=>{});
-  // Also open WA with order detail
-  window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent("📦 PEDIDO CON MERCADO PAGO\n\n"+buildOrderText(items,total)+"\n\nID de referencia: "+pedidoId)}`,"_blank");
-  // Create MP preference
-  try{localStorage.setItem("galpon_cart_backup",JSON.stringify(cart));}catch(e){}
-  fetch(API_URL,{method:"POST",headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({action:"crearPagoMP",monto:totalMP,descripcion:descripcion,pedidoId:pedidoId})
-  }).then(r=>r.json()).then(result=>{
-    if(result&&result.ok){window.location.href=result.url;}
-    else{
-      showToast("❌ Error al generar el pago. Usá WhatsApp.");
-      document.getElementById("mpBtn").textContent="💳 Pagar con Mercado Pago";
-      document.getElementById("mpBtn").disabled=false;
-    }
-  }).catch(()=>{
-    showToast("❌ Error de conexión. Usá WhatsApp.");
-    document.getElementById("mpBtn").textContent="💳 Pagar con Mercado Pago";
-    document.getElementById("mpBtn").disabled=false;
-  });
-  saveHistory(items,total);
+function sendWhatsApp(metodo) {
+var items = getValidItems();
+if (!items.length) return;
+var subtotal = getSubtotal(items);
+var entrega  = getCostoEntrega(subtotal);
+var total    = subtotal + entrega;
+var met = metodo || 'WhatsApp';
+var pedidoData = { items: [], metodoPago: met, total: total };
+for (var i = 0; i < items.length; i++) {
+pedidoData.items.push({ codigo: items[i][0], nombre: items[i][1].nombre, precio: items[i][1].precio, qty: items[i][1].qty });
+}
+try { fetch(API_URL, {method:'POST', headers:{'Content-Type':'application/json'},
+body: JSON.stringify({action:'guardarPedido', data:pedidoData})}).catch(function(){}); } catch(e) {}
+window.open('https://wa.me/' + WA_NUM + '?text=' + encodeURIComponent(buildMsg(items, total)), '_blank');
+closePaymentView();
+showConfirm('wa');
 }
 
 // -- HISTORIAL ------------------------------------------------------------
@@ -1307,6 +1412,12 @@ function reorder(i){
 
 // -- MODAL PRODUCTO --------------------------------------------------------
 function openModal(codigo,e){
+  // Track click for tendencia
+  try{
+    var cl=JSON.parse(localStorage.getItem('galpon_clicks')||'{}');
+    cl[codigo]=(cl[codigo]||0)+1;
+    localStorage.setItem('galpon_clicks',JSON.stringify(cl));
+  }catch(x){}
   if(e)e.stopPropagation();
   const p=allProducts.find(x=>x.codigo===codigo);if(!p)return;
   modalList=allProducts.filter(x=>x.categoria===p.categoria);
@@ -1411,7 +1522,135 @@ function showToast(msg){
 }
 
 // -- INIT -----------------------------------------------------------------
+function openPaymentView() {
+var items = getValidItems();
+var subtotal = getSubtotal(items);
+var entrega  = getCostoEntrega(subtotal);
+var total    = subtotal + entrega;  
+
+
+var da = getDescEsc(subtotal);
+var totalConDesc = da ? Math.round(subtotal * (1 - da.pct / 100) / 100) * 100 : subtotal;
+totalConDesc += entrega;  
+
+
+var baseTransf   = da ? Math.round(subtotal * (1 - da.pct / 100) / 100) * 100 : subtotal;
+var totalTransf  = Math.round(baseTransf * 0.95 / 100) * 100 + entrega;
+
+
+var totalMP = Math.round(totalConDesc * 1.052 / 100) * 100;
+
+
+var sena = Math.round(totalConDesc * 0.5 / 100) * 100;
+var resto = totalConDesc - sena;
+
+
+var payTotal = document.getElementById('payTotal');
+var payDesc  = document.getElementById('payDescuento');
+if (payTotal) payTotal.textContent = fmtARS(totalConDesc);
+if (payDesc)  payDesc.textContent  = da ? da.pct + '% de descuento por volumen aplicado' : '';
+
+var el = function(id) { return document.getElementById(id); };
+if (el('payTransfSena'))  el('payTransfSena').textContent  = fmtARS(sena);
+if (el('payTransfResto')) el('payTransfResto').textContent = fmtARS(resto);
+if (el('payTransfTotal')) el('payTransfTotal').textContent = fmtARS(totalTransf);
+if (el('payEfectivoSena'))  el('payEfectivoSena').textContent  = fmtARS(sena);
+if (el('payEfectivoResto')) el('payEfectivoResto').textContent = fmtARS(resto);
+if (el('payEfectivoTotal')) el('payEfectivoTotal').textContent = fmtARS(totalTransf);
+if (el('payMPTotal')) el('payMPTotal').textContent = fmtARS(totalMP);
+
+
+var entregaAmt = getCostoEntrega(subtotal);
+var entregaTxt = entregaAmt > 0
+? '🚚 Costo de entrega: ' + fmtARS(entregaAmt) + ' — agregar ' + fmtARS(ENTREGA_GRATIS - subtotal) + ' para entrega gratis'
+: '✅ Entrega en Lujan: SIN CARGO';
+var entregaColor = entregaAmt > 0 ? 'var(--rojo)' : 'var(--verde)';
+var divIds2 = ['payEntregaTransf', 'payEntregaEfectivo', 'payEntregaMP'];
+for (var i = 0; i < divIds2.length; i++) {
+var el2 = document.getElementById(divIds2[i]);
+if (el2) { el2.textContent = entregaTxt; el2.style.color = entregaColor; }
+}
+
+
+var pts2 = document.getElementById('payTransfSena2');
+if (pts2) pts2.textContent = fmtARS(sena);
+
+
+var cv = document.getElementById('cartView');
+var pv = document.getElementById('paymentView');
+if (cv) cv.classList.add('hidden');
+if (pv) pv.classList.add('open');
+}
+
+function closePaymentView() {
+var cv = document.getElementById('cartView');
+var pv = document.getElementById('paymentView');
+if (cv) cv.classList.remove('hidden');
+if (pv) pv.classList.remove('open');
+}
+
+function getSubtotal(items) {
+var t = 0;
+for (var i = 0; i < items.length; i++) t += items[i][1].precio * items[i][1].qty;
+return t;
+}
+
+function getCostoEntrega(subtotal) {
+if (subtotal <= 0) return 0;
+if (subtotal >= ENTREGA_GRATIS) return 0;
+return COSTO_ENTREGA;
+}
+
+function getDescEsc(t) {
+var cant = cantProductos();
+if (t >= 300000 && cant >= 5) return { pct: 12, label: '12% OFF — compra mayor a $300.000 con 5+ productos' };
+if (t >= 200000 && cant >= 4) return { pct: 8,  label: '8% OFF — compra mayor a $200.000 con 4+ productos' };
+if (t >= 100000 && cant >= 3) return { pct: 5,  label: '5% OFF — compra mayor a $100.000 con 3+ productos' };
+return null;
+}
+
+function cantProductos() {
+var keys = Object.keys(cart);
+var total = 0;
+for (var i = 0; i < keys.length; i++) total += cart[keys[i]].qty;
+return total;
+}
+
+function pagarMP(){
+  var items=getValidItems();if(!items.length)return;
+  var subtotal=getSubtotal(items);
+  var entrega=getCostoEntrega(subtotal);
+  var da=getDescEsc(subtotal);
+  var base=da?Math.round(subtotal*(1-da.pct/100)/100)*100:subtotal;
+  var totalMP=Math.round(base*1.042/100)*100+entrega;
+  var pedidoId=Date.now();
+  var desc='Pedido El Galpon - '+items.length+' producto'+(items.length>1?'s':'');
+  var btn=document.getElementById('mpBtn');
+  if(btn){btn.textContent='Generando link...';btn.disabled=true;}
+  var pd={items:items.map(function(x){return{codigo:x[0],nombre:x[1].nombre,precio:x[1].precio,qty:x[1].qty};}),metodoPago:'Mercado Pago',total:totalMP};
+  fetch(API_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'guardarPedido',data:pd})}).catch(function(){});
+  try{localStorage.setItem('galpon_cart_backup',JSON.stringify(cart));}catch(e){}
+  fetch(API_URL,{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({action:'crearPagoMP',monto:totalMP,descripcion:desc,pedidoId:pedidoId})
+  }).then(function(r){return r.json();}).then(function(res){
+    if(res&&res.ok){window.location.href=res.url;}
+    else{
+      showToast('Error al generar pago. Usa WhatsApp.');
+      if(btn){btn.textContent='Pagar con Mercado Pago';btn.disabled=false;}
+    }
+  }).catch(function(){
+    showToast('Error de conexion. Usa WhatsApp.');
+    if(btn){btn.textContent='Pagar con Mercado Pago';btn.disabled=false;}
+  });
+}
+
 window.onload=()=>{
+  // Restore cart from localStorage on page load
+  try {
+    var savedCart = localStorage.getItem('galpon_cart');
+    if (savedCart) { cart = JSON.parse(savedCart); }
+  } catch(e) {}
+
   // Restore settings
   const sc=localStorage.getItem("galpon_product_count");
   if(sc)document.getElementById("landingCount").textContent="+"+sc;
@@ -1459,6 +1698,9 @@ function toggleMobileSearch(){
     document.getElementById("searchInput").focus();
   }
 }
+
 </script>
+
+<div id="historySection" class="history-section" style="display:none"><div class="history-title">Tus ultimos pedidos</div><div id="historyList"></div></div>
 </body>
 </html>
