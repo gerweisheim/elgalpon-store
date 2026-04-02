@@ -9,280 +9,211 @@
     <style>
         :root {
             --naranja: #FF6B35;
+            --naranja-dark: #E05520;
             --negro: #111111;
-            --gris-l: #f4f4f4;
             --blanco: #ffffff;
+            --gris-l: #f4f4f4;
+            --border: #e0e0e0;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, sans-serif; }
-        body { background-color: var(--gris-l); color: var(--negro); padding-bottom: 80px; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background-color: var(--gris-l); color: var(--negro); overflow-x: hidden; padding-bottom: 80px; }
 
-        /* Header y Estilos Generales */
-        header { background: var(--negro); color: white; padding: 15px; text-align: center; position: sticky; top: 0; z-index: 100; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 15px; }
+        /* HEADER & HERO */
+        header { background: var(--negro); color: var(--blanco); padding: 20px; text-align: center; }
+        .logo-text { font-size: 32px; font-weight: 900; color: var(--naranja); letter-spacing: -1px; }
+        .badge-count { background: var(--naranja); color: white; padding: 2px 8px; border-radius: 10px; font-size: 14px; vertical-align: middle; margin-left: 5px; }
 
-        /* Buscador */
-        .search-container { margin-bottom: 20px; }
-        #searchInput { width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 16px; outline: none; }
-        #searchInput:focus { border-color: var(--naranja); }
+        /* SECCIONES LANDING */
+        .section-card { background: white; margin: 15px; padding: 20px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .btn-info { background: #eee; border: none; padding: 10px 15px; border-radius: 10px; font-weight: 600; width: 100%; margin-top: 10px; cursor: pointer; }
 
-        /* Grid de Productos */
-        .products-grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); 
-            gap: 15px; 
-        }
-
-        .product-card { 
-            background: white; 
-            border-radius: 12px; 
-            overflow: hidden; 
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05); 
-            cursor: pointer;
-            transition: transform 0.2s;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .product-card:active { transform: scale(0.98); }
-
-        .img-container { width: 100%; aspect-ratio: 1/1; background: #eee; position: relative; }
+        /* PRODUCTOS */
+        .sticky-tools { position: sticky; top: 0; z-index: 100; background: white; padding: 10px; border-bottom: 1px solid var(--border); }
+        .search-input { width: 100%; padding: 15px; border: 2px solid var(--gris-l); border-radius: 12px; font-size: 16px; margin-bottom: 10px; }
+        
+        .products-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 15px; }
+        .product-card { background: white; border-radius: 15px; overflow: hidden; position: relative; display: flex; flex-direction: column; }
+        .img-container { aspect-ratio: 1/1; background: #f9f9f9; }
         .img-container img { width: 100%; height: 100%; object-fit: cover; }
+        .p-info { padding: 12px; flex-grow: 1; }
+        .p-price { font-size: 20px; font-weight: 800; margin: 5px 0; }
+        .btn-add { background: var(--negro); color: white; border: none; width: 100%; padding: 12px; border-radius: 10px; font-weight: 700; cursor: pointer; }
 
-        .product-info { padding: 10px; flex-grow: 1; display: flex; flex-direction: column; }
-        .product-title { font-size: 14px; font-weight: 600; margin-bottom: 5px; height: 36px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
-        .product-price { color: var(--naranja); font-size: 18px; font-weight: 800; margin-top: auto; }
+        /* SUGERENCIAS */
+        .sugerencias-form input { width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 8px; }
+        .btn-sugerir { background: var(--naranja); color: white; border: none; width: 100%; padding: 12px; border-radius: 8px; font-weight: 700; }
 
-        /* Botón comprar en tarjeta */
-        .btn-add-quick {
-            background: var(--negro);
-            color: white;
-            border: none;
-            padding: 8px;
-            border-radius: 6px;
-            margin-top: 8px;
-            font-weight: bold;
-            cursor: pointer;
-            width: 100%;
-        }
+        /* BARRA INFERIOR */
+        .cart-bar { position: fixed; bottom: 0; width: 100%; background: #000; color: white; padding: 15px 20px 30px; transform: translateY(100%); transition: 0.3s; z-index: 1000; }
+        .cart-bar.active { transform: translateY(0); }
+        .progress-bg { height: 6px; background: #333; border-radius: 3px; margin: 10px 0; }
+        .progress-fill { height: 100%; background: var(--naranja); width: 0%; transition: 0.5s; }
 
-        /* Barra Inferior del Carrito */
-        .cart-bar {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: #000;
-            color: white;
-            padding: 12px 20px;
-            z-index: 1000;
-            display: none; /* Se activa con JS */
-            box-shadow: 0 -4px 15px rgba(0,0,0,0.3);
-        }
-
-        .bar-header { display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 8px; }
-        .bar-total { color: var(--naranja); font-size: 18px; }
+        /* MODALES */
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 2000; display: none; align-items: flex-end; }
+        .modal-body { background: white; width: 100%; border-radius: 20px 20px 0 0; padding: 25px; max-height: 90vh; overflow-y: auto; }
         
-        .progress-bg { height: 8px; background: #333; border-radius: 4px; overflow: hidden; margin-bottom: 5px; }
-        .progress-fill { height: 100%; background: var(--naranja); width: 0%; transition: width 0.4s; }
-        
-        .bar-msg { font-size: 11px; color: #aaa; text-align: center; text-transform: uppercase; letter-spacing: 0.5px; }
-
-        /* Estilos del Modal */
-        #modalOverlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:2000; justify-content:center; align-items:center; }
-        .modal-content { background:white; width:90%; max-width:500px; border-radius:15px; position:relative; overflow:hidden; }
-        .close-modal { position:absolute; top:10px; right:15px; font-size:30px; cursor:pointer; z-index:10; }
-        .modal-body { padding: 20px; }
+        .payment-option { border: 2px solid var(--gris-l); padding: 15px; border-radius: 12px; margin-bottom: 10px; display: flex; align-items: center; gap: 15px; cursor: pointer; }
+        .payment-option.selected { border-color: var(--naranja); background: #fff5f2; }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>EL GALPÓN</h1>
+    <div class="logo-text">EL GALPÓN <span id="mainCount" class="badge-count">+0</span></div>
     <p style="font-size: 12px; opacity: 0.8;">Todo lo que buscás, en un solo lugar</p>
 </header>
 
-<div class="container">
-    <div class="search-container">
-        <input type="text" id="searchInput" placeholder="¿Qué estás buscando hoy?">
-    </div>
+<div class="section-card">
+    <h2 style="font-size: 22px;">¡Hola! 👋</h2>
+    <p style="color: #666; margin-bottom: 15px;">Explorá nuestro catálogo y armá tu pedido.</p>
+    <button class="btn-info" onclick="openModal('howToModal')">📖 Cómo comprar</button>
+</div>
 
-    <div id="productsGrid" class="products-grid">
+<div class="sticky-tools">
+    <input type="text" id="searchInput" class="search-input" placeholder="¿Qué estás buscando hoy?">
+</div>
+
+<div id="productsGrid" class="products-grid"></div>
+
+<div class="section-card sugerencias-form">
+    <h3>¿No encontrás algo? 🔎</h3>
+    <p style="font-size: 13px; color: #666; margin-bottom: 10px;">Decinos qué buscás y lo traemos para vos.</p>
+    <input type="text" id="sugProducto" placeholder="Nombre del producto...">
+    <input type="tel" id="sugWhatsApp" placeholder="Tu WhatsApp (opcional)">
+    <button class="btn-sugerir" onclick="enviarSugerencia()">PEDIR PRODUCTO</button>
+</div>
+
+<div id="cartBar" class="cart-bar" onclick="openCart()">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            <span style="font-size: 11px; opacity: 0.7;">TOTAL ESTIMADO</span>
+            <div id="barTotal" style="font-size: 22px; font-weight: 800; color: var(--naranja);">$0</div>
         </div>
+        <div id="barMsg" style="text-align: right; font-size: 12px; font-weight: 600;">Faltan $40.000</div>
+    </div>
+    <div class="progress-bg"><div id="barProgress" class="progress-fill"></div></div>
 </div>
 
-<div id="cartBar" class="cart-bar">
-    <div class="bar-header">
-        <span id="barTotalText">Subtotal: $0</span>
-        <span id="barRemainingText">Faltan $40.000</span>
+<div id="howToModal" class="modal" onclick="closeModals()">
+    <div class="modal-body" onclick="event.stopPropagation()">
+        <h3>Cómo comprar</h3>
+        <ul style="margin: 20px 0; line-height: 2;">
+            <li>✅ Elegí tus productos favoritos.</li>
+            <li>🛒 Sumá al menos <b>$40.000</b> al carrito.</li>
+            <li>💳 Elegí tu método de pago preferido.</li>
+            <li>📩 Confirmá y recibí por WhatsApp.</li>
+        </ul>
+        <button class="btn-add" onclick="closeModals()">ENTENDIDO</button>
     </div>
-    <div class="progress-bg">
-        <div id="barFill" class="progress-fill"></div>
-    </div>
-    <div id="barPromoMsg" class="bar-msg">Mínimo de compra para envío: $40.000</div>
 </div>
 
-<div id="modalOverlay">
-    <div class="modal-content">
-        <span class="close-modal" onclick="closeModal()">&times;</span>
-        <div id="modalContentInner"></div>
+<div id="cartModal" class="modal" onclick="closeModals()">
+    <div class="modal-body" onclick="event.stopPropagation()">
+        <div id="step1">
+            <h3>Tu Carrito</h3>
+            <div id="cartItems" style="margin: 20px 0;"></div>
+            <button class="btn-add" style="background: var(--naranja);" onclick="goToStep(2)">CONTINUAR AL PAGO</button>
+        </div>
+        <div id="step2" style="display: none;">
+            <h3>Método de Pago</h3>
+            <p style="font-size: 13px; color: #666; margin-bottom: 15px;">Seleccioná cómo querés pagar:</p>
+            <div class="payment-option" onclick="selectPayment('MP')">
+                <div style="font-size: 24px;">💳</div>
+                <div><b>Mercado Pago</b><br><small>Débito, Crédito o Dinero en cuenta</small></div>
+            </div>
+            <div class="payment-option" onclick="selectPayment('WA')">
+                <div style="font-size: 24px;">🏦</div>
+                <div><b>Transferencia / Efectivo</b><br><small>Coordinamos la entrega por WhatsApp</small></div>
+            </div>
+            <button class="btn-info" onclick="goToStep(1)">← Volver</button>
+        </div>
     </div>
 </div>
 
 <script>
-    const API_URL = 'https://script.google.com/macros/s/AKfycbyWqGk3m-68A8z6Xv-eI-vS8tVvW8l8y-8l-8l/exec'; // Reemplaza con tu URL de Code.gs
+    const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyWqGk3m-68A8z6Xv-eI-vS8tVvW8l8y-8l-8l/exec';
     const MIN_PURCHASE = 40000;
     let allProducts = [];
     let cart = JSON.parse(localStorage.getItem('galpon_cart')) || [];
+    let selectedMethod = '';
 
-    // Cargar productos
-    async function loadProducts() {
-        const grid = document.getElementById('productsGrid');
-        grid.innerHTML = '<p style="text-align:center; grid-column: 1/-1;">Cargando catálogo...</p>';
-        
-        try {
-            const response = await fetch(`${API_URL}?action=getProducts`);
-            const data = await response.json();
-            allProducts = data;
-            renderProducts(allProducts);
-            updateCartUI();
-        } catch (error) {
-            grid.innerHTML = '<p style="text-align:center; grid-column: 1/-1;">Error al cargar productos. Por favor reintenta.</p>';
-        }
-    }
-
-    function renderProducts(products) {
-        const grid = document.getElementById('productsGrid');
-        grid.innerHTML = '';
-
-        products.forEach(p => {
-            const card = document.createElement('div');
-            card.className = 'product-card';
-            card.onclick = () => openModal(p);
-
-            card.innerHTML = `
-                <div class="img-container">
-                    <img src="${p.imagen || 'https://via.placeholder.com/200'}" alt="${p.nombre}">
-                </div>
-                <div class="product-info">
-                    <div class="product-title">${p.nombre}</div>
-                    <div class="product-price">$${p.precio.toLocaleString()}</div>
-                    <button class="btn-add-quick" onclick="quickAdd(event, ${p.codigo})">COMPRAR</button>
-                </div>
-            `;
-            grid.appendChild(card);
-        });
-    }
-
-    // AGREGADO RÁPIDO - FIX: Evita abrir el modal
-    function quickAdd(event, code) {
-        event.stopPropagation(); // ¡ESTO EVITA QUE SE ABRA EL MODAL!
-        const product = allProducts.find(p => p.codigo == code);
-        if (product) {
-            addToCart(product);
-            
-            // Efecto visual simple en el botón
-            const btn = event.target;
-            const originalText = btn.innerText;
-            btn.innerText = "¡AGREGADO!";
-            btn.style.background = "#28a745";
-            setTimeout(() => {
-                btn.innerText = originalText;
-                btn.style.background = "#111";
-            }, 800);
-        }
-    }
-
-    function addToCart(product) {
-        const existing = cart.find(item => item.codigo === product.codigo);
-        if (existing) {
-            existing.cantidad += 1;
-        } else {
-            cart.push({ ...product, cantidad: 1 });
-        }
-        saveCart();
+    async function init() {
+        const res = await fetch(`${WEB_APP_URL}?action=getProducts`);
+        allProducts = await res.json();
+        document.getElementById('mainCount').innerText = `+${allProducts.length}`;
+        renderProducts(allProducts);
         updateCartUI();
     }
 
-    function saveCart() {
-        localStorage.setItem('galpon_cart', JSON.stringify(cart));
+    function renderProducts(list) {
+        document.getElementById('productsGrid').innerHTML = list.map(p => `
+            <div class="product-card">
+                <div class="img-container"><img src="${p.imagen}" loading="lazy"></div>
+                <div class="p-info">
+                    <div style="font-size:13px; font-weight:600; height:34px; overflow:hidden;">${p.nombre}</div>
+                    <div class="p-price">$${parseInt(p.precio).toLocaleString()}</div>
+                    <button class="btn-add" onclick="addToCart(${p.codigo})">AGREGAR</button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function addToCart(code) {
+        const p = allProducts.find(i => i.codigo == code);
+        const inCart = cart.find(i => i.codigo == code);
+        if(inCart) inCart.qty++;
+        else cart.push({...p, qty: 1});
+        saveAndRefresh();
     }
 
     function updateCartUI() {
+        const total = cart.reduce((acc, i) => acc + (i.precio * i.qty), 0);
         const bar = document.getElementById('cartBar');
-        const total = cart.reduce((acc, item) => acc + (item.precio * item.cantidad), 0);
-
-        if (cart.length === 0) {
-            bar.style.display = 'none';
-            return;
-        }
-
-        bar.style.display = 'block';
-        document.getElementById('barTotalText').innerText = `Subtotal: $${total.toLocaleString()}`;
+        if(cart.length > 0) bar.classList.add('active');
         
-        const porcentaje = Math.min((total / MIN_PURCHASE) * 100, 100);
-        document.getElementById('barFill').style.width = porcentaje + '%';
-
-        const remainingText = document.getElementById('barRemainingText');
-        const promoMsg = document.getElementById('barPromoMsg');
-
-        if (total < MIN_PURCHASE) {
-            remainingText.innerText = `Faltan $${(MIN_PURCHASE - total).toLocaleString()}`;
-            promoMsg.innerText = "Mínimo de compra para envío: $40.000";
-            promoMsg.style.color = "#aaa";
-        } else {
-            remainingText.innerText = "¡Mínimo alcanzado!";
-            remainingText.style.color = "#4caf50";
-            
-            if (total >= 100000) {
-                promoMsg.innerText = "¡NIVEL 2: TENÉS 5% DE DESCUENTO EXTRA!";
-                promoMsg.style.color = var(--naranja);
-            } else {
-                promoMsg.innerText = "¡Ya puedes realizar tu pedido!";
-            }
-        }
+        document.getElementById('barTotal').innerText = `$${total.toLocaleString()}`;
+        const progress = Math.min((total / MIN_PURCHASE) * 100, 100);
+        document.getElementById('barProgress').style.width = progress + '%';
+        
+        const msg = document.getElementById('barMsg');
+        if(total < MIN_PURCHASE) msg.innerHTML = `Faltan $${(MIN_PURCHASE - total).toLocaleString()}`;
+        else msg.innerHTML = `<span style="color:var(--naranja)">¡Mínimo alcanzado! ✅</span>`;
     }
 
-    // Modal
-    function openModal(p) {
-        const modal = document.getElementById('modalOverlay');
-        const inner = document.getElementById('modalContentInner');
-        inner.innerHTML = `
-            <img src="${p.imagen}" style="width:100%; height:250px; object-fit:cover;">
-            <div class="modal-body">
-                <h2>${p.nombre}</h2>
-                <p style="color:#666; margin: 10px 0;">${p.descripcion || 'Sin descripción disponible.'}</p>
-                <p style="font-size:24px; font-weight:800; color:var(--naranja);">$${p.precio.toLocaleString()}</p>
-                <button onclick="addToCartByCode(${p.codigo})" style="width:100%; background:var(--negro); color:white; padding:15px; border:none; border-radius:8px; font-weight:bold; margin-top:15px;">AGREGAR AL CARRITO</button>
+    function openCart() {
+        const list = document.getElementById('cartItems');
+        list.innerHTML = cart.map(i => `
+            <div style="display:flex; justify-content:space-between; margin-bottom:10px; border-bottom:1px solid #eee; padding-bottom:10px;">
+                <span>${i.qty}x ${i.nombre}</span>
+                <b>$${(i.precio * i.qty).toLocaleString()}</b>
             </div>
-        `;
-        modal.style.display = 'flex';
+        `).join('');
+        goToStep(1);
+        openModal('cartModal');
     }
 
-    function addToCartByCode(code) {
-        const product = allProducts.find(p => p.codigo == code);
-        addToCart(product);
-        closeModal();
+    async function enviarSugerencia() {
+        const p = document.getElementById('sugProducto').value;
+        const w = document.getElementById('sugWhatsApp').value;
+        if(!p) return alert("Por favor, escribí qué producto buscás");
+        
+        await fetch(`${WEB_APP_URL}?action=guardarSugerencia&producto=${encodeURIComponent(p)}&whatsapp=${encodeURIComponent(w)}`);
+        alert("¡Gracias! Tomamos nota de tu pedido.");
+        document.getElementById('sugProducto').value = '';
     }
 
-    function closeModal() {
-        document.getElementById('modalOverlay').style.display = 'none';
+    function goToStep(s) {
+        document.getElementById('step1').style.display = s === 1 ? 'block' : 'none';
+        document.getElementById('step2').style.display = s === 2 ? 'block' : 'none';
     }
 
-    // Buscador
-    document.getElementById('searchInput').addEventListener('input', (e) => {
-        const term = e.target.value.toLowerCase();
-        const filtered = allProducts.filter(p => 
-            p.nombre.toLowerCase().includes(term) || 
-            p.categoria.toLowerCase().includes(term)
-        );
-        renderProducts(filtered);
-    });
+    function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+    function closeModals() { document.querySelectorAll('.modal').forEach(m => m.style.display = 'none'); }
+    function saveAndRefresh() { localStorage.setItem('galpon_cart', JSON.stringify(cart)); updateCartUI(); }
 
-    // Iniciar
-    loadProducts();
-
+    init();
 </script>
-
 </body>
 </html>
