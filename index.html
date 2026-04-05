@@ -740,7 +740,7 @@ footer{background:var(--negro);color:var(--gris-m);text-align:center;padding:16p
 // ══ CONSTANTS ═══════════════════════════════════════════════════════════
 const MINIMO    = 40000;
 const WA_NUMBER = "5491151635104";
-const API_URL = 'https://script.google.com/macros/s/AKfycbwR7WI5CkXfdDeRdUF0bkBO0Ia1NBoicA7OpUz6YaHO3zMxhq-InDsyjtXx-LiQrEc3Vw/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbwAL3sMhmQ460DR0ayQ4jlK-5Z6rKQ6FYqaEIrr2IZUActcW3OvIjFT_HofDcJLClRmgg/exec';
 const ICON_CAT  = {
   "COMPUTACION":"💻","HOGAR":"🏠","VARIOS":"🎁","INFANTILES":"🎯",
   "ESCOLARES":"📚","FERRETERIA":"🔧","TEXTIL":"👕","BAZAR":"🍶",
@@ -815,10 +815,20 @@ var _cv="ghp1";if(sessionStorage.getItem("galpon_v")!==_cv){sessionStorage.clear
     onProductsLoaded();
   };
   var _s=document.createElement('script');
+  var _t=setTimeout(function(){
+    if(window[_cb]){
+      delete window[_cb];
+      document.getElementById('skeletonGrid').style.display='none';
+      document.getElementById('productGrid').style.display='grid';
+      document.getElementById('productGrid').innerHTML='<div class="empty">Tiempo de espera agotado. Verificá que el Code.gs esté implementado con acceso a "Cualquier persona".</div>';
+    }
+  },12000);
   _s.onerror=function(){
-    document.getElementById("skeletonGrid").style.display="none";
-    document.getElementById("productGrid").style.display="grid";
-    document.getElementById("productGrid").innerHTML='<div class="empty">Error al cargar. Recarga la pagina.</div>';
+    clearTimeout(_t);
+    delete window[_cb];
+    document.getElementById('skeletonGrid').style.display='none';
+    document.getElementById('productGrid').style.display='grid';
+    document.getElementById('productGrid').innerHTML='<div class="empty">Error de conexion con la API. Reimplementa Code.gs en Apps Script con acceso a "Cualquier persona".</div>';
   };
   _s.src=API_URL+'?action=getProducts&callback='+_cb+'&r='+Date.now();
   document.head.appendChild(_s);
