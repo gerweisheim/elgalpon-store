@@ -367,7 +367,7 @@ header{background:var(--negro);padding:0 24px;position:fixed;top:var(--bar-h);le
 
 /* ── TOAST & OVERLAY ───────────────────────────────── */
 .toast{position:fixed;bottom:130px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--negro);color:var(--blanco);padding:10px 20px;border-radius:8px;font-size:13px;font-weight:bold;z-index:500;transition:transform .25s;pointer-events:none;white-space:nowrap;opacity:0;visibility:hidden;transition:transform .25s,opacity .25s,visibility .25s}
-.toast.show{transform:translateX(-50%) translateY(0)}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1;visibility:visible}
 
 /* ══ REDES ══ */
 .social-btns{display:flex;gap:10px;align-items:center}
@@ -479,7 +479,11 @@ footer{background:var(--negro);color:var(--gris-m);text-align:center;padding:16p
 .go-pay-btn:disabled{background:#aaa;cursor:not-allowed}
 .go-pay-btn:not(:disabled):hover{background:var(--naranja2)}
 /* Payment view */
-.payment-view{display:none;flex-direction:column;overflow-y:auto;flex:1}
+.payment-view{
+  display:none;flex-direction:column;
+  position:absolute;top:0;left:0;right:0;bottom:0;
+  background:var(--card-bg);z-index:10;overflow-y:auto}
+.payment-view.open{display:flex}
 .payment-hdr{background:var(--negro);color:#fff;padding:14px 20px;
   display:flex;align-items:center;gap:12px;flex-shrink:0}
 .payment-hdr h3{font-size:15px;font-weight:bold;flex:1;margin:0}
@@ -517,6 +521,14 @@ footer{background:var(--negro);color:var(--gris-m);text-align:center;padding:16p
 .pay-btn-mp{width:100%;background:var(--azul-mp);color:#fff;border:none;border-radius:8px;
   padding:12px;font-size:13px;font-weight:bold;cursor:pointer;margin-top:10px}
 .pay-btn-mp:hover{opacity:.9}
+
+/* ── FILTER DISPONIBLES ── */
+.filter-disponibles{background:var(--gris-l);border:1.5px solid var(--border);
+  color:var(--text);border-radius:20px;padding:5px 14px;font-size:12px;
+  font-weight:bold;cursor:pointer;white-space:nowrap;transition:all .2s}
+.filter-disponibles.active{background:var(--naranja);border-color:var(--naranja);color:#fff}
+.filter-disponibles:hover{border-color:var(--naranja);color:var(--naranja)}
+.filter-disponibles.active:hover{background:var(--naranja2);border-color:var(--naranja2);color:#fff}
 </style>
 </head>
 <body>
@@ -616,6 +628,9 @@ footer{background:var(--negro);color:var(--gris-m);text-align:center;padding:16p
       <option value="az">A → Z</option><option value="za">Z → A</option>
       <option value="asc">Menor precio</option><option value="desc">Mayor precio</option>
     </select>
+  </div>
+  <div class="toolbar-group">
+    <button class="filter-disponibles active" id="btnDisponibles" onclick="toggleDisponibles()">📦 Solo disponibles</button>
   </div>
   <div class="toolbar-group">
     <span class="toolbar-label">Vista:</span>
@@ -852,7 +867,7 @@ const ICON_CAT = {
 };
 
 // ── GLOBAL STATE ──────────────────────────────────────────────────────────
-let allProducts=[], cart={}, activeCategory="", searchTerm="";
+let allProducts=[], cart={}, activeCategory="", searchTerm="", soloDisponibles=true;
 let currentCols=3, modalList=[], modalIdx=0, touchStartX=0;
 let searchDebounce=null, cardObserver=null;
 
@@ -1002,6 +1017,7 @@ function onProductsLoaded(){
 function renderProducts(){
   const grid=document.getElementById("productGrid");
   let f=[...allProducts];
+  if(soloDisponibles)f=f.filter(p=>p.stock!=="Sin Stock");
   if(activeCategory)f=f.filter(p=>p.categoria===activeCategory);
   if(searchTerm)f=f.filter(p=>
     p.producto.toLowerCase().includes(searchTerm)||
@@ -1110,6 +1126,16 @@ function initCardObserver(){
 
 
 // ── FILTERS & CATEGORIES ────────────────────────────────────────────────
+
+function toggleDisponibles(){
+  soloDisponibles=!soloDisponibles;
+  var btn=document.getElementById("btnDisponibles");
+  if(btn){
+    btn.textContent=soloDisponibles?"📦 Solo disponibles":"📦 Ver todos";
+    btn.classList.toggle("active", soloDisponibles);
+  }
+  renderProducts();
+}
 
 function buildCategoryFilters(){
   const cats=[...new Set(allProducts.map(p=>p.categoria).filter(Boolean))].sort();
@@ -1349,15 +1375,15 @@ function openPaymentView(){
   html+='<button class="pay-btn-mp" id="mpBtn" onclick="pagarMP()">💳 Pagar con Mercado Pago</button></div></div>';
 
   document.getElementById("paymentBody").innerHTML=html;
-  document.getElementById("cartFooter").style.display="none";
-  document.getElementById("cartItems").style.display="none";
-  document.getElementById("paymentView").style.display="flex";
+  
+  
+  document.getElementById("paymentView").classList.add("open");
 }
 
 function closePaymentView(){
-  document.getElementById("paymentView").style.display="none";
-  document.getElementById("cartFooter").style.display="";
-  document.getElementById("cartItems").style.display="";
+  document.getElementById("paymentView").classList.remove("open");
+  
+  
 }
 
 function buildOrderText(items,total){
