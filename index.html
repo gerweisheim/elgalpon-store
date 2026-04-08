@@ -530,6 +530,9 @@ footer{background:var(--negro);color:var(--gris-m);text-align:center;padding:16p
 }
 
   .search-toggle-btn{display:none!important}
+
+.cart-desc-escalon.bloqueado{background:#FFF3EE;color:#B03A2E;display:block;font-size:11px}
+.pay-bloqueo{background:#FFF3EE;border-left:3px solid var(--rojo);padding:6px 10px;font-size:11px;color:#B03A2E;border-radius:0 6px 6px 0;margin-bottom:4px}
 </style></style>
 </head>
 <body>
@@ -853,6 +856,169 @@ let currentCols=3, modalList=[], modalIdx=0, touchStartX=0;
 let searchDebounce=null, cardObserver=null;
 
 // ══ PRECIO REFERENCIA ════════════════════════════════════════════════════
+
+// ── MOTOR DE REGLAS DE DESCUENTOS ────────────────────────────────────────
+// Precio mínimo que debe tener CADA producto para que apliquen descuentos
+const PRECIO_MINIMO_PRODUCTO = 5000;
+
+// Tabla de niveles: se evalúa de mayor a menor, primer match gana
+const REGLAS_DESCUENTO = [
+  { nivel:3, pct:12, minTotal:300000, minProductos:5,
+    label:'12% OFF — 5+ productos y $300.000+' },
+  { nivel:2, pct:8,  minTotal:200000, minProductos:4,
+    label:'8% OFF — 4+ productos y $200.000+' },
+  { nivel:1, pct:5,  minTotal:100000, minProductos:3,
+    label:'5% OFF — 3+ productos y $100.000+' }
+];
+
+const DESCUENTO_PAGO_TOTAL = 0.05; // 5% adicional tranf/efectivo
+
+/**
+ * validarProductos(items)
+ * items = array de [cod, {precio, qty, nombre}]
+ * Retorna true si TODOS los productos tienen precio >= PRECIO_MINIMO_PRODUCTO
+ */
+function validarProductos(items) {
+  return items.every(function(x) {
+    return x[1].precio >= PRECIO_MINIMO_PRODUCTO;
+  });
+}
+
+/**
+ * calcularDescuento(items, metodoPago)
+ * items      = getValidItems() — array de [cod, {precio,qty,nombre}]
+ * metodoPago = 'transferencia' | 'efectivo' | 'mp' | null
+ *
+ * Retorna un objeto con toda la información del descuento:
+ *   { subtotal, qty, qtyUniq, productosValidos,
+ *     nivelAplicado, descuentoVolumenPct, baseVolumen,
+ *     descuentoPagoPct,   baseConPago (= totalFinal sin entrega),
+ *     costoEntrega, totalFinal,
+ *     mensajeBloqueo, label }
+ */
+function calcularDescuento(items, metodoPago) {
+  var subtotal = items.reduce(function(s,x){ return s + x[1].precio * x[1].qty; }, 0);
+  var qty      = items.reduce(function(s,x){ return s + x[1].qty; }, 0);  // unidades totales
+  var qtyUniq  = items.length;                                              // productos distintos
+  var costoE   = subtotal >= ENTREGA_GRATIS ? 0 : COSTO_ENTREGA;
+
+  // ── Paso 1: validar precio mínimo ─────────────────────────────────────
+  var productosValidos = validarProductos(items);
+  var mensajeBloqueo   = null;
+
+  // ── Paso 2: descuento por volumen ─────────────────────────────────────
+  var nivelAplicado       = null;
+  var descuentoVolumenPct = 0;
+  var baseVolumen         = subtotal;
+  var labelVolumen        = '';
+
+  if (!productosValidos) {
+    // Buscar cuáles productos están por debajo del mínimo
+    var bloqueadores = items
+      .filter(function(x){ return x[1].precio < PRECIO_MINIMO_PRODUCTO; })
+      .map(function(x){ return x[1].nombre.substring(0,25); });
+    mensajeBloqueo = 'Sin desc. por volumen: '
+      + bloqueadores.join(', ')
+      + (bloqueadores.length === 1 ? ' tiene' : ' tienen')
+      + ' precio < $' + PRECIO_MINIMO_PRODUCTO.toLocaleString('es-AR');
+  } else {
+    // Evaluar niveles de mayor a menor
+    for (var i = 0; i < REGLAS_DESCUENTO.length; i++) {
+      var regla = REGLAS_DESCUENTO[i];
+      if (subtotal >= regla.minTotal && qtyUniq >= regla.minProductos) {
+        nivelAplicado       = regla.nivel;
+        descuentoVolumenPct = regla.pct;
+        labelVolumen        = regla.label;
+        baseVolumen         = Math.round(subtotal * (1 - regla.pct / 100) / 100) * 100;
+        break;
+      }
+    }
+  }
+
+  // ── Paso 3: descuento por método de pago (se aplica sobre baseVolumen) ─
+  var metodo = (metodoPago || '').toLowerCase();
+  var pagoTotal = (metodo === 'transferencia' || metodo === 'efectivo');
+  var descuentoPagoPct = pagoTotal ? DESCUENTO_PAGO_TOTAL * 100 : 0;
+  var baseConPago = pagoTotal
+    ? Math.round(baseVolumen * (1 - DESCUENTO_PAGO_TOTAL) / 100) * 100
+    : baseVolumen;
+
+  // ── Paso 4: total final ─────────────────────────────────────────────
+  var totalFinal = baseConPago + costoE;
+
+  return {
+    subtotal:            subtotal,
+    qty:                 qty,
+    qtyUniq:             qtyUniq,
+    productosValidos:    productosValidos,
+    mensajeBloqueo:      mensajeBloqueo,
+    nivelAplicado:       nivelAplicado,
+    descuentoVolumenPct: descuentoVolumenPct,
+    labelVolumen:        labelVolumen,
+    baseVolumen:         baseVolumen,
+    pagoTotal:           pagoTotal,
+    descuentoPagoPct:    descuentoPagoPct,
+    baseConPago:         baseConPago,
+    costoEntrega:        costoE,
+    totalFinal:          totalFinal
+  };
+}
+
+/**
+ * proximoDescuento(items)
+ * Retorna el próximo nivel alcanzable con su diferencia (monto y productos)
+ * Útil para el mensaje de progreso en el carrito
+ */
+function proximoDescuento(items) {
+  var subtotal = items.reduce(function(s,x){ return s + x[1].precio * x[1].qty; }, 0);
+  var qtyUniq  = items.length;
+  if (!validarProductos(items)) return null; // no mostrar progreso si hay productos inválidos
+  // Encontrar el primer nivel NO alcanzado
+  for (var i = REGLAS_DESCUENTO.length - 1; i >= 0; i--) {
+    var r = REGLAS_DESCUENTO[i];
+    if (subtotal >= r.minTotal && qtyUniq >= r.minProductos) continue; // ya lo tiene
+    if (subtotal < r.minTotal || qtyUniq < r.minProductos) {
+      return {
+        pct:          r.pct,
+        faltanMonto:  Math.max(0, r.minTotal  - subtotal),
+        faltanProds:  Math.max(0, r.minProductos - qtyUniq),
+        label:        r.label
+      };
+    }
+  }
+  return null; // tiene todos los descuentos
+}
+
+// ── Compatibilidad hacia atrás (funciones que ya usaba el código) ─────────
+function getDescEscalonado(t, qty) {
+  // Wrapper para no romper código existente
+  // NOTA: sin acceso al carrito real, no puede validar precios mínimos.
+  // Usar calcularDescuento() cuando sea posible.
+  var q = (qty !== undefined) ? qty : 999;
+  for (var i = 0; i < REGLAS_DESCUENTO.length; i++) {
+    var r = REGLAS_DESCUENTO[i];
+    if (t >= r.minTotal && q >= r.minProductos) {
+      return { pct: r.pct, label: r.label };
+    }
+  }
+  return null;
+}
+function getProxDesc(t, qty) {
+  var q = (qty !== undefined) ? qty : 0;
+  for (var i = REGLAS_DESCUENTO.length - 1; i >= 0; i--) {
+    var r = REGLAS_DESCUENTO[i];
+    if (t < r.minTotal || q < r.minProductos) {
+      return {
+        faltan:      Math.max(0, r.minTotal - t),
+        pct:         r.pct,
+        faltanProds: Math.max(0, r.minProductos - q)
+      };
+    }
+  }
+  return null;
+}
+// ── FIN MOTOR DE REGLAS ───────────────────────────────────────────────────
+
 function fmtARS(n){return "$"+Math.round(n).toLocaleString("es-AR");}
 function getPrecioLista(p){
   const m=p<500?1.4:p<900?1.2:p<1500?0.95:p<3000?0.85:p<5000?0.75:
@@ -863,22 +1029,6 @@ function getPrecioLista(p){
 function getBadge(p,l){return Math.round((1-p/l)*100)}
 
 // ══ DESCUENTOS ═══════════════════════════════════════════════════════════
-function getDescEscalonado(t, qty){
-  // PDF: descuento por volumen requiere AMBAS condiciones (monto Y cantidad)
-  // qty = cantidad de productos distintos en el carrito
-  var q = qty !== undefined ? qty : 999; // si no se pasa qty, solo aplica por monto (legacy)
-  if(t>=300000 && q>=5)return{pct:12,label:"12% OFF — 5+ productos y $300.000+"};
-  if(t>=200000 && q>=4)return{pct:8, label:"8% OFF — 4+ productos y $200.000+"};
-  if(t>=100000 && q>=3)return{pct:5, label:"5% OFF — 3+ productos y $100.000+"};
-  return null;
-}
-function getProxDesc(t, qty){
-  var q = qty !== undefined ? qty : 0;
-  if(t<100000 || q<3)return{faltan:Math.max(0,100000-t),pct:5,faltanProds:Math.max(0,3-q)};
-  if(t<200000 || q<4)return{faltan:Math.max(0,200000-t),pct:8,faltanProds:Math.max(0,4-q)};
-  if(t<300000 || q<5)return{faltan:Math.max(0,300000-t),pct:12,faltanProds:Math.max(0,5-q)};
-  return null;
-}
 function esLamboTech(nombre){
   const n=nombre.toUpperCase();
   return n.includes("LAMBO")||n.includes("LT-")||n.includes("LAMBOTECH");
@@ -1226,19 +1376,34 @@ function updateCart(){
   var me=document.getElementById("cartMinimo");var _gb=document.getElementById("goPayBtn");
   if(vt>=MINIMO){me.className="cart-minimo ok";me.textContent="✅ ¡Mínimo alcanzado! Listo para pedir.";if(_gb)_gb.disabled=false;}
   else{me.className="cart-minimo falta";me.textContent="⚠️ Faltan $"+(MINIMO-vt).toLocaleString("es-AR")+" para el mínimo";if(_gb)_gb.disabled=true;}
-  const de=document.getElementById("cartDescEscalon");
-  var nUniqCart=vi.length; // cantidad de productos distintos (con stock)
-  const da=getDescEscalonado(vt,nUniqCart),dp=getProxDesc(vt,nUniqCart);
-  if(da){var td=Math.round(vt*(1-da.pct/100)/100)*100;de.className="cart-desc-escalon activo";de.textContent="🎉 "+da.label+" → Total: $"+td.toLocaleString("es-AR");}
-  else if(dp&&vt>0){
-    de.className="cart-desc-escalon proximo";
-    var hint='💡';
-    if(dp.faltan>0 && dp.faltanProds>0) hint+=' Agregá $'+dp.faltan.toLocaleString('es-AR')+' más y '+dp.faltanProds+' producto'+( dp.faltanProds>1?'s':'')+' más → '+dp.pct+'% OFF';
-    else if(dp.faltan>0) hint+=' Agregá $'+dp.faltan.toLocaleString('es-AR')+' más → '+dp.pct+'% OFF';
-    else hint+=' Agregá '+(dp.faltanProds)+' producto'+( dp.faltanProds>1?'s':'')+' más → '+dp.pct+'% OFF';
-    de.textContent=hint;
-  }
-  else{de.className="cart-desc-escalon";de.textContent="";}
+  var de=document.getElementById("cartDescEscalon");
+  // Motor de descuentos — incluye validación de precio mínimo por producto
+  var resDesc=calcularDescuento(vi, null);
+  if(resDesc.mensajeBloqueo){
+    // Hay productos con precio < PRECIO_MINIMO_PRODUCTO
+    de.className="cart-desc-escalon bloqueado";
+    de.textContent="⚠️ "+resDesc.mensajeBloqueo;
+  } else if(resDesc.nivelAplicado){
+    // Descuento activo
+    de.className="cart-desc-escalon activo";
+    de.textContent="🎉 "+resDesc.labelVolumen+" → $"+resDesc.baseVolumen.toLocaleString("es-AR");
+  } else if(vt>0){
+    // Mostrar progreso hacia el próximo nivel
+    var prox=proximoDescuento(vi);
+    if(prox){
+      de.className="cart-desc-escalon proximo";
+      var hint="💡";
+      if(prox.faltanMonto>0 && prox.faltanProds>0)
+        hint+=" Agregá $"+prox.faltanMonto.toLocaleString("es-AR")+" y "+prox.faltanProds+" prod. más → "+prox.pct+"% OFF";
+      else if(prox.faltanMonto>0)
+        hint+=" Agregá $"+prox.faltanMonto.toLocaleString("es-AR")+" más → "+prox.pct+"% OFF";
+      else
+        hint+=" Agregá "+prox.faltanProds+" producto"+(prox.faltanProds>1?"s":"")+" más → "+prox.pct+"% OFF";
+      de.textContent=hint;
+    } else {
+      de.className="cart-desc-escalon"; de.textContent="";
+    }
+  } else { de.className="cart-desc-escalon"; de.textContent=""; }
   
   const bar=document.getElementById("cartBar");
   if(count>0){
@@ -1299,31 +1464,28 @@ function getValidItems(){
     const p=allProducts.find(x=>x.codigo===parseInt(cod));return !p||p.stock!=="Sin Stock";
   });
 }
-function buildOrderText(items,total){
-  var nItems=items.reduce(function(s,x){return s+x[1].qty;},0);
-  var nUniq=items.length;
+function buildOrderText(items, total){
   var lineas=items.map(function(x){
     var cod=x[0],i=x[1];
-    return "▪ Cód:"+cod+" "+i.nombre+" x"+i.qty+" = $"+(i.precio*i.qty).toLocaleString("es-AR");
+    return "- Cod:"+cod+" "+i.nombre+" x"+i.qty+" = $"+(i.precio*i.qty).toLocaleString("es-AR");
   }).join("\n");
+  // Usar el motor centralizado para descuentos
+  var res=calcularDescuento(items, null);
+  var resTransf=calcularDescuento(items, 'transferencia');
   var extra="";
-  // Descuento por volumen (con verificación de cantidad según PDF)
-  var de=getDescEscalonado(total, nUniq);
-  var baseConDesc=total;
-  if(de){
-    baseConDesc=Math.round(total*(1-de.pct/100)/100)*100;
-    extra+="\n🎉 "+de.label+": $"+baseConDesc.toLocaleString("es-AR");
+  if(res.mensajeBloqueo){
+    extra+="\nATENCION: "+res.mensajeBloqueo;
+  } else if(res.nivelAplicado){
+    extra+="\n DESCUENTO "+res.labelVolumen+": $"+res.baseVolumen.toLocaleString("es-AR");
+    extra+="\n Pagando el TOTAL por transf/efectivo (5% extra): $"+resTransf.baseConPago.toLocaleString("es-AR");
+  } else {
+    extra+="\n Pagando el TOTAL por transf/efectivo (5% OFF): $"+resTransf.baseConPago.toLocaleString("es-AR");
   }
-  // Descuento transferencia: 5% adicional pagando el TOTAL de una vez (sin threshold de monto)
-  var tTransf=Math.round(baseConDesc*0.95/100)*100;
-  extra+="\n🏦 Pagando el TOTAL por transferencia: $"+tTransf.toLocaleString("es-AR")+" (5% OFF adicional)";
-  var costoE=total>=ENTREGA_GRATIS?0:COSTO_ENTREGA;
-  var totalFinal=total+costoE;
-  extra+="\n🚗 Entrega en Luján: "+(costoE===0?"SIN CARGO":"$"+costoE.toLocaleString("es-AR"));
-  return "Hola! Quiero hacer el siguiente pedido:\n\n"+lineas
+  extra+="\n Entrega en Lujan: "+(res.costoEntrega===0?"SIN CARGO":"$"+res.costoEntrega.toLocaleString("es-AR"));
+  return "Hola! Pedido El Galpon:\n\n"+lineas
     +"\n\nSUBTOTAL: $"+total.toLocaleString("es-AR")
-    +(costoE>0?"\nEntrega: $"+costoE.toLocaleString("es-AR"):"")
-    +"\nTOTAL CON ENTREGA: $"+totalFinal.toLocaleString("es-AR")
+    +(res.costoEntrega>0?"\nEntrega: $"+res.costoEntrega.toLocaleString("es-AR"):"")
+    +"\nTOTAL: $"+(total+res.costoEntrega).toLocaleString("es-AR")
     +extra;
 }
 function sendWhatsApp(){
@@ -1343,8 +1505,9 @@ function pagarMP(){
   const total=items.reduce((s,[,i])=>s+i.precio*i.qty,0);
   const pedidoId=Date.now();
   const descripcion=`Pedido El Galpón — ${items.length} producto${items.length>1?"s":""}`;
-  // Recargo MP 5.2% según PDF (se traslada al cliente)
-  const totalMP=Math.round(total*1.052/100)*100;
+  // Motor de descuentos: calcular base con descuento de volumen, luego aplicar recargo MP
+  var resMP=calcularDescuento(items,null);
+  const totalMP=Math.round(resMP.baseVolumen*1.052/100)*100+resMP.costoEntrega;
   document.getElementById("mpBtn").textContent="⏳ Generando link...";
   document.getElementById("mpBtn").disabled=true;
   // Save pedido to Sheet
@@ -1526,12 +1689,16 @@ function openPaymentView(){
   var subtotal=items.reduce(function(s,x){return s+x[1].precio*x[1].qty;},0);
   var costoE=subtotal>=ENTREGA_GRATIS?0:COSTO_ENTREGA;
   var total=subtotal+costoE;
-  var nUniqPV=items.length; // cantidad de productos únicos
-  var da=getDescEscalonado(subtotal, nUniqPV);
-  var base=da?Math.round(subtotal*(1-da.pct/100)/100)*100:subtotal;
-  var tTransf=Math.round(base*0.95/100)*100+costoE;
-  var tMP=Math.round(base*1.052/100)*100+costoE; // 5.2% recargo MP según PDF
+  // Motor de descuentos centralizado
+  var resCalc=calcularDescuento(items, null); // null = sin método aún
+  var da=resCalc.nivelAplicado ? {pct:resCalc.descuentoVolumenPct, label:resCalc.labelVolumen} : null;
+  var base=resCalc.baseVolumen;
+  var tTransf=Math.round(base*(1-DESCUENTO_PAGO_TOTAL)/100)*100+costoE;
+  var tMP=Math.round(base*1.052/100)*100+costoE;
   var sena=Math.round(subtotal*0.5/100)*100;
+  // Si hay bloqueo por precio mínimo, mostrar advertencia en el badge
+  var bloqueoMsg=resCalc.mensajeBloqueo?'<div class="pay-bloqueo">⚠️ '+resCalc.mensajeBloqueo+'</div>':'';
+  var dBadgeLabel=da?'<div class="pay-desc-badge">'+da.pct+'% OFF por volumen aplicado</div>':bloqueoMsg;
   var entTxt=costoE===0?'<span style="color:var(--verde);font-weight:bold">Entrega en Luján: SIN CARGO ✅</span>':'Entrega: <strong>$'+costoE.toLocaleString("es-AR")+'</strong>';
   var dBadge=da?'<div class="pay-desc-badge">'+da.pct+'% OFF por volumen aplicado</div>':'';
   var h='<div class="pay-resumen">'+dBadge+'<div><div class="pay-total-lbl">Total del pedido</div><div class="pay-total-val">$'+total.toLocaleString("es-AR")+'</div></div></div>';
