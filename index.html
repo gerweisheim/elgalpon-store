@@ -213,7 +213,7 @@ header{background:var(--negro);padding:0 24px;position:fixed;top:var(--bar-h);le
 
 
 /* ── CARRITO DRAWER ────────────────────────────────── */
-.cart-drawer{position:fixed;top:0;right:-440px;width:420px;max-width:100vw;height:100vh;background:var(--card-bg);box-shadow:-4px 0 24px rgba(0,0,0,.18);z-index:201;display:flex;flex-direction:column;transition:right .28s cubic-bezier(.4,0,.2,1);overflow:hidden}
+.cart-drawer{position:fixed;top:0;right:-440px;width:420px;max-width:100vw;height:100vh;background:var(--card-bg);box-shadow:-4px 0 24px rgba(0,0,0,.18);z-index:201;display:flex;flex-direction:column;transition:right .28s cubic-bezier(.4,0,.2,1)}
 .cart-drawer.open{right:0}
 .cart-header{background:var(--negro);color:var(--blanco);padding:16px 20px;display:flex;align-items:center;justify-content:space-between}
 .cart-header h2{font-size:16px}
@@ -479,12 +479,12 @@ footer{background:var(--negro);color:var(--gris-m);text-align:center;padding:16p
 .go-pay-btn:disabled{background:#aaa;cursor:not-allowed}
 .go-pay-btn:not(:disabled):hover{background:var(--naranja2)}
 /* Payment view */
-.payment-view{display:none;flex-direction:column;position:absolute;top:0;left:0;right:0;bottom:0;height:100%;background:var(--card-bg);z-index:10;overflow:hidden}
-.payment-hdr{flex-shrink:0;background:var(--negro);color:#fff;padding:14px 18px;display:flex;align-items:center;gap:12px}
+.payment-view{display:none;flex-direction:column;position:absolute;top:0;left:0;right:0;bottom:0;background:var(--card-bg);z-index:10}
+.payment-hdr{flex-shrink:0;background:var(--negro);color:#fff;padding:14px 18px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:1}
 .payment-hdr h3{font-size:15px;font-weight:bold;flex:1;margin:0}
 .payment-back{background:none;border:none;color:var(--naranja);font-size:13px;
   font-weight:bold;cursor:pointer}
-.payment-body{flex:1;min-height:0;padding:12px 12px 64px;display:flex;flex-direction:column;gap:10px;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;scroll-padding-bottom:24px}
+.payment-body{flex:1;min-height:0;padding:12px 14px 80px;display:flex;flex-direction:column;gap:12px;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
 .pay-resumen{background:var(--gris-l);border-radius:10px;padding:12px 14px;
   display:flex;justify-content:space-between;align-items:center}
 .pay-total-lbl{font-size:12px;color:var(--gris-m)}
@@ -530,6 +530,8 @@ footer{background:var(--negro);color:var(--gris-m);text-align:center;padding:16p
 .pay-desc-badge{font-size:10px;background:var(--verde);color:#fff;padding:2px 8px;border-radius:20px;font-weight:bold;margin-bottom:6px;display:inline-block}
 .pay-bloqueo{background:#FFF3EE;border-left:3px solid var(--rojo);padding:6px 10px;font-size:11px;color:#B03A2E;border-radius:0 6px 6px 0;margin-bottom:4px}
 .cart-desc-escalon.bloqueado{background:#FFF3EE;color:#B03A2E;display:block;font-size:11px}
+
+.pay-mp-note{font-size:10px;text-align:center;color:var(--gris-m);margin-top:6px;line-height:1.4}
 </style>
 </head>
 <body>
@@ -948,6 +950,65 @@ function proximoDescuento(items){
   return null;
 }
 // ── FIN MOTOR ─────────────────────────────────────────────────────────────
+
+// ── MOTOR DE MÉTODOS DE PAGO ─────────────────────────────────────────────
+// Para agregar/quitar/modificar un método: solo tocar este array.
+const METODOS_PAGO = [
+  {
+    id:           'transferencia',
+    nombre:       'Transferencia bancaria',
+    emoji:        '🏦',
+    subtitulo:    'Sin recargos · 5% OFF pagando el total de una vez',
+    tipo:         'manual',          // 'manual' = botón WA | 'online' = botón MP
+    descuento:    0.05,              // 5% adicional sobre base con descuento vol.
+    recargo:      0,
+    requiereSenia:true,
+    badge:        '⭐ MEJOR OPCIÓN',
+    badgeClass:   'badge-verde',
+    mostrar:      true
+  },
+  {
+    id:           'efectivo',
+    nombre:       'Efectivo',
+    emoji:        '💵',
+    subtitulo:    'Sin recargos · requiere 50% de seña',
+    tipo:         'manual',
+    descuento:    0.05,
+    recargo:      0,
+    requiereSenia:true,
+    badge:        'Sin recargo',
+    badgeClass:   '',
+    mostrar:      true
+  },
+  {
+    id:           'mercadopago',
+    nombre:       'Mercado Pago',
+    emoji:        '💳',
+    subtitulo:    'Crédito, débito o saldo MP · tiene recargo',
+    tipo:         'online',
+    descuento:    0,
+    recargo:      0.052,             // 5.2% recargo sobre base con descuento vol.
+    requiereSenia:false,
+    badge:        'Con recargo',
+    badgeClass:   'badge-rojo',
+    mostrar:      true
+  }
+];
+
+/**
+ * calcularTotalMetodo(base, costoEntrega, metodo)
+ * base         = subtotal ya con descuento de volumen aplicado
+ * costoEntrega = 0 o COSTO_ENTREGA
+ * metodo       = uno de los objetos en METODOS_PAGO
+ * Devuelve el total final que el cliente paga con ese método.
+ */
+function calcularTotalMetodo(base, costoEntrega, metodo){
+  var monto = base;
+  if(metodo.descuento > 0) monto = Math.round(monto*(1-metodo.descuento)/100)*100;
+  if(metodo.recargo  > 0) monto = Math.round(monto*(1+metodo.recargo)/100)*100;
+  return monto + costoEntrega;
+}
+// ── FIN MOTOR MÉTODOS DE PAGO ─────────────────────────────────────────────
 
 function fmtARS(n){return '$'+Math.round(n).toLocaleString('es-AR');}
 
@@ -1449,90 +1510,103 @@ function closeConfirm(){
 // ── PAYMENT ─────────────────────────────────────────────────────────────
 
 function openPaymentView(){
-  var items=getValidItems();
-  if(!items.length)return;
+  var items = getValidItems();
+  if(!items.length) return;
 
-  // ── Motor centralizado ─────────────────────────────────────────────
-  var res     = calcularDescuento(items, null);
-  var subtotal= res.subtotal;
-  var costoE  = res.costoEntrega;
-  var base    = res.baseVolumen;     // subtotal CON descuento de volumen
-  var ahorro  = subtotal - base;     // ahorro por volumen
-  var tTransf = Math.round(base*(1-DESCUENTO_PAGO_TOTAL)/100)*100 + costoE;
-  var tMP     = Math.round(base*1.052/100)*100 + costoE;
-  var sena    = Math.round(base*0.5/100)*100;   // 50% sobre BASE (ya con descuento)
-  var da      = res.nivelAplicado ? {pct:res.descuentoVolumenPct, label:res.labelVolumen} : null;
+  // Calcular base con motor de descuentos
+  var res      = calcularDescuento(items, null);
+  var subtotal = res.subtotal;
+  var costoE   = res.costoEntrega;
+  var base     = res.baseVolumen;   // subtotal ya con descuento de volumen
+  var ahorro   = subtotal - base;
+  var da       = res.nivelAplicado ? {pct:res.descuentoVolumenPct, label:res.labelVolumen} : null;
+  var totalConEntrega = base + costoE;
 
   // ── Resumen de totales ─────────────────────────────────────────────
-  var totalConEntrega = base + costoE;
-  var entTxt = costoE===0
-    ? '<span style="color:var(--verde);font-weight:bold">Entrega en Luján: SIN CARGO ✅</span>'
-    : 'Entrega: <strong>$'+costoE.toLocaleString("es-AR")+'</strong>';
-
-  // Badge de descuento
   var badgeHtml = '';
   if(res.mensajeBloqueo){
     badgeHtml = '<div class="pay-bloqueo">⚠️ '+res.mensajeBloqueo+'</div>';
-  } else if(da){
-    badgeHtml = '<div class="pay-desc-badge">'+da.pct+'% OFF por volumen — Ahorrás $'+ahorro.toLocaleString("es-AR")+'</div>';
+  } else if(da && ahorro>0){
+    badgeHtml = '<div class="pay-desc-badge">'+da.pct+'% OFF por volumen — Ahorrás $'+ahorro.toLocaleString('es-AR')+'</div>';
   }
 
-  // Construcción del resumen (con o sin descuento)
   var resumenHtml = '<div class="pay-resumen">';
   if(da && ahorro>0){
     resumenHtml += badgeHtml;
     resumenHtml += '<div class="pay-resumen-rows">';
-    resumenHtml += '<div class="pay-resumen-row"><span>Subtotal</span><span>$'+subtotal.toLocaleString("es-AR")+'</span></div>';
-    resumenHtml += '<div class="pay-resumen-row verde-row"><span>'+da.label+'</span><span class="verde-bold">-$'+ahorro.toLocaleString("es-AR")+'</span></div>';
-    if(costoE>0) resumenHtml += '<div class="pay-resumen-row"><span>Entrega</span><span>$'+costoE.toLocaleString("es-AR")+'</span></div>';
-    resumenHtml += '<div class="pay-resumen-row pay-total-final-row"><span>Total</span><span class="pay-total-val">$'+totalConEntrega.toLocaleString("es-AR")+'</span></div>';
+    resumenHtml += '<div class="pay-resumen-row"><span>Subtotal</span><span>$'+subtotal.toLocaleString('es-AR')+'</span></div>';
+    resumenHtml += '<div class="pay-resumen-row verde-row"><span>'+da.label+'</span><span class="verde-bold">-$'+ahorro.toLocaleString('es-AR')+'</span></div>';
+    if(costoE>0) resumenHtml += '<div class="pay-resumen-row"><span>Entrega</span><span>$'+costoE.toLocaleString('es-AR')+'</span></div>';
+    resumenHtml += '<div class="pay-resumen-row pay-total-final-row"><span>Total</span><span class="pay-total-val">$'+totalConEntrega.toLocaleString('es-AR')+'</span></div>';
     resumenHtml += '</div>';
   } else {
     resumenHtml += badgeHtml;
     resumenHtml += '<div><div class="pay-total-lbl">Total del pedido</div>';
-    resumenHtml += '<div class="pay-total-val">$'+totalConEntrega.toLocaleString("es-AR")+'</div></div>';
+    resumenHtml += '<div class="pay-total-val">$'+totalConEntrega.toLocaleString('es-AR')+'</div></div>';
   }
   resumenHtml += '</div>';
 
-  // ── Construir pantalla de métodos ──────────────────────────────────
-  var h = resumenHtml;
+  // ── Render dinámico desde METODOS_PAGO ────────────────────────────
+  var metodosHtml = '';
+  METODOS_PAGO.forEach(function(m){
+    if(!m.mostrar) return;
 
-  // Transferencia
-  h+='<div class="pay-method best"><div class="pm-hdr"><div class="pm-ico">🏦</div><div class="pm-info"><div class="pm-name">Transferencia bancaria</div><div class="pm-sub">Sin recargos · 5% OFF pagando el total de una vez</div></div><div class="pm-badge badge-verde">⭐ MEJOR OPCIÓN</div></div>';
-  h+='<div class="pm-body">';
-  h+='<div class="pd-row"><span>Seña mínima (50%)</span><span class="naranja">$'+sena.toLocaleString("es-AR")+'</span></div>';
-  h+='<div class="pd-row"><span>Saldo al recibir</span><span>$'+(base-sena).toLocaleString("es-AR")+'</span></div>';
-  h+='<div class="pd-row"><span>Recargo</span><span class="verde">Sin recargo</span></div>';
-  h+='<div class="pd-row"><span>5% OFF pagando todo de una vez</span><span class="verde">Acumulable con vol.</span></div>';
-  h+='<div class="pd-row total-row"><span>Total pagando de una vez</span><span class="verde" style="font-size:16px;font-weight:900">$'+tTransf.toLocaleString("es-AR")+'</span></div>';
-  h+='<div class="pd-row">'+entTxt+'</div>';
-  h+='<button class="pay-btn-wa" onclick="sendWhatsApp()">📲 Coordinar por WhatsApp</button></div></div>';
+    var totalMetodo = calcularTotalMetodo(base, costoE, m);
+    var sena = m.requiereSenia ? Math.round(base*0.5/100)*100 : 0;
+    var saldo = base - sena;
+    var entTxt = costoE===0
+      ? '<span class="verde-bold">Entrega en Luján: SIN CARGO ✅</span>'
+      : 'Entrega: <strong>$'+costoE.toLocaleString('es-AR')+'</strong>';
+    var isBest = m.badgeClass==='badge-verde';
 
-  // Efectivo
-  h+='<div class="pay-method"><div class="pm-hdr"><div class="pm-ico">💵</div><div class="pm-info"><div class="pm-name">Efectivo</div><div class="pm-sub">Sin recargos · requiere 50% de seña</div></div><div class="pm-badge">Sin recargo</div></div>';
-  h+='<div class="pm-body">';
-  h+='<div class="pd-row"><span>Seña mínima (50%)</span><span class="naranja">$'+sena.toLocaleString("es-AR")+'</span></div>';
-  h+='<div class="pd-row"><span>Saldo al recibir en Luján</span><span>$'+(base-sena).toLocaleString("es-AR")+'</span></div>';
-  h+='<div class="pd-row"><span>5% OFF pagando todo de una vez</span><span class="verde">Acumulable con vol.</span></div>';
-  h+='<div class="pd-row total-row"><span>Total pagando de una vez</span><span class="verde" style="font-size:16px;font-weight:900">$'+tTransf.toLocaleString("es-AR")+'</span></div>';
-  h+='<div class="pd-row">'+entTxt+'</div>';
-  h+='<button class="pay-btn-wa" onclick="sendWhatsApp()">📲 Coordinar por WhatsApp</button></div></div>';
+    // Header del método
+    metodosHtml += '<div class="pay-method'+(isBest?' best':'')+(m.id==='mercadopago'?' mp':'')+'">'+
+      '<div class="pm-hdr">'+
+        '<div class="pm-ico">'+m.emoji+'</div>'+
+        '<div class="pm-info">'+
+          '<div class="pm-name">'+m.nombre+'</div>'+
+          '<div class="pm-sub">'+m.subtitulo+'</div>'+
+        '</div>'+
+        (m.badge ? '<div class="pm-badge '+m.badgeClass+'">'+m.badge+'</div>' : '')+
+      '</div>';
 
-  // Mercado Pago
-  h+='<div class="pay-method mp"><div class="pm-hdr"><div class="pm-ico">💳</div><div class="pm-info"><div class="pm-name">Mercado Pago</div><div class="pm-sub">Crédito, débito o saldo MP · tiene recargo</div></div><div class="pm-badge badge-rojo">Con recargo</div></div>';
-  h+='<div class="pm-body">';
-  h+='<div class="pd-row"><span>Débito</span><span class="rojo">+1.5%</span></div>';
-  h+='<div class="pd-row"><span>Crédito 1 pago</span><span class="rojo">+5.2%</span></div>';
-  h+='<div class="pd-row"><span>Cuotas</span><span class="rojo">+5.2% + intereses del banco</span></div>';
-  h+='<div class="pd-row total-row"><span>Total estimado</span><span style="font-size:15px;font-weight:900">$'+tMP.toLocaleString("es-AR")+'</span></div>';
-  h+='<div class="pd-row">'+entTxt+'</div>';
-  h+='<div class="pay-info-box">💡 <strong>Cuotas:</strong> Vos elegís cuántas cuotas en la pantalla de MP. El recargo lo fija tu banco/tarjeta.</div>';
-  h+='<button class="pay-btn-mp" id="mpBtn" onclick="pagarMP()">💳 Pagar con Mercado Pago</button>';
-  h+='<div style="font-size:10px;text-align:center;color:var(--gris-m);margin-top:6px">Al confirmar se abrirá la pantalla de pago de MP.<br>También recibirás un resumen por WhatsApp.</div>';
-  h+='</div></div>';
+    // Cuerpo del método
+    metodosHtml += '<div class="pm-body">';
 
-  document.getElementById("paymentBody").innerHTML=h;
-  document.getElementById("paymentView").style.display="flex";
+    if(m.requiereSenia){
+      metodosHtml +=
+        '<div class="pd-row"><span>Seña mínima (50%)</span><span class="naranja">$'+sena.toLocaleString('es-AR')+'</span></div>'+
+        '<div class="pd-row"><span>Saldo al recibir en Luján</span><span>$'+saldo.toLocaleString('es-AR')+'</span></div>'+
+        '<div class="pd-row"><span>Recargo</span><span class="verde">Sin recargo</span></div>'+
+        '<div class="pd-row"><span>5% OFF pagando el total de una vez</span><span class="verde">Acumulable con vol.</span></div>'+
+        '<div class="pd-row total-row"><span>Total pagando de una vez</span><span class="verde" style="font-size:16px;font-weight:900">$'+totalMetodo.toLocaleString('es-AR')+'</span></div>';
+    } else {
+      // MP — mostrar desglose de recargos
+      metodosHtml +=
+        '<div class="pd-row"><span>Débito</span><span class="rojo">+1.5%</span></div>'+
+        '<div class="pd-row"><span>Crédito 1 pago</span><span class="rojo">+5.2%</span></div>'+
+        '<div class="pd-row"><span>Cuotas</span><span class="rojo">+5.2% + intereses del banco</span></div>'+
+        '<div class="pd-row total-row"><span>Total estimado</span><span style="font-size:15px;font-weight:900">$'+totalMetodo.toLocaleString('es-AR')+'</span></div>';
+    }
+
+    metodosHtml += '<div class="pd-row">'+entTxt+'</div>';
+
+    // Botón de acción según tipo
+    if(m.tipo==='manual'){
+      metodosHtml += '<button class="pay-btn-wa" onclick="sendWhatsAppMetodo(\''+m.id+'\')">'+
+        '📲 Confirmar pedido por WhatsApp</button>';
+    } else {
+      metodosHtml +=
+        '<div class="pay-info-box">💡 <strong>Cuotas:</strong> Vos elegís cuántas cuotas en la pantalla de MP. El recargo lo fija tu banco/tarjeta.</div>'+
+        '<button class="pay-btn-mp" id="mpBtn" onclick="pagarMP()">💳 Pagar con Mercado Pago</button>'+
+        '<p class="pay-mp-note">Al confirmar se abrirá la pantalla de MP. También recibirás un resumen por WhatsApp.</p>';
+    }
+
+    metodosHtml += '</div></div>'; // pm-body + pay-method
+  });
+
+  document.getElementById('paymentBody').innerHTML = resumenHtml + metodosHtml;
+  document.getElementById('paymentView').style.display = 'flex';
 }
 function closePaymentView(){
   document.getElementById("paymentView").style.display="none";
@@ -1806,46 +1880,47 @@ function toggleDisponibles(){
   if(btn){btn.textContent=soloDisponibles?"📦 Solo disponibles":"📦 Ver todos";btn.classList.toggle("active",soloDisponibles);}
   renderProducts();
 }
-window.onload=()=>{
-  // Restore settings
-  const sc=localStorage.getItem("galpon_product_count");
-  if(sc)document.getElementById("landingCount").textContent="+"+sc;
-  setColumns(parseInt(localStorage.getItem("galpon_cols")||"3"));
-  if((localStorage.getItem("galpon_theme")||"light")==="dark")applyTheme("dark");
 
-  // Debounced search
-  document.getElementById("searchInput").addEventListener("input",e=>{
-    clearTimeout(searchDebounce);
-    searchDebounce=setTimeout(()=>{
-      searchTerm=e.target.value.trim().toLowerCase();
-      renderProducts();
-    },300);
-  });
-
-  // Close cat dropdown on outside click
-  document.addEventListener("click",e=>{
-    const dd=document.getElementById("catDropdown");
-    if(dd&&!dd.contains(e.target)){
-      document.getElementById("catBtn").classList.remove("open");
-      document.getElementById("catMenu").classList.remove("open");
-    }
-  });
-
-  // Swipe en modal
-  const ov=document.getElementById("modalOverlay");
-  ov.addEventListener("touchstart",e=>{touchStartX=e.touches[0].clientX},{passive:true});
-  ov.addEventListener("touchend",e=>{
-    const dx=e.changedTouches[0].clientX-touchStartX;
-    if(Math.abs(dx)>60)modalNav(dx<0?1:-1);
-  },{passive:true});
-
-  initCardObserver();
-  initScrollBehavior();
-  loadHistory();
-  checkURLStatus();
-
-  window.addEventListener("resize",fixFilterBarPosition,{passive:true});
-};
+/**
+ * sendWhatsAppMetodo(metodoPagoId)
+ * Versión del sendWhatsApp que incluye el método de pago en el mensaje
+ * y calcula el total correcto según el método elegido.
+ */
+function sendWhatsAppMetodo(metodoPagoId){
+  var items=getValidItems();
+  if(!items.length)return;
+  var metodo=METODOS_PAGO.find(function(m){return m.id===metodoPagoId;});
+  if(!metodo)metodo=METODOS_PAGO[0];
+  var res=calcularDescuento(items,null);
+  var base=res.baseVolumen;
+  var costoE=res.costoEntrega;
+  var total=calcularTotalMetodo(base,costoE,metodo);
+  var sena=metodo.requiereSenia?Math.round(base*0.5/100)*100:0;
+  var pedidoId="WA-"+Date.now();
+  var pedidoData={
+    items:items.map(function(x){return{codigo:x[0],nombre:x[1].nombre,precio:x[1].precio,qty:x[1].qty};}),
+    metodoPago:metodo.nombre,total:total,notas:"ID: "+pedidoId
+  };
+  (function(pd){
+    var s=document.createElement("script");
+    s.src=API_URL+"?action=guardarPedido&data="+encodeURIComponent(JSON.stringify(pd))+"&r="+Date.now();
+    document.head.appendChild(s);
+  })(pedidoData);
+  var lineas=items.map(function(x){
+    return "- "+x[1].nombre+" x"+x[1].qty+" = $"+(x[1].precio*x[1].qty).toLocaleString("es-AR");
+  }).join("\n");
+  var msg="Hola! Pedido El Galpon:\n\n"+lineas+"\n\n";
+  msg+="Subtotal: $"+res.subtotal.toLocaleString("es-AR")+"\n";
+  if(res.nivelAplicado)msg+=res.labelVolumen+": $"+base.toLocaleString("es-AR")+"\n";
+  msg+="Entrega: "+(costoE===0?"SIN CARGO":"$"+costoE.toLocaleString("es-AR"))+"\n";
+  msg+="Metodo: "+metodo.nombre+"\n";
+  msg+="TOTAL: $"+total.toLocaleString("es-AR")+"\n";
+  if(sena>0)msg+="Sena para confirmar (50%): $"+sena.toLocaleString("es-AR")+"\n";
+  msg+="\nID: "+pedidoId;
+  window.open("https://wa.me/"+WA_NUMBER+"?text="+encodeURIComponent(msg),"_blank");
+  saveHistory(items,total);
+  showConfirm("pedido");
+}
 </script>
 </body>
 </html>
