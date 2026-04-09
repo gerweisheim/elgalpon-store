@@ -84,9 +84,9 @@ header{background:var(--negro);padding:0 24px;position:fixed;top:var(--bar-h);le
 .cat-menu-item:hover{background:var(--gris-l);color:var(--naranja)}
 .cat-menu-item.active{color:var(--naranja);background:var(--gris-l)}
 
-.search-bar{flex:1;max-width:440px;display:flex;align-items:center;background:#222;border:2px solid #333;border-radius:8px;overflow:hidden;transition:border-color .2s}
-.search-bar:focus-within{border-color:var(--naranja)}
-.search-bar input{flex:1;background:transparent;border:none;outline:none;color:var(--blanco);font-size:14px;padding:8px 12px}
+.search-bar{flex:1;max-width:580px;display:flex;align-items:center;background:rgba(255,255,255,.1);border:1.5px solid rgba(255,255,255,.3);border-radius:24px;overflow:hidden;transition:border-color .2s,box-shadow .2s}
+.search-bar:focus-within{border-color:var(--naranja);background:rgba(255,255,255,.15);box-shadow:0 0 0 3px rgba(255,107,53,.2)}
+.search-bar input{flex:1;background:transparent;border:none;outline:none;color:var(--blanco);font-size:14px;padding:10px 14px}
 .search-bar input::placeholder{color:var(--gris-m)}
 .search-icon{padding:0 10px;color:var(--gris-m)}
 .header-actions{display:flex;gap:8px;align-items:center;margin-left:auto}
@@ -400,67 +400,110 @@ footer{background:var(--negro);color:var(--gris-m);text-align:center;padding:16p
 /* ═════════════════════════════════════════════════════════════
    2. MOBILE — max-width: 600px
 ══════════════════════════════════════════════════════════════ */
+
+.search-toggle-btn{display:none}
 @media(max-width:600px){
-  :root{--bar-h:36px}
-  #landing{padding:32px 20px;padding-top:calc(60px + var(--bar-h))}
-  .landing-logo-img{width:170px}
-  .landing-stats{gap:20px}.stat-num{font-size:26px}
-  .landing-btn{font-size:16px;padding:14px 32px}
-  .mv-grid-landing{grid-template-columns:repeat(2,1fr)}
-  .mv-landing{max-width:100%}
-
+  /* ── BASE STRUCTURE ─────────────────────────────────── */
   header{padding:0 12px}
-  .header-inner{height:auto;flex-wrap:wrap;padding:8px 0 0;gap:6px}
+  .header-inner{
+    height:auto;flex-wrap:wrap;
+    padding:8px 12px 0;gap:6px;
+    align-items:center
+  }
+
+  /* Row 1: Logo (order:1) + Actions (order:2) */
+  .header-logo-text{order:1;font-size:15px}
   .header-logo-img{order:1;height:30px;flex-shrink:0}
-  .header-logo-text{order:1}
-  .cat-dropdown{display:none}
-  .how-btn{display:none}
-  .header-actions{order:2;margin-left:auto;display:flex;gap:6px}
+  .cat-dropdown{display:none!important}
 
-  /* Mobile search bar: full width row 2 */
-  .search-bar{order:3;width:100%;max-width:100%;min-height:40px}
+  /* header-actions: only cart + search-toggle on mobile */
+  .header-actions{order:2;margin-left:auto;display:flex;gap:8px;align-items:center}
 
-  /* Mobile icons row: row 3, collapses on scroll */
-  .header-icons-row{display:flex;order:4}
-  .header-icons-row .social-icon{width:30px;height:30px}
-  .header-icons-row .theme-btn{width:30px;height:30px;font-size:14px}
-  .header-icons-row .how-btn-mobile{background:#222;border:1.5px solid #333;color:var(--blanco);border-radius:8px;padding:5px 10px;font-size:11px;font-weight:bold;cursor:pointer;white-space:nowrap;transition:border-color .2s,color .2s;flex-shrink:0}
-  .header-icons-row .how-btn-mobile:hover{border-color:var(--naranja);color:var(--naranja)}
+  /* Hide desktop-only icons inside header-actions on mobile */
+  #desktopIG,
+  #desktopFB,
+  #themeBtn,
+  #desktopHow{display:none!important}
 
-  /* Filter bar: positioned after header dynamically via JS */
+  /* Cart button: compact on mobile */
+  .cart-btn{
+    padding:6px 10px;font-size:13px;
+    border-radius:8px;white-space:nowrap
+  }
+
+  /* Search toggle button: visible on mobile */
+  .search-toggle-btn{
+    display:flex!important;
+    background:var(--naranja);color:#fff;
+    border:none;border-radius:8px;
+    padding:7px 10px;font-size:16px;
+    cursor:pointer;flex-shrink:0;
+    align-items:center;justify-content:center
+  }
+
+  /* Row 2: Search bar — full width, always visible, ML-style */
+  .search-bar{
+    order:3;
+    width:100%;max-width:100%;
+    min-height:44px;
+    background:rgba(255,255,255,.1);
+    border:1.5px solid rgba(255,255,255,.3);
+    border-radius:22px;
+    display:flex!important;
+    align-items:center;
+    margin-bottom:4px
+  }
+  .search-bar input{
+    font-size:16px;
+    padding:10px 14px
+  }
+
+  /* Row 3: mobileIconsRow — IG, FB, Moon, Cómo comprar */
+  .header-icons-row{
+    display:flex;order:4;
+    align-items:center;gap:8px;
+    width:100%;padding:4px 0 8px;
+    flex-wrap:nowrap
+  }
+  .header-icons-row.collapsed{display:none!important}
+  .header-icons-row .social-icon{width:32px;height:32px}
+  .header-icons-row .theme-btn{width:32px;height:32px;font-size:14px}
+  .header-icons-row .how-btn-mobile{
+    background:var(--gris-l);border:1.5px solid var(--border);
+    color:var(--text);border-radius:8px;
+    padding:5px 12px;font-size:12px;font-weight:bold;
+    cursor:pointer;white-space:nowrap
+  }
+  .header-icons-row .how-btn-mobile:hover{
+    border-color:var(--naranja);color:var(--naranja)
+  }
+
+  /* ── TOOLBAR ─────────────────────────────────────────── */
   .filters-bar{padding:0 12px}
-  .filter-chip{font-size:11px;padding:4px 10px}
+  .toolbar{flex-wrap:wrap;gap:8px}
+  .toolbar-group{flex-shrink:0}
 
-  #tienda{padding-top:178px}
-  .toolbar{padding:0 12px;gap:8px}
-  .results-info{width:100%;text-align:left;margin-left:0}
-  .skeleton-grid{padding:0 12px;grid-template-columns:repeat(2,1fr)}
-  .grid{padding:0 12px;gap:10px;grid-template-columns:repeat(2,1fr)!important;margin-bottom:140px}
-  .grid.cols-1{grid-template-columns:1fr!important}
-  .grid.cols-1 .card{flex-direction:column}
-  .grid.cols-1 .card-img,.grid.cols-1 .card-img-placeholder{width:100%;height:200px}
-  .card-img,.card-img-placeholder{height:140px}
-  .card-nombre{font-size:12px}.card-precio{font-size:17px}
+  /* Hide v3 and v4 view buttons on mobile */
+  #v3,#v4{display:none!important}
+
+  /* ── GRID ────────────────────────────────────────────── */
+  .grid{padding:0 10px;gap:10px;grid-template-columns:repeat(2,1fr)!important;margin-bottom:100px}
+  .card-img,.card-img-placeholder{height:130px}
+  .card-nombre{font-size:12px}
+  .card-precio{font-size:17px}
   .card-desc{-webkit-line-clamp:2;font-size:10px}
   .card-body{padding:8px 10px 10px;gap:5px}
-  .qty-input{width:44px;font-size:13px}.add-btn{font-size:11px;padding:7px 6px}
-  .cart-bar{padding:10px 16px}.cart-bar-total{font-size:16px}.cart-bar-btn{padding:8px 14px;font-size:13px}
-  .cart-drawer{width:100vw}
-  .modal-overlay,.how-overlay,.sug-overlay{padding:0}
-  .modal,.how-modal,.sug-modal{border-radius:0;min-height:100vh}
-  .modal-top{flex-direction:column}.modal-img-wrap{width:100%;min-height:220px}
-  .modal-nombre{font-size:16px}.modal-precio{font-size:26px}
-  .related-grid{grid-template-columns:repeat(2,1fr)}
-  .how-pay-grid{grid-template-columns:1fr}
-  .mv-section{padding:0 12px}
-  .sug-btn-float{bottom:90px;right:12px;font-size:12px;padding:9px 14px}
-  footer{padding-bottom:80px}
-  .anuncio-full{display:none!important}.anuncio-mobile{display:flex!important}
-}
 
-/* ═════════════════════════════════════════════════════════════
-   3. DESKTOP — min-width: 601px
-══════════════════════════════════════════════════════════════ */
+  /* ── CART ────────────────────────────────────────────── */
+  .cart-drawer{width:100vw}
+  .cart-items{-webkit-overflow-scrolling:touch}
+
+  /* ── TOAST ───────────────────────────────────────────── */
+  .toast{bottom:72px;max-width:92vw;font-size:12px;padding:10px 16px}
+
+  /* ── PAYMENT ─────────────────────────────────────────── */
+  .payment-view{-webkit-overflow-scrolling:touch}
+}
 @media(min-width:601px){
   .anuncio-mobile{display:none!important}.anuncio-full{display:flex!important}
   .header-icons-row{display:none!important}
@@ -600,7 +643,7 @@ footer{background:var(--negro);color:var(--gris-m);text-align:center;padding:16p
       </a>
       <button class="theme-btn" onclick="toggleTheme()" id="themeBtn" title="Modo oscuro/claro" id="desktopTheme">🌙</button>
       <button class="how-btn" onclick="openHow()" id="desktopHow">❓ ¿Cómo comprar?</button>
-      <button class="cart-btn" onclick="toggleCart()">🛒 Carrito <span class="cart-count" id="cartCount">0</span></button>
+      <button class="search-toggle-btn" onclick="toggleMobileSearch()" title="Buscar" aria-label="Buscar">🔍</button><button class="cart-btn" onclick="toggleCart()">🛒 <span class="cart-count" id="cartCount">0</span></button>
     </div>
   </div>
   <!-- Mobile icons row (collapses on scroll) -->
@@ -859,9 +902,10 @@ footer{background:var(--negro);color:var(--gris-m);text-align:center;padding:16p
   El Galpón &nbsp;·&nbsp; Precios en ARS &nbsp;·&nbsp; Stock sujeto a disponibilidad &nbsp;·&nbsp; Pedidos por WhatsApp
 </footer>
 
-<script>
+
 // ── CONSTANTS ────
 // ── CONSTANTS ────────────────────────────────────────────────────────────
+<script>
 const MINIMO         = 40000;
 const ENTREGA_GRATIS = 80000;
 const COSTO_ENTREGA  = 9000;
@@ -1088,7 +1132,7 @@ function checkURLStatus(){
 
 function loadProducts(){
   // Clear stale cache first
-  var _cv="ghp1";
+  var _cv="ghp5";
   if(sessionStorage.getItem("galpon_v")!==_cv){
     sessionStorage.clear();
     sessionStorage.setItem("galpon_v",_cv);
@@ -1115,7 +1159,7 @@ function loadProducts(){
       delete window[_cb];
       document.getElementById('skeletonGrid').style.display='none';
       document.getElementById('productGrid').style.display='grid';
-      document.getElementById('productGrid').innerHTML='<div class="empty">Tiempo de espera agotado. Verificá que el Code.gs esté implementado con acceso a "Cualquier persona".</div>';
+      document.getElementById('productGrid').innerHTML='<div class="empty">⏱️ Tiempo de espera agotado.<br><br><strong>Para resolver esto:</strong><br>1. Abrí tu Apps Script<br>2. Implementar → Nueva implementación<br>3. Acceso: <strong>Cualquier persona</strong><br><br><button onclick="loadProducts()" style="background:var(--naranja);color:#fff;border:none;border-radius:8px;padding:10px 20px;font-size:13px;font-weight:bold;cursor:pointer">🔄 Reintentar</button></div>';
     }
   },12000);
   _s.onerror=function(){
@@ -1921,6 +1965,14 @@ function sendWhatsAppMetodo(metodoPagoId){
   saveHistory(items,total);
   showConfirm("pedido");
 }
+function toggleMobileSearch(){
+  var bar=document.querySelector(".search-bar");
+  if(!bar)return;
+  var inp=document.getElementById("searchInput");
+  // On mobile the bar is always visible — just focus the input
+  if(inp)inp.focus();
+}
+
 </script>
 </body>
 </html>
