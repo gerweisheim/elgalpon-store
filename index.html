@@ -1,12 +1,11 @@
-<!DOCTYPE html>
+;transition:back<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>El Galpón — Tienda Online</title>
 <link rel="preconnect" href="https://protrade.com.ar">
-<link rel="dns-prefetch" href="https://protrade.com.ar">
-<link rel="icon" id="favicon-link" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='12' fill='%23111111'/><polygon points='5,56 50,12 95,56' fill='%23FF6B35'/><rect x='12' y='56' width='76' height='32' rx='3' fill='%23FF6B35'/><text x='50' y='78' font-size='22' font-weight='900' font-family='Arial' fill='white' text-anchor='middle'>GALPÓN</text></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='12' fill='%23111111'/><polygon points='5,56 50,12 95,56' fill='%23FF6B35'/><rect x='12' y='56' width='76' height='32' rx='3' fill='%23FF6B35'/><text x='50' y='78' font-size='22' font-weight='900' font-family='Arial' fill='white' text-anchor='middle'>GALPON</text></svg>">
 <style>/* ═════════════════════════════════════════════════════════════
    EL GALPÓN — CSS ORGANIZADO
    1. Base + Componentes (secciones marcadas abajo)
@@ -405,11 +404,7 @@ footer{background:var(--negro);color:var(--gris-m);text-align:center;padding:16p
 @media(max-width:600px){
   /* ── BASE STRUCTURE ─────────────────────────────────── */
   header{padding:0 12px}
-  .header-inner{
-    height:auto;flex-wrap:wrap;
-    padding:8px 12px 0;gap:6px;
-    align-items:center
-  }
+  .header-inner{height:auto;flex-wrap:wrap;padding:6px 0 0;gap:4px;align-items:center}
 
   /* Row 1: Logo (order:1) + Actions (order:2) */
   .header-logo-text{order:1;font-size:15px}
@@ -459,12 +454,7 @@ footer{background:var(--negro);color:var(--gris-m);text-align:center;padding:16p
   }
 
   /* Row 3: mobileIconsRow — IG, FB, Moon, Cómo comprar */
-  .header-icons-row{
-    display:flex;order:4;
-    align-items:center;gap:8px;
-    width:100%;padding:4px 0 8px;
-    flex-wrap:nowrap
-  }
+  .header-icons-row{display:flex;order:4;align-items:center;gap:6px;width:100%;padding:2px 0 6px;flex-wrap:nowrap}
   .header-icons-row.collapsed{display:none!important}
   .header-icons-row .social-icon{width:32px;height:32px}
   .header-icons-row .theme-btn{width:32px;height:32px;font-size:14px}
@@ -575,99 +565,37 @@ footer{background:var(--negro);color:var(--gris-m);text-align:center;padding:16p
 .cart-desc-escalon.bloqueado{background:#FFF3EE;color:#B03A2E;display:block;font-size:11px}
 
 .pay-mp-note{font-size:10px;text-align:center;color:var(--gris-m);margin-top:6px;line-height:1.4}
+
 </style>
+
 </head>
-<body>
-
-<!-- ══ ANUNCIO ══ -->
-<div id="anuncio-bar">
-  <div class="anuncio-full" style="align-items:center;gap:0;width:100%;justify-content:center">
-    🚚 Entrega personal en Luján <span>·</span> 💰 Seña del 50% para confirmar pedido <span>·</span> 📦 +260 productos disponibles
-  </div>
-  <div class="anuncio-mobile" style="align-items:center;gap:0;justify-content:center">
-    🚚 Luján <span>·</span> 💰 Seña 50% <span>·</span> 📦 +260 productos
+<body><div id="anuncio-bar"><div class="anuncio-full" style="display:flex;align-items:center;gap:0;width:100%;justify-content:center">
+    🚚 Entrega personal en Luján <span>·</span> 💰 Seña del 50% para confirmar pedido <span>·</span> 📦 <span id="anuncioCountMob">+315</span> productos
+  </div><div class="anuncio-mobile" style="display:none;align-items:center;gap:0;justify-content:center">
+    🚚 Luján <span>·</span> 💰 Seña 50% <span>·</span> 📦 <span id="anuncioCountMob">+315</span> productos
   </div>
 </div>
-
-<!-- ══ LANDING ══ -->
-<div id="landing">
-  <div id="landing-logo-fallback" class="landing-logo-fallback" style="display:block">El <span>Galpón</span></div>
-  <div class="landing-tagline">Todo lo que buscás, en un solo lugar. Pedidos personales con entrega en Luján.</div>
-  <div class="landing-stats">
-    <div class="stat"><div class="stat-num" id="landingCount">+260</div><div class="stat-label">Productos</div></div>
-    <div class="stat"><div class="stat-num">$40k</div><div class="stat-label">Pedido mínimo</div></div>
-    <div class="stat"><div class="stat-num">📲</div><div class="stat-label">Pedidos por WA</div></div>
-  </div>
-
-  <!-- Más Vendidos landing -->
-  <div class="mv-landing" id="mvLanding" style="display:none">
-    <div class="mv-title">🔥 <span>Más</span> Vendidos</div>
-    <div class="mv-grid-landing" id="mvGridLanding"></div>
-  </div>
-
-  <button class="landing-btn" onclick="enterStore()">🛒 Ver catálogo completo</button>
-  <div class="social-btns" style="justify-content:center">
-    <a href="https://www.instagram.com/elgalpon.store" target="_blank" class="social-btn ig">
-      <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>@elgalpon.store
-    </a>
-    <a href="https://www.facebook.com/profile.php?id=61587433577342" target="_blank" class="social-btn fb">
-      <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>El Galpón
-    </a>
-  </div>
-  <div class="landing-footer">Precios en ARS · Stock sujeto a disponibilidad</div>
+<div id="landing"><div class="landing-logo">El <span>Galpón</span></div><div class="landing-tagline">Todo lo que buscás, en un solo lugar. Pedidos personales con entrega en Luján.</div><div class="landing-stats"><div class="stat"><div class="stat-num" id="landingCount">+315</div><div class="stat-label">Productos</div></div><div class="stat"><div class="stat-num">$40k</div><div class="stat-label">Pedido mínimo</div></div><div class="stat"><div class="stat-num">📲</div><div class="stat-label">Pedidos por WA</div></div></div><div class="mv-landing" id="mvLanding" style="display:none"><div class="mv-title">🔥 <span>Más</span> Vendidos</div><div class="mv-grid-landing" id="mvGridLanding"></div></div><button class="landing-btn" onclick="enterStore()">🛒 Ver catálogo completo</button><div class="social-btns" style="justify-content:center"><a href="https://www.instagram.com/elgalpon.store" target="_blank" class="social-btn ig"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg> @elgalpon.store</a><a href="https://www.facebook.com/profile.php?id=61587433577342" target="_blank" class="social-btn fb"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg> El Galpón</a></div><div class="landing-footer">Precios en ARS · Stock sujeto a disponibilidad</div>
 </div>
-
-<!-- ══ TIENDA ══ -->
 <div id="tienda">
-<header id="mainHeader">
-  <div class="header-inner">
-    <div id="header-logo-text" class="header-logo-text" style="display:block" onclick="goToLanding()">🏪 El <span>Galpón</span></div>
-
-    <!-- Category dropdown (desktop) -->
-    <div class="cat-dropdown" id="catDropdown">
-      <button class="cat-btn" id="catBtn" onclick="toggleCatMenu()">📦 Categorías ▾</button>
-      <div class="cat-menu" id="catMenu"></div>
-    </div>
-
-    <div class="search-bar">
-      <span class="search-icon">🔍</span>
-      <input type="text" id="searchInput" placeholder="Buscar producto, código o categoría...">
-    </div>
-    <div class="header-actions">
-      <!-- Desktop icons -->
-      <a href="https://www.instagram.com/elgalpon.store" target="_blank" class="social-icon ig" title="Instagram" id="desktopIG">
-        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-      </a>
-      <a href="https://www.facebook.com/profile.php?id=61587433577342" target="_blank" class="social-icon fb" title="Facebook" id="desktopFB">
-        <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-      </a>
-      <button class="theme-btn" onclick="toggleTheme()" id="themeBtn" title="Modo oscuro/claro" id="desktopTheme">🌙</button>
+<header id="mainHeader"><div class="header-inner"><div class="logo" onclick="goToLanding()">🏪 El <span>Galpón</span></div><div class="cat-dropdown" id="catDropdown"><button class="cat-btn" id="catBtn" onclick="toggleCatMenu()">📦 Categorías ▾</button><div class="cat-menu" id="catMenu"></div></div><div class="search-bar"><span class="search-icon">🔍</span><input type="text" id="searchInput" placeholder="Buscar producto o código..."></div><div class="header-actions">
+      <a href="https://www.instagram.com/elgalpon.store" target="_blank" class="social-icon ig" id="desktopIG"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.919-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+      <a href="https://www.facebook.com/profile.php?id=61587433577342" target="_blank" class="social-icon fb" id="desktopFB"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+      <button class="theme-btn" onclick="toggleTheme()" id="themeBtn" title="Modo oscuro/claro">🌙</button>
       <button class="how-btn" onclick="openHow()" id="desktopHow">❓ ¿Cómo comprar?</button>
-      <button class="search-toggle-btn" onclick="toggleMobileSearch()" title="Buscar" aria-label="Buscar">🔍</button><button class="cart-btn" onclick="toggleCart()">🛒 <span class="cart-count" id="cartCount">0</span></button>
-    </div>
-  </div>
-  <!-- Mobile icons row (collapses on scroll) -->
+      <button class="search-toggle-btn" onclick="toggleMobileSearch()" title="Buscar">🔍</button>
+      <button class="cart-btn" onclick="toggleCart()">🛒 <span class="cart-count" id="cartCount">0</span></button>
+    </div></div><div class="mob-icons" id="mobIcons"><a href="https://www.instagram.com/elgalpon.store" target="_blank" class="icon-btn ig"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a><a href="https://www.facebook.com/profile.php?id=61587433577342" target="_blank" class="icon-btn fb"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a><button class="icon-btn" onclick="toggleTheme()" id="themeBtnMob">🌙</button><button class="how-btn" onclick="openHow()" style="font-size:11px;padding:5px 10px">❓ Cómo comprar</button></div>
   <div class="header-icons-row" id="mobileIconsRow">
-    <a href="https://www.instagram.com/elgalpon.store" target="_blank" class="social-icon ig"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+    <a href="https://www.instagram.com/elgalpon.store" target="_blank" class="social-icon ig"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.919-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
     <a href="https://www.facebook.com/profile.php?id=61587433577342" target="_blank" class="social-icon fb"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
     <button class="theme-btn" onclick="toggleTheme()" id="themeBtnMobile">🌙</button>
     <button class="how-btn-mobile" onclick="openHow()">❓ Cómo comprar</button>
   </div>
-</header>
-
-<div class="filters-bar" id="filtersBar">
-  <div class="filters-inner" id="filtersInner">
-    <button class="filter-chip active" onclick="setCategory('')" data-cat="">Todos</button>
-  </div>
-</div>
-
-<!-- Más Vendidos tienda -->
-<div class="mv-section" id="mvSection" style="display:none">
-  <div class="mv-section-title">🔥 <span>Más</span> vendidos</div>
-  <div class="mv-grid" id="mvGrid"></div>
-</div>
-
-<div class="toolbar">
+</header><div class="filters-bar" id="filtersBar"><div class="filters-inner" id="filtersInner"><button class="filter-chip active" onclick="setCategory('')" data-cat="">Todos</button></div>
+</div><div class="mv-section" id="mvSection" style="display:none"><div class="mv-section-title">🔥 <span>Más</span> vendidos</div><div class="mv-grid" id="mvGrid"></div>
+</div><div class="toolbar">
+  <!-- ===== TOOLBAR — filtros y orden ===== -->
   <div class="toolbar-group">
     <button class="filter-disponibles active" id="btnDisponibles" onclick="toggleDisponibles()">📦 Solo disponibles</button>
   </div>
@@ -686,225 +614,94 @@ footer{background:var(--negro);color:var(--gris-m);text-align:center;padding:16p
     <button class="view-btn" onclick="setColumns(4)" id="v4">▬▬▬▬</button>
   </div>
   <span class="results-info" id="resultsInfo"></span>
+</div><span class="results-info" id="resultsInfo"></span>
+</div><div class="skeleton-grid" id="skeletonGrid"><div class="skeleton-card"><div class="skel skel-img"></div><div class="skel-body"><div class="skel skel-line w80"></div><div class="skel skel-line w50"></div><div class="skel skel-line w60"></div><div class="skel skel-btn"></div></div></div><div class="skeleton-card"><div class="skel skel-img"></div><div class="skel-body"><div class="skel skel-line w80"></div><div class="skel skel-line w50"></div><div class="skel skel-line w60"></div><div class="skel skel-btn"></div></div></div><div class="skeleton-card"><div class="skel skel-img"></div><div class="skel-body"><div class="skel skel-line w80"></div><div class="skel skel-line w50"></div><div class="skel skel-line w60"></div><div class="skel skel-btn"></div></div></div><div class="skeleton-card"><div class="skel skel-img"></div><div class="skel-body"><div class="skel skel-line w80"></div><div class="skel skel-line w50"></div><div class="skel skel-line w60"></div><div class="skel skel-btn"></div></div></div><div class="skeleton-card"><div class="skel skel-img"></div><div class="skel-body"><div class="skel skel-line w80"></div><div class="skel skel-line w50"></div><div class="skel skel-line w60"></div><div class="skel skel-btn"></div></div></div><div class="skeleton-card"><div class="skel skel-img"></div><div class="skel-body"><div class="skel skel-line w80"></div><div class="skel skel-line w50"></div><div class="skel skel-line w60"></div><div class="skel skel-btn"></div></div></div>
 </div>
-
-<div class="skeleton-grid" id="skeletonGrid"><div class="skeleton-card"><div class="skel skel-img"></div><div class="skel-body"><div class="skel skel-line w80"></div><div class="skel skel-line w50"></div><div class="skel skel-line w60"></div><div class="skel skel-btn"></div></div></div><div class="skeleton-card"><div class="skel skel-img"></div><div class="skel-body"><div class="skel skel-line w80"></div><div class="skel skel-line w50"></div><div class="skel skel-line w60"></div><div class="skel skel-btn"></div></div></div><div class="skeleton-card"><div class="skel skel-img"></div><div class="skel-body"><div class="skel skel-line w80"></div><div class="skel skel-line w50"></div><div class="skel skel-line w60"></div><div class="skel skel-btn"></div></div></div><div class="skeleton-card"><div class="skel skel-img"></div><div class="skel-body"><div class="skel skel-line w80"></div><div class="skel skel-line w50"></div><div class="skel skel-line w60"></div><div class="skel skel-btn"></div></div></div><div class="skeleton-card"><div class="skel skel-img"></div><div class="skel-body"><div class="skel skel-line w80"></div><div class="skel skel-line w50"></div><div class="skel skel-line w60"></div><div class="skel skel-btn"></div></div></div><div class="skeleton-card"><div class="skel skel-img"></div><div class="skel-body"><div class="skel skel-line w80"></div><div class="skel skel-line w50"></div><div class="skel skel-line w60"></div><div class="skel skel-btn"></div></div></div></div>
 <div class="grid cols-3" id="productGrid" style="display:none"></div>
+</div><div class="overlay" id="overlay" onclick="toggleCart()"></div>
 
-</div><!-- fin tienda -->
-
-<!-- Overlay -->
-<div class="overlay" id="overlay" onclick="toggleCart()"></div>
-
-<!-- Cart Drawer -->
-<div class="cart-drawer" id="cartDrawer">
-  <div class="cart-header"><h2>🛒 Tu pedido</h2><button class="close-btn" onclick="toggleCart()">✕</button></div>
-
-  <!-- Confirmation panel (replaces items when order sent) -->
-  <div class="confirm-panel" id="confirmPanel">
-    <div class="confirm-icon" id="confirmIcon">✅</div>
-    <div class="confirm-title" id="confirmTitle">¡Pedido enviado!</div>
-    <div class="confirm-msg" id="confirmMsg">Te contactamos a la brevedad para confirmar tu pedido y coordinar la seña.</div>
-    <button class="confirm-back" onclick="closeConfirm()">Volver a la tienda</button>
-  </div>
-
-  <div class="cart-items" id="cartItems"><div class="cart-empty-msg">Tu carrito está vacío.<br>Agregá productos desde la tienda.</div></div>
-  <div class="cart-footer" id="cartFooter">
-    <div class="cart-row-sub">
-      <span>Subtotal</span><span id="cartTotal">$0</span>
-    </div>
-    <div class="cart-row-descuento" id="cartDescuentoRow" style="display:none">
-      <span id="cartDescuentoLabel" style="font-size:11px">Descuento</span>
-      <span id="cartDescuentoVal" class="verde-bold"></span>
-    </div>
-    <div class="cart-row-entrega" id="cartEntregaRow" style="display:none">
-      <span>Costo de entrega</span><span id="cartEntregaVal"></span>
-    </div>
-    <div class="cart-row-total" id="cartTotalFinalRow" style="display:none">
-      <span>TOTAL</span><span id="cartTotalFinalVal" style="color:var(--naranja)">$0</span>
-    </div>
-    <div class="cart-entrega-hint" id="cartEntregaHint" style="display:none"></div>
-    <div class="cart-progress-wrap"><div class="cart-progress-bar" id="cartProgressBar" style="width:0%"></div></div>
-    <div class="cart-minimo falta" id="cartMinimo">⚠️ Mínimo de compra: $40.000</div>
-    <div class="cart-desc-escalon" id="cartDescEscalon"></div>
-    <div class="cart-descuento-transf" id="cartDescTransf">
-      🏦 Pagando por transferencia:<br>
-      <span class="d-precio" id="cartDescPrecio"></span><small style="color:#1A5276"> · 5% OFF pagando el total</small>
-    </div>
-    <button class="go-pay-btn" id="goPayBtn" onclick="openPaymentView()" disabled>💳 Elegir método de pago →</button>
-    <button class="clear-btn" onclick="clearCart()">🗑 Vaciar carrito</button>
-  </div>
-
-  <!-- Payment view — segunda pantalla del carrito -->
-  <div class="payment-view" id="paymentView">
-    <div class="payment-hdr">
-      <button class="payment-back" onclick="closePaymentView()">← Volver</button>
-      <h3>¿Cómo querés pagar?</h3>
-    </div>
-    <div class="payment-body" id="paymentBody"></div>
-  </div>
+<!-- ===== ORDER HISTORY ===== -->
+<div class="history-section" id="historySection" style="display:none">
+  <div class="history-title">🕐 Pedidos anteriores</div>
+  <div id="historyList"></div>
 </div>
+<div class="cart-drawer" id="cartDrawer"><div class="cart-hdr"><h2>🛒 Tu pedido</h2><button class="close-btn" onclick="toggleCart()">✕</button></div><div class="confirm-panel" id="confirmPanel"><div class="confirm-icon" id="confirmIcon">✅</div><div class="confirm-title" id="confirmTitle">¡Pedido enviado!</div><div class="confirm-msg" id="confirmMsg">Te contactamos a la brevedad para confirmar.</div><button class="confirm-back" onclick="closeConfirm()">Volver a la tienda</button></div><div class="cart-view" id="cartView"><div class="cart-items" id="cartItems"><div class="cart-empty">Tu carrito está vacío.</div><div class="desc-panel" id="descPanel"><div class="dp-title">🎉 Tus beneficios y descuentos</div><div class="desc-rule" id="drTransf"><div class="dr-icon">🏦</div><div class="dr-body"><div class="dr-title">Descuento por transferencia</div><div class="dr-detail">Pagá el total en 1 pago por transferencia bancaria y llevate un 5% de descuento. Sin mínimo de productos.</div><div class="dr-badge azul">5% OFF — pagando el total en 1 pago</div><div class="dr-active" id="drTransfOk">✅ ¡Activado! Tu precio con transferencia: <span id="drTransfPrecio"></span></div><div class="dr-prox" id="drTransfProx">💡 <span id="drTransfFalta"></span> para activar este descuento</div></div></div><div class="desc-rule" id="dr1"><div class="dr-icon">📦</div><div class="dr-body"><div class="dr-title">Descuento por volumen — Nivel 1</div><div class="dr-detail">Comprá 3 o más productos y alcanzá $100.000 en tu pedido.</div><div class="dr-badge">5% OFF</div><div class="dr-active" id="dr1Ok">✅ ¡Activado! Descuento aplicado en tu total.</div><div class="dr-prox" id="dr1Prox"></div></div></div><div class="desc-rule" id="dr2"><div class="dr-icon">🛍️</div><div class="dr-body"><div class="dr-title">Descuento por volumen — Nivel 2</div><div class="dr-detail">Comprá 4 o más productos y alcanzá $200.000 en tu pedido.</div><div class="dr-badge">8% OFF</div><div class="dr-active" id="dr2Ok">✅ ¡Activado! Descuento aplicado en tu total.</div><div class="dr-prox" id="dr2Prox"></div></div></div><div class="desc-rule" id="dr3"><div class="dr-icon">🏆</div><div class="dr-body"><div class="dr-title">Descuento por volumen — Nivel 3</div><div class="dr-detail">Comprá 5 o más productos y alcanzá $300.000 en tu pedido.</div><div class="dr-badge">12% OFF</div><div class="dr-active" id="dr3Ok">✅ ¡Activado! Descuento aplicado en tu total.</div><div class="dr-prox" id="dr3Prox"></div></div></div><div class="desc-rule"><div class="dr-icon">🤝</div><div class="dr-body"><div class="dr-title">Sistema de referidos</div><div class="dr-detail">Recomendá El Galpón y ganás descuento en tu próxima compra según lo que gaste tu referido.</div><div class="dr-badge verde">Hasta $20.000 OFF</div></div></div></div></div><div class="cart-ftr" <div class="cart-footer" id="cartFooter">
+      <div class="cart-row-sub"><span>Subtotal</span><span id="cartTotal">$0</span></div>
+      <div class="cart-row-descuento" id="cartDescuentoRow" style="display:none">
+        <span id="cartDescuentoLabel" style="font-size:11px">Descuento</span>
+        <span id="cartDescuentoVal" class="verde-bold"></span>
+      </div>
+      <div class="cart-row-entrega" id="cartEntregaRow" style="display:none">
+        <span>Costo de entrega</span><span id="cartEntregaVal"></span>
+      </div>
+      <div class="cart-row-total" id="cartTotalFinalRow" style="display:none">
+        <span>TOTAL</span><span id="cartTotalFinalVal" style="color:var(--naranja)">$0</span>
+      </div>
+      <div class="cart-entrega-hint" id="cartEntregaHint" style="display:none"></div>
+      <div class="cart-progress-wrap"><div class="cart-progress-bar" id="cartProgressBar" style="width:0%"></div></div>
+      <div class="cart-minimo falta" id="cartMinimo">⚠️ Mínimo de compra: $40.000</div>
+      <div class="cart-desc-escalon" id="cartDescEscalon"></div>
+      <div class="cart-descuento-transf" id="cartDescTransf" style="display:none">
+        🏦 Pagando por transferencia:<br>
+        <span class="d-precio" id="cartDescPrecio"></span><small> · 5% OFF pagando el total</small>
+      </div>
+      <button class="go-pay-btn" id="goPayBtn" onclick="openPaymentView()" disabled>💳 Elegir método de pago →</button>
+      <button class="clear-btn" onclick="clearCart()">🗑 Vaciar carrito</button>
+    </div>
+    <div class="payment-view" id="paymentView">
+      <div class="payment-hdr">
+        <button class="payment-back" onclick="closePaymentView()">← Volver</button>
+        <h3>¿Cómo querés pagar?</h3>
+      </div>
+      <div class="payment-body" id="paymentBody"></div>
+    </div>
+  </div><div class="overlay" id="overlay" onclick="toggleCart()"></div>
+<div class="cart-drawer" id="cartDrawer"><div class="cart-hdr"><h2>🛒 Tu pedido</h2><button class="close-btn" onclick="toggleCart()">✕</button></div><div class="confirm-panel" id="confirmPanel"><div class="confirm-icon" id="confirmIcon">✅</div><div class="confirm-title" id="confirmTitle">¡Pedido enviado!</div><div class="confirm-msg" id="confirmMsg">Te contactamos a la brevedad para confirmar.</div><button class="confirm-back" onclick="closeConfirm()">Volver a la tienda</button></div><div class="cart-view" id="cartView"><div class="cart-items" id="cartItems"><div class="cart-empty">Tu carrito está vacío.</div><div class="desc-panel" id="descPanel"><div class="dp-title">🎉 Tus beneficios y descuentos</div><div class="desc-rule" id="drTransf"><div class="dr-icon">🏦</div><div class="dr-body"><div class="dr-title">Descuento por transferencia</div><div class="dr-detail">Pagá el total en 1 pago por transferencia bancaria y llevate un 5% de descuento. Sin mínimo de productos.</div><div class="dr-badge azul">5% OFF — pagando el total en 1 pago</div><div class="dr-active" id="drTransfOk">✅ ¡Activado! Tu precio con transferencia: <span id="drTransfPrecio"></span></div><div class="dr-prox" id="drTransfProx">💡 <span id="drTransfFalta"></span> para activar este descuento</div></div></div><div class="desc-rule" id="dr1"><div class="dr-icon">📦</div><div class="dr-body"><div class="dr-title">Descuento por volumen — Nivel 1</div><div class="dr-detail">Comprá 3 o más productos y alcanzá $100.000 en tu pedido.</div><div class="dr-badge">5% OFF</div><div class="dr-active" id="dr1Ok">✅ ¡Activado! Descuento aplicado en tu total.</div><div class="dr-prox" id="dr1Prox"></div></div></div><div class="desc-rule" id="dr2"><div class="dr-icon">🛍️</div><div class="dr-body"><div class="dr-title">Descuento por volumen — Nivel 2</div><div class="dr-detail">Comprá 4 o más productos y alcanzá $200.000 en tu pedido.</div><div class="dr-badge">8% OFF</div><div class="dr-active" id="dr2Ok">✅ ¡Activado! Descuento aplicado en tu total.</div><div class="dr-prox" id="dr2Prox"></div></div></div><div class="desc-rule" id="dr3"><div class="dr-icon">🏆</div><div class="dr-body"><div class="dr-title">Descuento por volumen — Nivel 3</div><div class="dr-detail">Comprá 5 o más productos y alcanzá $300.000 en tu pedido.</div><div class="dr-badge">12% OFF</div><div class="dr-active" id="dr3Ok">✅ ¡Activado! Descuento aplicado en tu total.</div><div class="dr-prox" id="dr3Prox"></div></div></div><div class="desc-rule"><div class="dr-icon">🤝</div><div class="dr-body"><div class="dr-title">Sistema de referidos</div><div class="dr-detail">Recomendá El Galpón y ganás descuento en tu próxima compra según lo que gaste tu referido.</div><div class="dr-badge verde">Hasta $20.000 OFF</div></div></div></div></div><div class="cart-ftr" id="cartFtr"><div class="ct-row"><span class="ct-lbl">Subtotal</span><span class="ct-val" id="cartTotal">$0</span></div><div class="ct-row" id="cartEntregaRow" style="display:none;font-size:13px"><span class="ct-lbl">Costo de entrega</span><span class="ct-val" id="cartEntregaVal" style="font-size:14px"></span></div><div class="ct-row" id="cartTotalFinalRow" style="display:none;border-top:2px solid var(--naranja);margin-top:4px;padding-top:4px"><span class="ct-lbl" style="font-weight:900">TOTAL</span><span class="ct-val" id="cartTotalFinalVal" style="color:var(--naranja)">$0</span></div><div id="cartEntregaHint" style="font-size:11px;color:#1A5276;font-weight:bold;padding:4px 0;display:none"></div><div class="cart-prog-wrap"><div class="cart-prog-bar" id="cartProgBar" style="width:0%"></div></div><div class="cart-min falta" id="cartMin">⚠️ Mínimo de compra: $40.000</div><div class="cart-esc" id="cartEsc"></div><button class="go-pay-btn" id="goPayBtn" onclick="openPaymentView()" disabled>💳 Elegir método de pago →</button><button class="clear-btn" onclick="clearCart()">🗑 Vaciar carrito</button></div></div><div class="payment-view" id="paymentView"><div class="payment-hdr"><button class="payment-back" onclick="closePaymentView()">← Volver</button><h3>¿Cómo querés pagar?</h3></div><div class="payment-body"><div class="payment-resumen"><div><div class="pr-lbl">Total de tu pedido</div><div class="pr-desc" id="payDescuento"></div></div><div class="pr-total" id="payTotal">$0</div></div><div class="payment-method best"><div class="pm-hdr"><div class="pm-icon">🏦</div><div class="pm-info"><div class="pm-title">Transferencia bancaria</div><div class="pm-sub">Sin recargos + 5% OFF si pagás el total en un pago</div></div><div class="pm-badge badge-verde">⭐ RECOMENDADO</div></div><div class="pm-body"><div class="pd-row"><span class="pd-lbl">Seña mínima para confirmar</span><span class="pd-val naranja" id="payTransfSena">$0</span></div><div class="pd-row"><span class="pd-lbl">Saldo restante al recibir</span><span class="pd-val" id="payTransfResto">$0</span></div><div class="pd-row"><span class="pd-lbl">Recargo por plataforma</span><span class="pd-val verde">Sin recargo</span></div><div class="pd-row"><span class="pd-lbl">Seña mínima para confirmar (50%)</span><span class="pd-val naranja" id="payTransfSena2">$0</span></div><div class="pd-row"><span class="pd-lbl">5% OFF pagando el total en un solo pago</span><span class="pd-val verde">Acumulable con descuentos por volumen</span></div><div class="pp-hi"><div><div class="pp-lbl">Total pagando todo de una vez</div><div style="font-size:10px;color:var(--verde)">Con 5% de descuento aplicado</div></div><div class="pp-val verde" id="payTransfTotal">$0</div></div><div id="payEntregaTransf" style="font-size:11px;font-weight:bold;padding:6px 0;text-align:center"></div><button class="payment-btn-wa" onclick="sendWhatsApp('Transferencia')">📲 Coordinar por WhatsApp</button></div></div><div class="payment-method"><div class="pm-hdr"><div class="pm-icon">💵</div><div class="pm-info"><div class="pm-title">Efectivo</div><div class="pm-sub">Sin recargos — requiere 50% de seña para confirmar</div></div><div class="pm-badge badge-azul">Sin recargo</div></div><div class="pm-body"><div class="pd-row"><span class="pd-lbl">Seña mínima para confirmar</span><span class="pd-val naranja" id="payEfectivoSena">$0</span></div><div class="pd-row"><span class="pd-lbl">Saldo restante (al recibir en Luján)</span><span class="pd-val" id="payEfectivoResto">$0</span></div><div class="pd-row"><span class="pd-lbl">Recargo por plataforma</span><span class="pd-val verde">Sin recargo</span></div><div class="pd-row"><span class="pd-lbl">5% OFF pagando el total en un solo pago</span><span class="pd-val verde">Acumulable con descuentos por volumen</span></div><div class="pp-hi"><div><div class="pp-lbl">Total pagando todo de una vez</div><div style="font-size:10px;color:var(--verde)">Con 5% de descuento aplicado</div></div><div class="pp-val verde" id="payEfectivoTotal">$0</div></div><div id="payEntregaEfectivo" style="font-size:11px;font-weight:bold;padding:6px 0;text-align:center"></div><button class="payment-btn-wa" onclick="sendWhatsApp('Efectivo')">📲 Coordinar por WhatsApp</button></div></div><div class="payment-method mp"><div class="pm-hdr"><div class="pm-icon">💳</div><div class="pm-info"><div class="pm-title">Tarjeta con Mercado Pago</div><div class="pm-sub">Crédito, débito o saldo MP — con recargo</div></div><div class="pm-badge badge-rojo">Tiene recargo</div></div><div class="pm-body"><div class="pd-row"><span class="pd-lbl">Tarjeta de débito</span><span class="pd-val rojo">+1.5% recargo</span></div><div class="pd-row"><span class="pd-lbl">Tarjeta de crédito 1 pago</span><span class="pd-val rojo">+5.2% recargo</span></div><div class="pd-row"><span class="pd-lbl">Cuotas con tarjeta</span><span class="pd-val rojo">+5.2% + intereses del banco</span></div><div class="pd-row"><span class="pd-lbl">Descuento transferencia</span><span class="pd-val" style="color:var(--gris-m)">No aplica</span></div><div class="payment-cuotas-info">
+            💡 <strong>¿Pagás en cuotas?</strong> Vos elegís cuántas cuotas en la pantalla de MP. El recargo de cuotas lo fija tu banco/tarjeta y lo pagás vos. Nosotros recibimos el total de una sola vez.
+          </div><div class="pp-hi"><div><div class="pp-lbl">Total estimado con recargo MP</div><div style="font-size:10px;color:var(--rojo)">Varía según medio de pago elegido</div></div><div class="pp-val azul" id="payMPTotal">$0</div></div><button class="payment-btn-mp" id="mpBtn" onclick="pagarMP()">💳 Pagar con Mercado Pago</button><div id="payEntregaMP" style="font-size:11px;font-weight:bold;padding:6px 0;text-align:center"></div><div class="payment-mp-nota">Al confirmar se abrirá la pantalla de pago de Mercado Pago.<br>También te llegará un resumen del pedido por WhatsApp.</div></div></div></div></div>
+</div>
+<div class="cart-bar" id="cartBar"><div class="cbi"><div class="cbi-items" id="cbiItems"></div><div class="cbi-total" id="cbiTotal"></div><div class="cbi-min" id="cbiMin"></div><div class="cbi-desc-hint" id="cbiDescHint" style="font-size:11px;color:#FF6B35;font-weight:bold;margin-top:2px;display:none"></div><div class="cbi-prog"><div class="cbi-prog-fill" id="cbiProgFill" style="width:0%"></div></div></div><button class="cart-bar-btn" onclick="toggleCart()">Ver carrito →</button>
+</div><div class="modal-overlay" id="modalOverlay" onclick="closeModalOut(event)"><div class="modal" id="modalBox"><button class="modal-close" onclick="closeModal()">✕</button><div class="modal-top"><div class="modal-img-wrap" id="modalImgWrap"><button class="modal-nav prev" id="modalPrev" onclick="modalNav(-1)">‹</button><button class="modal-nav next" id="modalNext" onclick="modalNav(1)">›</button></div><div class="modal-info" id="modalInfo"></div></div><div class="modal-related" id="modalRelated" style="display:none"><h3>📦 Productos relacionados</h3><div class="related-grid" id="relatedGrid"></div></div></div>
+</div>
+<div class="how-overlay" id="howOverlay" onclick="closeHowOut(event)"><div class="how-modal"><div class="how-hdr"><h2>❓ ¿Cómo <span>comprar?</span></h2><button class="how-close" onclick="closeHow()">✕</button></div><div class="how-body"><div><div class="hs-title">📋 Paso a paso</div><div class="how-step"><div class="hs-num">1</div><div class="hs-text"><strong>Explorá el catálogo</strong> y agregá los productos al carrito.</div></div><div class="how-step"><div class="hs-num">2</div><div class="hs-text"><strong>Coordiná por WhatsApp</strong> o <strong>pagá con Mercado Pago</strong>.</div></div><div class="how-step"><div class="hs-num">3</div><div class="hs-text"><strong>Abonás una seña del 50%</strong> para confirmar. El resto al recibir. Si pagás el total de una vez, obtenés un <strong>5% OFF adicional</strong>, acumulable con otras promos.</div></div><div class="how-step"><div class="hs-num">4</div><div class="hs-text"><strong>Entrega personal en Luján</strong> — sin cargo en pedidos de $80.000 o más. Pedidos menores tienen un costo de entrega de $9.000.</div></div></div><div><div class="hs-title">💳 Medios de pago</div><div class="hp-grid"><div class="hp-card best"><div class="hp-emoji">🏦</div><div class="hp-name">Transferencia</div><div class="hp-desc">5% OFF pagando el total en 1 pago</div><div class="hp-price">Sin recargo</div></div><div class="hp-card"><div class="hp-emoji">💵</div><div class="hp-name">Efectivo</div><div class="hp-desc">50% de seña + resto al recibir</div><div class="hp-price" style="color:var(--text2);font-size:11px">Sin recargo</div></div><div class="hp-card"><div class="hp-emoji">💳</div><div class="hp-name">Mercado Pago</div><div class="hp-desc">Tarjeta débito, crédito o saldo MP</div><div class="hp-price" style="color:var(--text2);font-size:11px">Recargo según medio</div></div><div class="hp-card"><div class="hp-emoji">📲</div><div class="hp-name">WhatsApp</div><div class="hp-desc">Coordinás el pago directo con nosotros</div><div class="hp-price" style="color:var(--text2);font-size:11px">Flexible</div></div></div></div><div><div class="hs-title">🎉 Descuentos por volumen</div><table class="hs-tbl"><tr><td>$100.000–$199.999 con 3+ productos</td><td>5% OFF</td></tr><tr><td>$200.000–$299.999 con 4+ productos</td><td>8% OFF</td></tr><tr><td>$300.000 o más con 5+ productos</td><td>12% OFF</td></tr><tr><td style="color:var(--text2);font-size:11px" colspan="2">Acumulables con el 5% por pagar el total en un pago.</td></tr></table></div><div><div class="hs-title">🚚 Entrega en Luján</div><table class="hs-tbl"><tr><td>Pedido menor a $80.000</td><td style="color:var(--rojo);font-weight:bold">$9.000</td></tr><tr><td>Pedido de $80.000 o más</td><td style="color:var(--verde);font-weight:bold">Sin cargo ✅</td></tr></table><div style="font-size:11px;color:var(--text2);margin-top:6px">La entrega es personal en Luján. No hacemos envíos por correo ni mensajería.</div></div><div><div class="hs-title">🤝 Sistema de referidos</div><div class="hr-box"><div class="hr-title">Recomendá El Galpón y ganás descuento en tu próxima compra:</div><div class="hr-item">Si tu referido compra $40k – $99k <span>$2.000 OFF</span></div><div class="hr-item">Si tu referido compra $100k – $199k <span>$5.000 OFF</span></div><div class="hr-item">Si tu referido compra $200k – $299k <span>$10.000 OFF</span></div><div class="hr-item">Si tu referido compra $300k o más <span>$20.000 OFF</span></div><div style="font-size:11px;color:var(--gris-m);margin-top:8px">Consultá por WhatsApp para aplicar el descuento.</div></div></div><div><div class="hs-title">🛡️ Garantía</div><div class="hr-gar"><strong>Productos Lambo Tech: 6 meses de garantía</strong> por defectos de fabricación.<br>Para gestionar garantía contactanos por WhatsApp con el código y comprobante de compra.</div></div></div></div>
+</div><!-- SUGERENCIA MODAL -->
+<div class="sug-overlay" id="sugOverlay" onclick="closeSugOut(event)"><div class="sug-modal"><div class="sug-hdr"><h3>🛍️ ¿No encontrás lo que buscás?</h3><button class="how-close" onclick="closeSug()">✕</button></div><div class="sug-body"><div class="sug-subtitle">Contanos qué producto querés y lo buscamos para vos. Si lo conseguimos, sos el primero en enterarte. 🙌</div><input class="sug-input" id="sugProducto" type="text" placeholder="¿Qué producto buscás?"><input class="sug-input" id="sugWA" type="tel" placeholder="Tu WhatsApp (opcional)"><button class="sug-send-btn" onclick="enviarSugerencia()">📬 Enviar pedido</button></div></div>
+</div>
+<button class="sug-float" id="sugFloat" onclick="openSug()">🔍 ¿No encontrás algo?</button>
+<div class="confirm-overlay" id="confirmVaciarOverlay"><div class="confirm-box"><div class="confirm-box-logo">🏪 El Galpón</div><div class="confirm-box-msg">¿Querés vaciar el carrito?<br>Se eliminarán todos los productos.</div><div class="confirm-box-btns"><button class="confirm-box-cancel" onclick="cerrarConfirmVaciar()">Cancelar</button><button class="confirm-box-ok" onclick="confirmarVaciar()">Vaciar</button></div></div>
+</div><div class="toast" id="toast"></div>
+<div class="inapp-overlay" id="inappOverlay" style="display:none"><div class="inapp-logo">El <span>Galpón</span></div><div class="inapp-icon" id="inappIcon">📱</div><div class="inapp-title">Abrí la tienda en tu navegador</div><div class="inapp-sub" id="inappSub">Copiá el link y pegalo en Chrome o Safari para que la tienda cargue sin problemas.</div><button class="inapp-btn" id="inappBtn" onclick="abrirEnNavegador()">📋 Copiar link para abrir en Chrome/Safari</button><div id="inappLinkBox" style="display:none;background:#1e1e1e;border-radius:8px;padding:10px;max-width:320px;width:100%;font-size:11px;color:#aaa;word-break:break-all;margin-bottom:12px;border:1px solid #333"></div><div class="inapp-steps" id="inappSteps"><div class="inapp-step"><div class="inapp-step-num">1</div><div id="inappStep1">Tocá los tres puntos (...) arriba a la derecha</div></div><div class="inapp-step"><div class="inapp-step-num">2</div><div id="inappStep2">Seleccioná "Abrir en navegador externo"</div></div><div cl</div></div></div>
+<!-- ===== FLOATING ELEMENTS ===== -->
+<button class="sug-btn-float" id="sugBtnFloat" onclick="openSug()" style="display:none">🔍 ¿No encontrás algo?</button>
 
-<!-- Barra flotante -->
+<!-- ===== FLOATING CART BAR (mobile) ===== -->
 <div class="cart-bar" id="cartBar">
   <div class="cart-bar-info">
-    <div class="cart-bar-items" id="cartBarItems"></div>
-    <div class="cart-bar-total" id="cartBarTotal"></div>
+    <div class="cart-bar-items" id="cartBarItems">0 productos</div>
+    <div class="cart-bar-total" id="cartBarTotal">$0</div>
     <div class="cart-bar-minimo" id="cartBarMinimo"></div>
     <div class="cart-bar-progress"><div class="cart-bar-progress-fill" id="cartBarProgressFill" style="width:0%"></div></div>
   </div>
-  <button class="cart-bar-btn" onclick="toggleCart()">Ver carrito →</button>
+  <button class="cart-bar-btn" onclick="toggleCart()">🛒 Ver carrito</button>
 </div>
 
-
-<!-- Historial (oculto, usado por JS) -->
-<div id="historySection" class="history-section" style="display:none">
-  <div class="history-title">📋 Pedidos anteriores</div>
-  <div id="historyList"></div>
-</div>
-<!-- Modal producto -->
-<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
-  <div class="modal" id="modalBox">
-    <button class="modal-close" onclick="closeModalDirect()">✕</button>
-    <div class="modal-top">
-      <div class="modal-img-wrap" id="modalImgWrap">
-        <button class="modal-nav prev" id="modalPrev" onclick="modalNav(-1)">‹</button>
-        <button class="modal-nav next" id="modalNext" onclick="modalNav(1)">›</button>
-      </div>
-      <div class="modal-info" id="modalInfo"></div>
-    </div>
-    <div class="modal-related" id="modalRelated" style="display:none">
-      <h3>📦 Productos relacionados</h3>
-      <div class="related-grid" id="relatedGrid"></div>
-    </div>
-  </div>
-</div>
-
-<!-- Modal Cómo Comprar -->
-<div class="how-overlay" id="howOverlay" onclick="closeHowOut(event)">
-  <div class="how-modal">
-    <div class="how-modal-header">
-      <h2>❓ ¿Cómo <span>comprar?</span></h2>
-      <button class="how-close" onclick="closeHow()">✕</button>
-    </div>
-    <div class="how-body">
-      <!-- Paso a paso -->
-      <div class="how-section">
-        <div class="how-section-title">📋 Paso a paso</div>
-        <div class="how-step"><div class="how-step-num">1</div><div class="how-step-text"><strong>Explorá el catálogo</strong> y agregá los productos que querés al carrito.</div></div>
-        <div class="how-step"><div class="how-step-num">2</div><div class="how-step-text"><strong>Coordiná por WhatsApp</strong> o <strong>pagá directo con Mercado Pago</strong>. Te mandamos la confirmación.</div></div>
-        <div class="how-step"><div class="how-step-num">3</div><div class="how-step-text"><strong>Abonás una seña del 50%</strong> para confirmar el pedido. El resto al recibir. Si pagás el <strong>total de una vez</strong>, obtenés un <strong>5% OFF adicional</strong>, acumulable con descuentos por volumen.</div></div>
-        <div class="how-step"><div class="how-step-num">4</div><div class="how-step-text"><strong>Entrega personal en Luján.</strong> Sin cargo en pedidos de $80.000 o más. Pedidos menores tienen un costo de entrega de $9.000.</div></div>
-      </div>
-      <!-- Medios de pago -->
-      <div class="how-section">
-        <div class="how-section-title">💳 Medios de pago</div>
-        <div class="how-pay-grid">
-          <div class="how-pay-card destacado">
-            <div class="how-pay-emoji">🏦</div>
-            <div class="how-pay-name">Transferencia</div>
-            <div class="how-pay-desc">5% OFF pagando el TOTAL en 1 pago</div>
-            <div class="how-pay-precio" style="color:var(--verde)">Sin recargo</div>
-          </div>
-          <div class="how-pay-card">
-            <div class="how-pay-emoji">💵</div>
-            <div class="how-pay-name">Efectivo</div>
-            <div class="how-pay-desc">50% de seña + resto al recibir</div>
-            <div class="how-pay-precio" style="color:var(--verde)">Sin recargo</div>
-          </div>
-          <div class="how-pay-card">
-            <div class="how-pay-emoji">💳</div>
-            <div class="how-pay-name">Mercado Pago</div>
-            <div class="how-pay-desc">Tarjeta débito, crédito o saldo MP</div>
-            <div class="how-pay-precio">Recargo según medio</div>
-          </div>
-          <div class="how-pay-card">
-            <div class="how-pay-emoji">📲</div>
-            <div class="how-pay-name">WhatsApp</div>
-            <div class="how-pay-desc">Coordinás el pago directo con nosotros</div>
-            <div class="how-pay-precio" style="color:var(--verde)">Flexible</div>
-          </div>
-        </div>
-      </div>
-      <!-- Descuentos por volumen -->
-      <div class="how-section">
-        <div class="how-section-title">🎉 Descuentos por volumen</div>
-        <table class="how-table">
-          <tr><th>Condición</th><th>Descuento</th></tr>
-          <tr><td>$100.000–$199.999 con 3+ productos</td><td style="color:var(--verde);font-weight:bold">5% OFF</td></tr>
-          <tr><td>$200.000–$299.999 con 4+ productos</td><td style="color:var(--verde);font-weight:bold">8% OFF</td></tr>
-          <tr><td>$300.000 o más con 5+ productos</td><td style="color:var(--verde);font-weight:bold">12% OFF</td></tr>
-        </table>
-        <p class="how-nota">Acumulables con el 5% por pagar el total en un pago.</p>
-      </div>
-      <!-- Entrega -->
-      <div class="how-section">
-        <div class="how-section-title">🚗 Entrega en Luján</div>
-        <table class="how-table">
-          <tr><th>Monto del pedido</th><th>Costo</th></tr>
-          <tr><td>Menos de $80.000</td><td style="color:var(--rojo);font-weight:bold">$9.000</td></tr>
-          <tr><td>$80.000 o más</td><td style="color:var(--verde);font-weight:bold">Sin cargo ✅</td></tr>
-        </table>
-        <p class="how-nota">Entrega personal en Luján. Sin envíos por correo ni mensajería.</p>
-      </div>
-      <!-- Sistema de referidos -->
-      <div class="how-section">
-        <div class="how-section-title">🤝 Sistema de referidos</div>
-        <table class="how-table">
-          <tr><th>Tu referido compra</th><th>Vos ganás</th></tr>
-          <tr><td>$40.000 – $99.999</td><td style="color:var(--naranja);font-weight:bold">$2.000 OFF</td></tr>
-          <tr><td>$100.000 – $199.999</td><td style="color:var(--naranja);font-weight:bold">$5.000 OFF</td></tr>
-          <tr><td>$200.000 – $299.999</td><td style="color:var(--naranja);font-weight:bold">$10.000 OFF</td></tr>
-          <tr><td>$300.000 o más</td><td style="color:var(--naranja);font-weight:bold">$20.000 OFF</td></tr>
-        </table>
-        <p class="how-nota">Consultá por WhatsApp para aplicar el descuento.</p>
-      </div>
-      <!-- Garantía -->
-      <div class="how-section">
-        <div class="how-section-title">🛡️ Garantía</div>
-        <p style="font-size:13px;line-height:1.6">Productos <strong>Lambo Tech</strong>: <strong>6 meses de garantía</strong> por defectos de fabricación. Para gestionar, contactanos por WhatsApp con el código y comprobante de compra.</p>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- Modal Sugerencia -->
-<div class="sug-overlay" id="sugOverlay" onclick="closeSugOut(event)">
-  <div class="sug-modal">
-    <div class="sug-header">
-      <h3>🛍️ ¿No encontrás lo que buscás?</h3>
-      <button class="how-close" onclick="closeSug()">✕</button>
-    </div>
-    <div class="sug-body">
-      <div class="sug-subtitle">Contanos qué producto querés y lo buscamos para vos. Si lo conseguimos, sos el primero en enterarte. 🙌</div>
-      <input class="sug-input" id="sugProducto" type="text" placeholder="¿Qué producto buscás?">
-      <input class="sug-input" id="sugWA" type="tel" placeholder="Tu WhatsApp (opcional) — para avisarte">
-      <button class="sug-btn" onclick="enviarSugerencia()">📬 Enviar pedido</button>
-    </div>
-  </div>
-</div>
-
-<!-- Botón flotante sugerencia -->
-<button class="sug-btn-float" id="sugBtnFloat" onclick="openSug()" style="display:none">
-  🔍 ¿No encontrás algo?
-</button>
-
+<!-- ===== TOAST ===== -->
 <div class="toast" id="toast"></div>
 
+<!-- ===== FOOTER ===== -->
 <footer>
   <div class="footer-social">
     <a href="https://www.instagram.com/elgalpon.store" target="_blank" class="footer-social-btn ig">
-      <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>@elgalpon.store
+      <svg viewBox="0 0 24 24" class="svg-ig"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.919-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+      @elgalpon.store
     </a>
     <a href="https://www.facebook.com/profile.php?id=61587433577342" target="_blank" class="footer-social-btn fb">
-      <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>El Galpón en Facebook
+      <svg viewBox="0 0 24 24" class="svg-fb"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>El Galpón en Facebook
     </a>
   </div>
   El Galpón &nbsp;·&nbsp; Precios en ARS &nbsp;·&nbsp; Stock sujeto a disponibilidad &nbsp;·&nbsp; Pedidos por WhatsApp
 </footer>
 
-
-// ── CONSTANTS ────
-// ── CONSTANTS ────────────────────────────────────────────────────────────
 <script>
 const MINIMO         = 40000;
 const ENTREGA_GRATIS = 80000;
@@ -941,6 +738,48 @@ const REGLAS_DESCUENTO = [
   { nivel:2, pct:8,  minTotal:200000, minProductos:4, label:'8% OFF — 4+ productos y $200.000+'  },
   { nivel:1, pct:5,  minTotal:100000, minProductos:3, label:'5% OFF — 3+ productos y $100.000+'  }
 ];
+
+
+// ═══════════════════════════════════════════════════════════════════════════
+// CATALOG ENGINE — central state + filter management
+// Usage: CatalogEngine.setFilter('disponibles', true) etc.
+// ═══════════════════════════════════════════════════════════════════════════
+const CatalogEngine = {
+  // State mirrors the global vars (kept in sync)
+  getFilters: function(){
+    return {
+      disponibles: soloDisponibles,
+      orden: (document.getElementById('sortSelect')||{}).value || 'desc',
+      busqueda: searchTerm,
+      categoria: activeCategory
+    };
+  },
+  // Apply a filter and re-render
+  setFilter: function(name, value){
+    if(name === 'disponibles'){
+      soloDisponibles = !!value;
+      var btn = document.getElementById('btnDisponibles');
+      if(btn){
+        btn.textContent = soloDisponibles ? '📦 Solo disponibles' : '📦 Ver todos';
+        btn.classList.toggle('active', soloDisponibles);
+      }
+    } else if(name === 'orden'){
+      var sel = document.getElementById('sortSelect');
+      if(sel) sel.value = value;
+    } else if(name === 'categoria'){
+      activeCategory = value;
+    } else if(name === 'busqueda'){
+      searchTerm = value;
+    }
+    renderProducts();
+  },
+  // Reload from backend
+  reload: function(){
+    sessionStorage.removeItem('galpon_products');
+    loadProducts();
+  }
+};
+// ═══════════════════════════════════════════════════════════════════════════
 
 function validarProductos(items){
   return items.every(function(x){ return x[1].precio >= PRECIO_MINIMO_PRODUCTO; });
@@ -1215,10 +1054,15 @@ function renderProducts(){
     try{return cardHTML(p);}
     catch(e){console.error("cardHTML error for",p.codigo,e);return "";}
   }).join("");
-  // Observe all cards for fade-in
-  if(cardObserver){
-    grid.querySelectorAll(".card").forEach(c=>cardObserver.observe(c));
-  }
+  // Observe all cards for fade-in + force visible as fallback
+  requestAnimationFrame(function(){
+    grid.querySelectorAll(".card").forEach(function(card){
+      if(cardObserver) cardObserver.observe(card);
+      // Fallback: cards in viewport get visible immediately
+      var r = card.getBoundingClientRect();
+      if(r.top < window.innerHeight + 100) card.classList.add("visible");
+    });
+  });
 }
 
 function cardHTML(p){
@@ -1972,6 +1816,58 @@ function toggleMobileSearch(){
   // On mobile the bar is always visible — just focus the input
   if(inp)inp.focus();
 }
+
+// ── INIT ─────────────────────────────────────────────────────────────────
+window.onload = function(){
+
+  // 1. Theme
+  applyTheme();
+
+  // 2. Column layout — default 2 on mobile, 3 on desktop
+  var savedCols = localStorage.getItem('galpon_cols');
+  if(!savedCols) savedCols = (window.innerWidth <= 600) ? '2' : '3';
+  setColumns(parseInt(savedCols) || 2);
+
+  // 3. MP payment status (handles back-from-payment redirects)
+  checkURLStatus();
+
+  // 4. Card observer for fade-in animations
+  initCardObserver();
+
+  // 5. Scroll behavior (collapse mobile icons row)
+  initScrollBehavior();
+
+  // 6. Order history
+  loadHistory();
+
+  // 7. Search input listener
+  var si = document.getElementById('searchInput');
+  if(si){
+    si.addEventListener('input', function(e){
+      searchTerm = e.target.value.toLowerCase().trim();
+      clearTimeout(searchDebounce);
+      searchDebounce = setTimeout(renderProducts, 300);
+    });
+  }
+
+  // 8. Modal swipe
+  var ov = document.getElementById('modalOverlay');
+  if(ov){
+    ov.addEventListener('touchstart', function(e){
+      touchStartX = e.touches[0].clientX;
+    }, {passive:true});
+    ov.addEventListener('touchend', function(e){
+      var dx = e.changedTouches[0].clientX - touchStartX;
+      if(Math.abs(dx) > 60) modalNav(dx < 0 ? 1 : -1);
+    }, {passive:true});
+  }
+
+  // 9. Resize handler
+  window.addEventListener('resize', fixFilterBarPosition, {passive:true});
+
+  // 10. Load products (triggers full render pipeline)
+  loadProducts();
+};
 
 </script>
 </body>
