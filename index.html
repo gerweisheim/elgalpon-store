@@ -1,4 +1,4 @@
-;transition:back<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
@@ -98,8 +98,6 @@ header{background:var(--negro);padding:0 24px;position:fixed;top:var(--bar-h);le
 .cart-count{background:var(--blanco);color:var(--naranja);border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:bold}
 
 /* ══ HEADER MOBILE ICONS ROW ══ */
-.header-icons-row{display:none;align-items:center;gap:8px;width:100%;padding:4px 0 6px}
-.header-icons-row.collapsed{display:none!important}
 
 /* ══ FILTROS ══ */
 
@@ -214,7 +212,7 @@ header{background:var(--negro);padding:0 24px;position:fixed;top:var(--bar-h);le
 /* ── CARRITO DRAWER ────────────────────────────────── */
 .cart-drawer{position:fixed;top:0;right:-440px;width:420px;max-width:100vw;height:100vh;background:var(--card-bg);box-shadow:-4px 0 24px rgba(0,0,0,.18);z-index:201;display:flex;flex-direction:column;transition:right .28s cubic-bezier(.4,0,.2,1)}
 .cart-drawer.open{right:0}
-.cart-header{background:var(--negro);color:var(--blanco);padding:16px 20px;display:flex;align-items:center;justify-content:space-between}
+.cart-
 .cart-header h2{font-size:16px}
 .close-btn{background:none;border:none;color:var(--blanco);font-size:22px;cursor:pointer}
 .cart-items{flex:1;overflow-y:auto;padding:12px 16px;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
@@ -314,7 +312,7 @@ header{background:var(--negro);padding:0 24px;position:fixed;top:var(--bar-h);le
 .how-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:400;overflow-y:auto;padding:20px}
 .how-overlay.open{display:flex;align-items:flex-start;justify-content:center}
 .how-modal{background:var(--card-bg);border-radius:16px;width:100%;max-width:680px;margin:auto;overflow:hidden;position:relative}
-.how-modal-header{background:var(--negro);padding:20px 24px;display:flex;align-items:center;justify-content:space-between}
+.how-modal-
 .how-modal-header h2{font-size:18px;font-weight:900;color:var(--blanco)}
 .how-modal-header h2 span{color:var(--naranja)}
 .how-close{background:none;border:none;color:var(--gris-m);font-size:24px;cursor:pointer}
@@ -350,7 +348,7 @@ header{background:var(--negro);padding:0 24px;position:fixed;top:var(--bar-h);le
 .sug-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:400;padding:20px;align-items:center;justify-content:center}
 .sug-overlay.open{display:flex}
 .sug-modal{background:var(--card-bg);border-radius:16px;width:100%;max-width:440px;overflow:hidden}
-.sug-header{background:var(--negro);padding:18px 20px;display:flex;align-items:center;justify-content:space-between}
+.sug-
 .sug-header h3{font-size:16px;font-weight:bold;color:var(--blanco)}
 .sug-body{padding:20px;display:flex;flex-direction:column;gap:14px}
 .sug-subtitle{font-size:13px;color:var(--text2);line-height:1.5}
@@ -402,8 +400,8 @@ footer{background:var(--negro);color:var(--gris-m);text-align:center;padding:16p
 
 .search-toggle-btn{display:none}
 @media(max-width:600px){
-  /* ── BASE STRUCTURE ─────────────────────────────────── */
   header{padding:0 12px}
+  /* ── BASE STRUCTURE ─────────────────────────────────── */
   .header-inner{height:auto;flex-wrap:wrap;padding:6px 0 0;gap:4px;align-items:center}
 
   /* Row 1: Logo (order:1) + Actions (order:2) */
@@ -578,15 +576,14 @@ footer{background:var(--negro);color:var(--gris-m);text-align:center;padding:16p
 <div id="landing"><div class="landing-logo">El <span>Galpón</span></div><div class="landing-tagline">Todo lo que buscás, en un solo lugar. Pedidos personales con entrega en Luján.</div><div class="landing-stats"><div class="stat"><div class="stat-num" id="landingCount">+315</div><div class="stat-label">Productos</div></div><div class="stat"><div class="stat-num">$40k</div><div class="stat-label">Pedido mínimo</div></div><div class="stat"><div class="stat-num">📲</div><div class="stat-label">Pedidos por WA</div></div></div><div class="mv-landing" id="mvLanding" style="display:none"><div class="mv-title">🔥 <span>Más</span> Vendidos</div><div class="mv-grid-landing" id="mvGridLanding"></div></div><button class="landing-btn" onclick="enterStore()">🛒 Ver catálogo completo</button><div class="social-btns" style="justify-content:center"><a href="https://www.instagram.com/elgalpon.store" target="_blank" class="social-btn ig"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg> @elgalpon.store</a><a href="https://www.facebook.com/profile.php?id=61587433577342" target="_blank" class="social-btn fb"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg> El Galpón</a></div><div class="landing-footer">Precios en ARS · Stock sujeto a disponibilidad</div>
 </div>
 <div id="tienda">
-<header id="mainHeader"><div class="header-inner"><div class="logo" onclick="goToLanding()">🏪 El <span>Galpón</span></div><div class="cat-dropdown" id="catDropdown"><button class="cat-btn" id="catBtn" onclick="toggleCatMenu()">📦 Categorías ▾</button><div class="cat-menu" id="catMenu"></div></div><div class="search-bar"><span class="search-icon">🔍</span><input type="text" id="searchInput" placeholder="Buscar producto o código..."></div><div class="header-actions">
+<header id="mainHeader"><div class="header-inner"><div class="header-logo-text" id="header-logo-text" onclick="goToLanding()">🏪 El <span>Galpón</span></div><div class="cat-dropdown" id="catDropdown"><button class="cat-btn" id="catBtn" onclick="toggleCatMenu()">📦 Categorías ▾</button><div class="cat-menu" id="catMenu"></div></div><div class="search-bar"><span class="search-icon">🔍</span><input type="text" id="searchInput" placeholder="Buscar producto o código..."></div><div class="header-actions">
       <a href="https://www.instagram.com/elgalpon.store" target="_blank" class="social-icon ig" id="desktopIG"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.919-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
       <a href="https://www.facebook.com/profile.php?id=61587433577342" target="_blank" class="social-icon fb" id="desktopFB"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
       <button class="theme-btn" onclick="toggleTheme()" id="themeBtn" title="Modo oscuro/claro">🌙</button>
       <button class="how-btn" onclick="openHow()" id="desktopHow">❓ ¿Cómo comprar?</button>
       <button class="search-toggle-btn" onclick="toggleMobileSearch()" title="Buscar">🔍</button>
       <button class="cart-btn" onclick="toggleCart()">🛒 <span class="cart-count" id="cartCount">0</span></button>
-    </div></div><div class="mob-icons" id="mobIcons"><a href="https://www.instagram.com/elgalpon.store" target="_blank" class="icon-btn ig"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a><a href="https://www.facebook.com/profile.php?id=61587433577342" target="_blank" class="icon-btn fb"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a><button class="icon-btn" onclick="toggleTheme()" id="themeBtnMob">🌙</button><button class="how-btn" onclick="openHow()" style="font-size:11px;padding:5px 10px">❓ Cómo comprar</button></div>
-  <div class="header-icons-row" id="mobileIconsRow">
+    </div></div><div class="header-icons-row" id="mobileIconsRow">
     <a href="https://www.instagram.com/elgalpon.store" target="_blank" class="social-icon ig"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.919-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
     <a href="https://www.facebook.com/profile.php?id=61587433577342" target="_blank" class="social-icon fb"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
     <button class="theme-btn" onclick="toggleTheme()" id="themeBtnMobile">🌙</button>
@@ -702,8 +699,7 @@ footer{background:var(--negro);color:var(--gris-m);text-align:center;padding:16p
   El Galpón &nbsp;·&nbsp; Precios en ARS &nbsp;·&nbsp; Stock sujeto a disponibilidad &nbsp;·&nbsp; Pedidos por WhatsApp
 </footer>
 
-<script>
-const MINIMO         = 40000;
+<script>const MINIMO         = 40000;
 const ENTREGA_GRATIS = 80000;
 const COSTO_ENTREGA  = 9000;
 const WA_NUMBER      = "5491151635104";
@@ -780,6 +776,163 @@ const CatalogEngine = {
   }
 };
 // ═══════════════════════════════════════════════════════════════════════════
+
+// ╔══════════════════════════════════════════════════════════════════╗
+// ║  ARQUITECTURA — MOTORES MODULARES                               ║
+// ╚══════════════════════════════════════════════════════════════════╝
+
+// ── A. ESTADO GLOBAL ─────────────────────────────────────────────────
+const AppState = {
+  productos:   [],       // todos los productos cargados
+  carrito:     {},       // { codigo: {nombre, precio, qty} }
+  filtros: {
+    disponibles: true,
+    orden:       'desc', // desc|asc|az|za
+    categoria:   '',
+    busqueda:    ''
+  },
+  ui: {
+    mobile:      window.innerWidth < 768,
+    cartOpen:    false,
+    modalOpen:   false,
+    colCount:    window.innerWidth < 768 ? 2 : 3
+  },
+  // Sync desde globals: se llama cuando algún global cambia
+  sync() {
+    this.filtros.disponibles = soloDisponibles;
+    this.filtros.categoria   = activeCategory;
+    this.filtros.busqueda    = searchTerm;
+    this.carrito             = cart;
+    this.productos           = allProducts;
+    if (DEBUG) console.log('[AppState]', JSON.parse(JSON.stringify(this)));
+  }
+};
+
+// ── B. DEBUG ──────────────────────────────────────────────────────────
+const DEBUG = (
+  window.location.hostname === 'localhost' ||
+  window.location.hostname === '127.0.0.1' ||
+  new URLSearchParams(window.location.search).get('debug') === '1'
+);
+function dbg(...args){ if(DEBUG) console.log('[ElGalpon]', ...args); }
+
+// ── C. API ENGINE (JSONP — compatible con GitHub Pages + Apps Script) ──
+// NOTA: fetch() no funciona cross-origin con Apps Script desde GitHub Pages.
+// Se usa JSONP (inyección de tag ). Ver loadProducts() para impl.
+const ApiEngine = {
+  _call(action, params, timeoutMs) {
+    timeoutMs = timeoutMs || 12000;
+    return new Promise(function(resolve, reject) {
+      var cb = 'apicb_' + Date.now();
+      var timer = setTimeout(function() {
+        delete window[cb];
+        reject(new Error('API timeout: ' + action));
+      }, timeoutMs);
+      window[cb] = function(data) {
+        clearTimeout(timer);
+        delete window[cb];
+        resolve(data);
+      };
+      var qs = Object.keys(params || {}).map(function(k) {
+        return k + '=' + encodeURIComponent(params[k]);
+      }).join('&');
+      var s = document.createElement('script');
+      s.onerror = function() {
+        clearTimeout(timer);
+        delete window[cb];
+        reject(new Error('API error: ' + action));
+      };
+      s.src = API_URL + '?action=' + action + '&callback=' + cb +
+              (qs ? '&' + qs : '') + '&r=' + Date.now();
+      document.head.appendChild(s);
+    });
+  },
+  getProductos() {
+    return this._call('getProducts', {});
+  },
+  logVisita() {
+    return this._call('logVisit', {}).catch(function() {});
+  },
+  guardarPedido(data) {
+    return this._call('guardarPedido', { data: JSON.stringify(data) }).catch(function() {});
+  },
+  guardarSugerencia(prod, wa) {
+    return this._call('guardarSugerencia', { producto: prod, whatsapp: wa || '' }).catch(function() {});
+  },
+  crearPagoMP(monto, desc, pedidoId) {
+    return this._call('crearPagoMP', { monto: monto, descripcion: desc, pedidoId: pedidoId });
+  }
+};
+
+// ── D. MOTOR DE CATÁLOGO (FILTROS + ORDEN) ────────────────────────────
+// Centraliza toda la lógica de filtrado. No toca el DOM.
+// Ya existe CatalogEngine abajo; este lo extiende.
+const FilterEngine = {
+  aplicar(productos) {
+    var f = productos.slice();
+    if (soloDisponibles)  f = f.filter(function(p){ return p.stock !== 'Sin Stock'; });
+    if (activeCategory)   f = f.filter(function(p){ return p.categoria === activeCategory; });
+    if (searchTerm)       f = f.filter(function(p){
+      var q = searchTerm;
+      return p.producto.toLowerCase().includes(q) ||
+             (p.descripcion||'').toLowerCase().includes(q) ||
+             String(p.codigo).includes(q) ||
+             (p.categoria||'').toLowerCase().includes(q);
+    });
+    var s = (document.getElementById('sortSelect')||{}).value || 'desc';
+    if      (s === 'az')  f.sort(function(a,b){ return a.producto.localeCompare(b.producto); });
+    else if (s === 'za')  f.sort(function(a,b){ return b.producto.localeCompare(a.producto); });
+    else if (s === 'asc') f.sort(function(a,b){ return a.precio - b.precio; });
+    else                  f.sort(function(a,b){ return b.precio - a.precio; });
+    return f;
+  }
+};
+
+// ── E. MOTOR DE RENDER (sin mezclar lógica con UI) ────────────────────
+const RenderEngine = {
+  // Actualiza el contador del header
+  cartCount(n) {
+    var el = document.getElementById('cartCount');
+    if (el) el.textContent = n;
+  },
+  // Actualiza results info (ej: "193 de 346")
+  resultsInfo(filtered, total) {
+    var el = document.getElementById('resultsInfo');
+    if (!el) return;
+    el.textContent = filtered === total
+      ? total + ' productos'
+      : filtered + ' de ' + total;
+  },
+  // Muestra/oculta el skeleton y la grilla
+  showGrid(show) {
+    var sk = document.getElementById('skeletonGrid');
+    var pg = document.getElementById('productGrid');
+    if (sk) sk.style.display = show ? 'none' : 'grid';
+    if (pg) pg.style.display = show ? 'grid' : 'none';
+  },
+  // Renderiza tarjetas de productos
+  productos(lista) {
+    var grid = document.getElementById('productGrid');
+    if (!grid) return;
+    if (!lista.length) {
+      grid.innerHTML = '<div class="empty">🔍 Sin resultados.</div>';
+      return;
+    }
+    grid.innerHTML = lista.map(function(p) {
+      try { return cardHTML(p); } catch(e) { return ''; }
+    }).join('');
+    // Fade-in con fallback
+    requestAnimationFrame(function() {
+      grid.querySelectorAll('.card').forEach(function(card) {
+        if (cardObserver) cardObserver.observe(card);
+        var r = card.getBoundingClientRect();
+        if (r.top < window.innerHeight + 100) card.classList.add('visible');
+      });
+    });
+    dbg('RenderEngine.productos: ' + lista.length + ' cards');
+  }
+};
+// ╚══════════════════════════════════════════════════════════════════╝
 
 function validarProductos(items){
   return items.every(function(x){ return x[1].precio >= PRECIO_MINIMO_PRODUCTO; });
@@ -1047,22 +1200,9 @@ function renderProducts(){
   else if(s==="za")f.sort((a,b)=>b.producto.localeCompare(a.producto));
   else if(s==="asc")f.sort((a,b)=>a.precio-b.precio);
   else f.sort((a,b)=>b.precio-a.precio);
-  document.getElementById("resultsInfo").textContent=
-    f.length===allProducts.length?`${allProducts.length} productos`:`${f.length} de ${allProducts.length}`;
-  if(!f.length){grid.innerHTML='<div class="empty">🔍 Sin resultados — probá con otro término.</div>';return;}
-  grid.innerHTML=f.map(p=>{
-    try{return cardHTML(p);}
-    catch(e){console.error("cardHTML error for",p.codigo,e);return "";}
-  }).join("");
-  // Observe all cards for fade-in + force visible as fallback
-  requestAnimationFrame(function(){
-    grid.querySelectorAll(".card").forEach(function(card){
-      if(cardObserver) cardObserver.observe(card);
-      // Fallback: cards in viewport get visible immediately
-      var r = card.getBoundingClientRect();
-      if(r.top < window.innerHeight + 100) card.classList.add("visible");
-    });
-  });
+  RenderEngine.resultsInfo(f.length, allProducts.length);
+  RenderEngine.productos(f);
+  AppState.sync();
 }
 
 function cardHTML(p){
