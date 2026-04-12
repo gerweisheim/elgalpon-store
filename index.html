@@ -64,6 +64,7 @@ body{font-family:Arial,sans-serif;background:var(--bg);color:var(--text);min-hei
 #tienda{display:none;padding-top:calc(var(--bar-h) + 112px)}
 
 /* ══ HEADER DESKTOP ══ */
+/* mainHeader display controlled by JS via navigateTo */
 header{background:var(--negro);padding:0 24px;position:fixed;top:var(--bar-h);left:0;right:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,0.3);transition:top .3s}
 
 
@@ -575,8 +576,9 @@ footer{background:var(--negro);color:var(--gris-m);text-align:center;padding:16p
 </div>
 <div id="landing"><div class="landing-logo">El <span>Galpón</span></div><div class="landing-tagline">Todo lo que buscás, en un solo lugar. Pedidos personales con entrega en Luján.</div><div class="landing-stats"><div class="stat"><div class="stat-num" id="landingCount">+315</div><div class="stat-label">Productos</div></div><div class="stat"><div class="stat-num">$40k</div><div class="stat-label">Pedido mínimo</div></div><div class="stat"><div class="stat-num">📲</div><div class="stat-label">Pedidos por WA</div></div></div><div class="mv-landing" id="mvLanding" style="display:none"><div class="mv-title">🔥 <span>Más</span> Vendidos</div><div class="mv-grid-landing" id="mvGridLanding"></div></div><button class="landing-btn" onclick="enterStore()">🛒 Ver catálogo completo</button><div class="social-btns" style="justify-content:center"><a href="https://www.instagram.com/elgalpon.store" target="_blank" class="social-btn ig"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg> @elgalpon.store</a><a href="https://www.facebook.com/profile.php?id=61587433577342" target="_blank" class="social-btn fb"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg> El Galpón</a></div><div class="landing-footer">Precios en ARS · Stock sujeto a disponibilidad</div>
 </div>
-<div id="tienda">
-<header id="mainHeader"><div class="header-inner"><div class="header-logo-text" id="header-logo-text" onclick="goToLanding()">🏪 El <span>Galpón</span></div><div class="cat-dropdown" id="catDropdown"><button class="cat-btn" id="catBtn" onclick="toggleCatMenu()">📦 Categorías ▾</button><div class="cat-menu" id="catMenu"></div></div><div class="search-bar"><span class="search-icon">🔍</span><input type="text" id="searchInput" placeholder="Buscar producto o código..."></div><div class="header-actions">
+
+<!-- ===== HEADER (outside tienda, controlled by navigateTo) ===== -->
+<header id="mainHeader" style="display:none"><div class="header-inner"><div class="header-logo-text" id="header-logo-text" onclick="goToLanding()">🏪 El <span>Galpón</span></div><div class="cat-dropdown" id="catDropdown"><button class="cat-btn" id="catBtn" onclick="toggleCatMenu()">📦 Categorías ▾</button><div class="cat-menu" id="catMenu"></div></div><div class="search-bar"><span class="search-icon">🔍</span><input type="text" id="searchInput" placeholder="Buscar producto o código..."></div><div class="header-actions">
       <a href="https://www.instagram.com/elgalpon.store" target="_blank" class="social-icon ig" id="desktopIG"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.919-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
       <a href="https://www.facebook.com/profile.php?id=61587433577342" target="_blank" class="social-icon fb" id="desktopFB"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
       <button class="theme-btn" onclick="toggleTheme()" id="themeBtn" title="Modo oscuro/claro">🌙</button>
@@ -589,7 +591,10 @@ footer{background:var(--negro);color:var(--gris-m);text-align:center;padding:16p
     <button class="theme-btn" onclick="toggleTheme()" id="themeBtnMobile">🌙</button>
     <button class="how-btn-mobile" onclick="openHow()">❓ Cómo comprar</button>
   </div>
-</header><div class="filters-bar" id="filtersBar"><div class="filters-inner" id="filtersInner"><button class="filter-chip active" onclick="setCategory('')" data-cat="">Todos</button></div>
+</header>
+
+<div id="tienda" style="display:none">
+<div class="filters-bar" id="filtersBar"><div class="filters-inner" id="filtersInner"><button class="filter-chip active" onclick="setCategory('')" data-cat="">Todos</button></div>
 </div><div class="mv-section" id="mvSection" style="display:none"><div class="mv-section-title">🔥 <span>Más</span> vendidos</div><div class="mv-grid" id="mvGrid"></div>
 </div><div class="toolbar">
   <!-- ===== TOOLBAR — filtros y orden ===== -->
@@ -699,7 +704,8 @@ footer{background:var(--negro);color:var(--gris-m);text-align:center;padding:16p
   El Galpón &nbsp;·&nbsp; Precios en ARS &nbsp;·&nbsp; Stock sujeto a disponibilidad &nbsp;·&nbsp; Pedidos por WhatsApp
 </footer>
 
-<script>const MINIMO         = 40000;
+<script>
+const MINIMO         = 40000;
 const ENTREGA_GRATIS = 80000;
 const COSTO_ENTREGA  = 9000;
 const WA_NUMBER      = "5491151635104";
@@ -716,7 +722,7 @@ const ICON_CAT = {
 
 // ── GLOBAL STATE ──────────────────────────────────────────────────────────
 let allProducts=[], cart={}, activeCategory="", searchTerm="", soloDisponibles=true;
-let currentCols=3, modalList=[], modalIdx=0, touchStartX=0;
+let currentCols=3, modalList=[], modalIdx=0, touchStartX=0, lastScrollY=0;
 let searchDebounce=null, cardObserver=null;
 
 
@@ -783,6 +789,7 @@ const CatalogEngine = {
 
 // ── A. ESTADO GLOBAL ─────────────────────────────────────────────────
 const AppState = {
+  view:        'landing', // 'landing' | 'catalogo'
   productos:   [],       // todos los productos cargados
   carrito:     {},       // { codigo: {nombre, precio, qty} }
   filtros: {
@@ -1083,17 +1090,11 @@ function getProxDesc(t){
 // ── NAVIGATION ──────────────────────────────────────────────────────────
 
 function enterStore(){
-  document.getElementById("landing").style.display="none";
-  document.getElementById("tienda").style.display="block";
-  document.getElementById("sugBtnFloat").style.display="flex";
-  if(allProducts.length===0)loadProducts();
-  else{renderMasVendidos();fixFilterBarPosition();}
+  navigateTo('catalogo');
 }
 
 function goToLanding(){
-  document.getElementById("tienda").style.display="none";
-  document.getElementById("landing").style.display="flex";
-  document.getElementById("sugBtnFloat").style.display="none";
+  navigateTo('landing');
 }
 
 function enterStoreAndOpen(codigo){
@@ -1149,17 +1150,27 @@ function loadProducts(){
   var _t=setTimeout(function(){
     if(window[_cb]){
       delete window[_cb];
-      document.getElementById('skeletonGrid').style.display='none';
-      document.getElementById('productGrid').style.display='grid';
-      document.getElementById('productGrid').innerHTML='<div class="empty">⏱️ Tiempo de espera agotado.<br><br><strong>Para resolver esto:</strong><br>1. Abrí tu Apps Script<br>2. Implementar → Nueva implementación<br>3. Acceso: <strong>Cualquier persona</strong><br><br><button onclick="loadProducts()" style="background:var(--naranja);color:#fff;border:none;border-radius:8px;padding:10px 20px;font-size:13px;font-weight:bold;cursor:pointer">🔄 Reintentar</button></div>';
+      if(AppState.view==='catalogo'){
+        document.getElementById('skeletonGrid').style.display='none';
+        document.getElementById('productGrid').style.display='grid';
+        document.getElementById('productGrid').innerHTML='<div class="empty">⏱️ Tiempo de espera agotado.<br><br><strong>Para resolver esto:</strong><br>1. Abrí tu Apps Script<br>2. Implementar → Nueva implementación<br>3. Acceso: <strong>Cualquier persona</strong><br><br><button onclick="loadProducts()" style="background:var(--naranja);color:#fff;border:none;border-radius:8px;padding:10px 20px;font-size:13px;font-weight:bold;cursor:pointer">🔄 Reintentar</button></div>';
+      }
     }
   },12000);
   _s.onerror=function(){
     clearTimeout(_t);
     delete window[_cb];
-    document.getElementById('skeletonGrid').style.display='none';
-    document.getElementById('productGrid').style.display='grid';
-    document.getElementById('productGrid').innerHTML='<div class="empty">Error de conexion con la API. Reimplementa Code.gs en Apps Script con acceso a "Cualquier persona".</div>';
+    // Only show error message if user is already in catalog view
+    if (AppState.view === 'catalogo') {
+      var sk2=document.getElementById('skeletonGrid');
+      var pg2=document.getElementById('productGrid');
+      if(sk2)sk2.style.display='none';
+      if(pg2){pg2.style.display='grid';
+        pg2.innerHTML='<div class="empty">❌ Error de conexión con la API.<br>Reimplementá Code.gs con acceso a "Cualquier persona".<br><br><button onclick="loadProducts()" style="background:var(--naranja);color:#fff;border:none;border-radius:8px;padding:10px 20px;font-size:13px;font-weight:bold;cursor:pointer">🔄 Reintentar</button></div>';
+      }
+    }
+    // If on landing: fail silently — user never navigated to catalog
+    dbg('loadProducts onerror — view:', AppState.view);
   };
   _s.src=API_URL+'?action=getProducts&callback='+_cb+'&r='+Date.now();
   document.head.appendChild(_s);
@@ -1167,15 +1178,23 @@ function loadProducts(){
 
 function onProductsLoaded(){
   const n=allProducts.length;
-  document.getElementById("landingCount").textContent="+"+n;
+  // Update landing count (works regardless of current view)
+  var lc=document.getElementById("landingCount");
+  if(lc)lc.textContent="+"+n;
   localStorage.setItem("galpon_product_count",n);
-  document.getElementById("skeletonGrid").style.display="none";
-  document.getElementById("productGrid").style.display="grid";
+  // Always build filters and landing "Más vendidos"
   buildCategoryFilters();
   buildCatDropdown();
   renderMasVendidos();
-  renderProducts();
-  fixFilterBarPosition();
+  // Only render catalog grid if user is already in catalog view
+  if(AppState.view==="catalogo"){
+    var sk=document.getElementById("skeletonGrid");
+    var pg=document.getElementById("productGrid");
+    if(sk)sk.style.display="none";
+    if(pg)pg.style.display="grid";
+    renderProducts();
+    fixFilterBarPosition();
+  }
   // logVisit in idle time — non-blocking
   (function(){
     var s=document.createElement('script');
@@ -1958,6 +1977,57 @@ function toggleMobileSearch(){
 }
 
 // ── INIT ─────────────────────────────────────────────────────────────────
+
+// ── MOTOR DE NAVEGACIÓN ───────────────────────────────────────────────
+/**
+ * navigateTo(view)
+ * Única función que cambia la vista activa.
+ * Respeta la arquitectura modular: no toca el DOM directamente.
+ * @param {string} view — 'landing' | 'catalogo'
+ */
+function navigateTo(view) {
+  AppState.view = view;
+  var landing = document.getElementById('landing');
+  var tienda  = document.getElementById('tienda');
+  var sugBtn  = document.getElementById('sugBtnFloat');
+  var mainHdr = document.getElementById('mainHeader');
+  if (view === 'catalogo') {
+    if (landing)  landing.style.display  = 'none';
+    if (tienda)   tienda.style.display   = 'block';
+    if (mainHdr)  mainHdr.style.display  = 'block';
+    if (sugBtn)   sugBtn.style.display   = 'flex';
+    // Si productos ya cargados, solo renderizar; si no, cargar primero
+    if (allProducts.length > 0) {
+      renderMasVendidos();
+      renderProducts();
+      fixFilterBarPosition();
+    } else {
+      loadProducts(); // onProductsLoaded() llamará renderProducts()
+    }
+  } else {
+    // landing
+    if (tienda)   tienda.style.display   = 'none';
+    if (mainHdr)  mainHdr.style.display  = 'none';
+    if (landing)  landing.style.display  = 'flex';
+    if (sugBtn)   sugBtn.style.display   = 'none';
+  }
+  if (typeof AppState.sync === 'function') AppState.sync();
+  dbg('navigateTo:', view);
+}
+
+/**
+ * renderApp() — controlador de render principal
+ * No renderiza directamente: delega a las funciones de cada vista.
+ */
+function renderApp() {
+  if (AppState.view === 'catalogo') {
+    renderMasVendidos();
+    renderProducts();
+    fixFilterBarPosition();
+  }
+  // Landing se renderiza sola (HTML estático + renderMasVendidos via onProductsLoaded)
+}
+// ── FIN MOTOR DE NAVEGACIÓN ───────────────────────────────────────────
 window.onload = function(){
 
   // 1. Theme
@@ -2005,8 +2075,14 @@ window.onload = function(){
   // 9. Resize handler
   window.addEventListener('resize', fixFilterBarPosition, {passive:true});
 
-  // 10. Load products (triggers full render pipeline)
-  loadProducts();
+  // 10. Products load ONLY when user enters the catalog (via navigateTo)
+  //     Do NOT call loadProducts() here — landing must stay clean.
+  //     Pre-fetch the product count for the landing counter:
+  var savedCount = localStorage.getItem('galpon_product_count');
+  if (savedCount) {
+    var lc = document.getElementById('landingCount');
+    if (lc) lc.textContent = '+' + savedCount;
+  }
 };
 
 </script>
