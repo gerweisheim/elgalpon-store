@@ -211,7 +211,7 @@ header{background:var(--negro);padding:0 24px;position:fixed;top:var(--bar-h);le
 
 
 /* ── CARRITO DRAWER ────────────────────────────────── */
-.cart-drawer{position:fixed;top:0;right:-440px;width:420px;max-width:100vw;height:100vh;background:var(--card-bg);box-shadow:-4px 0 24px rgba(0,0,0,.18);z-index:201;display:flex;flex-direction:column;transition:right .28s cubic-bezier(.4,0,.2,1)}
+
 .cart-drawer.open{right:0}
 .cart-
 .cart-header h2{font-size:16px}
@@ -837,6 +837,116 @@ footer{background:var(--negro);color:var(--gris-m);text-align:center;padding:16p
   .how-body    { padding:16px 16px 24px; }
   .hp-grid     { grid-template-columns: 1fr 1fr; }
 }
+
+/* ── CART DRAWER — clases faltantes ──────────────────────────────── */
+.cart-drawer{
+  position:fixed;top:0;right:-110vw;width:420px;max-width:100vw;
+  height:100vh;background:var(--card-bg);
+  box-shadow:-4px 0 28px rgba(0,0,0,.22);
+  z-index:201;display:flex;flex-direction:column;
+  transition:right .28s cubic-bezier(.4,0,.2,1);
+  overflow:hidden
+}
+.cart-drawer.open{right:0}
+
+.cart-hdr{
+  background:var(--negro);color:var(--blanco);
+  padding:16px 20px;display:flex;align-items:center;
+  justify-content:space-between;flex-shrink:0;
+  border-bottom:2px solid var(--naranja)
+}
+.cart-hdr h2{font-size:16px;font-weight:900;margin:0}
+.close-btn{
+  background:none;border:none;color:var(--gris-m);
+  font-size:22px;cursor:pointer;line-height:1;padding:0 2px;
+  transition:color .15s
+}
+.close-btn:hover{color:var(--rojo)}
+
+.cart-view{
+  flex:1;display:flex;flex-direction:column;overflow:hidden;min-height:0
+}
+.cart-items{
+  flex:1;overflow-y:auto;padding:10px 14px;
+  -webkit-overflow-scrolling:touch;overscroll-behavior:contain
+}
+.cart-empty{
+  text-align:center;padding:40px 20px;color:var(--gris-m);font-size:14px
+}
+
+/* confirm-box (vaciar carrito) */
+#confirmVaciarOverlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,.6);z-index:500;
+  align-items:center;justify-content:center
+}
+#confirmVaciarOverlay.open{display:flex}
+.confirm-box{
+  background:var(--card-bg);border-radius:14px;
+  padding:24px 20px;width:90%;max-width:340px;
+  text-align:center;box-shadow:0 8px 32px rgba(0,0,0,.25)
+}
+.confirm-box-logo{
+  font-size:15px;font-weight:900;color:var(--text);margin-bottom:12px
+}
+.confirm-box-msg{
+  font-size:14px;color:var(--text2);line-height:1.5;margin-bottom:18px
+}
+.confirm-box-btns{display:flex;gap:10px;justify-content:center}
+.confirm-box-cancel{
+  flex:1;background:var(--gris-l);border:1.5px solid var(--border);
+  border-radius:8px;padding:10px;font-size:14px;font-weight:bold;
+  cursor:pointer;color:var(--text);transition:background .15s
+}
+.confirm-box-cancel:hover{background:#e8e8e8}
+.confirm-box-ok{
+  flex:1;background:var(--rojo);color:#fff;border:none;
+  border-radius:8px;padding:10px;font-size:14px;font-weight:bold;
+  cursor:pointer;transition:background .15s
+}
+.confirm-box-ok:hover{background:#c0392b}
+
+/* desc-panel dentro del carrito */
+.desc-panel{
+  background:var(--gris-l);border-radius:10px;
+  padding:12px 14px;margin:8px 0;font-size:12px
+}
+.dp-title{
+  font-weight:900;color:var(--text);margin-bottom:10px;
+  font-size:13px
+}
+.desc-rule{
+  display:flex;gap:10px;align-items:flex-start;
+  padding:8px 0;border-bottom:1px solid var(--border)
+}
+.desc-rule:last-child{border-bottom:none}
+.dr-icon{font-size:20px;flex-shrink:0;width:24px;text-align:center}
+.dr-title{font-weight:bold;color:var(--text);font-size:12px;margin-bottom:3px}
+.dr-detail{color:var(--text2);font-size:11px;line-height:1.4;margin-bottom:4px}
+.dr-badge{
+  display:inline-block;background:var(--naranja);color:#fff;
+  font-size:10px;font-weight:bold;padding:2px 8px;border-radius:20px
+}
+.dr-badge.azul{background:#1A5276;color:#fff}
+.dr-badge.verde{background:var(--verde)}
+.dr-active{font-size:11px;color:var(--verde);font-weight:bold;margin-top:4px;display:none}
+.dr-prox  {font-size:11px;color:var(--gris-m);margin-top:4px;display:none}
+
+/* history section */
+.history-section{padding:10px 14px;border-top:1px solid var(--border)}
+.history-title{
+  font-size:11px;font-weight:bold;color:var(--text2);
+  text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px
+}
+.history-item{
+  background:var(--gris-l);border-radius:6px;padding:8px 10px;
+  margin-bottom:6px;cursor:pointer;transition:background .15s;
+  display:flex;justify-content:space-between;align-items:center
+}
+.history-item:hover{background:#e8e8e8}
+.history-item-info{font-size:11px;color:var(--text2);line-height:1.4}
+.history-item-total{font-size:12px;font-weight:bold;color:var(--naranja)}
+.history-repedir{font-size:10px;color:var(--naranja);font-weight:bold}
 </style>
 
 </head>
@@ -929,10 +1039,7 @@ footer{background:var(--negro);color:var(--gris-m);text-align:center;padding:16p
       <div class="payment-body" id="paymentBody"></div>
     </div>
   </div><div class="overlay" id="overlay" onclick="toggleCart()"></div>
-<div class="cart-drawer" id="cartDrawer"><div class="cart-hdr"><h2>🛒 Tu pedido</h2><button class="close-btn" onclick="toggleCart()">✕</button></div><div class="confirm-panel" id="confirmPanel"><div class="confirm-icon" id="confirmIcon">✅</div><div class="confirm-title" id="confirmTitle">¡Pedido enviado!</div><div class="confirm-msg" id="confirmMsg">Te contactamos a la brevedad para confirmar.</div><button class="confirm-back" onclick="closeConfirm()">Volver a la tienda</button></div><div class="cart-view" id="cartView"><div class="cart-items" id="cartItems"><div class="cart-empty">Tu carrito está vacío.</div><div class="desc-panel" id="descPanel"><div class="dp-title">🎉 Tus beneficios y descuentos</div><div class="desc-rule" id="drTransf"><div class="dr-icon">🏦</div><div class="dr-body"><div class="dr-title">Descuento por transferencia</div><div class="dr-detail">Pagá el total en 1 pago por transferencia bancaria y llevate un 5% de descuento. Sin mínimo de productos.</div><div class="dr-badge azul">5% OFF — pagando el total en 1 pago</div><div class="dr-active" id="drTransfOk">✅ ¡Activado! Tu precio con transferencia: <span id="drTransfPrecio"></span></div><div class="dr-prox" id="drTransfProx">💡 <span id="drTransfFalta"></span> para activar este descuento</div></div></div><div class="desc-rule" id="dr1"><div class="dr-icon">📦</div><div class="dr-body"><div class="dr-title">Descuento por volumen — Nivel 1</div><div class="dr-detail">Comprá 3 o más productos y alcanzá $100.000 en tu pedido.</div><div class="dr-badge">5% OFF</div><div class="dr-active" id="dr1Ok">✅ ¡Activado! Descuento aplicado en tu total.</div><div class="dr-prox" id="dr1Prox"></div></div></div><div class="desc-rule" id="dr2"><div class="dr-icon">🛍️</div><div class="dr-body"><div class="dr-title">Descuento por volumen — Nivel 2</div><div class="dr-detail">Comprá 4 o más productos y alcanzá $200.000 en tu pedido.</div><div class="dr-badge">8% OFF</div><div class="dr-active" id="dr2Ok">✅ ¡Activado! Descuento aplicado en tu total.</div><div class="dr-prox" id="dr2Prox"></div></div></div><div class="desc-rule" id="dr3"><div class="dr-icon">🏆</div><div class="dr-body"><div class="dr-title">Descuento por volumen — Nivel 3</div><div class="dr-detail">Comprá 5 o más productos y alcanzá $300.000 en tu pedido.</div><div class="dr-badge">12% OFF</div><div class="dr-active" id="dr3Ok">✅ ¡Activado! Descuento aplicado en tu total.</div><div class="dr-prox" id="dr3Prox"></div></div></div><div class="desc-rule"><div class="dr-icon">🤝</div><div class="dr-body"><div class="dr-title">Sistema de referidos</div><div class="dr-detail">Recomendá El Galpón y ganás descuento en tu próxima compra según lo que gaste tu referido.</div><div class="dr-badge verde">Hasta $20.000 OFF</div></div></div></div></div><div class="cart-ftr" id="cartFtr"><div class="ct-row"><span class="ct-lbl">Subtotal</span><span class="ct-val" id="cartTotal">$0</span></div><div class="ct-row" id="cartEntregaRow" style="display:none;font-size:13px"><span class="ct-lbl">Costo de entrega</span><span class="ct-val" id="cartEntregaVal" style="font-size:14px"></span></div><div class="ct-row" id="cartTotalFinalRow" style="display:none;border-top:2px solid var(--naranja);margin-top:4px;padding-top:4px"><span class="ct-lbl" style="font-weight:900">TOTAL</span><span class="ct-val" id="cartTotalFinalVal" style="color:var(--naranja)">$0</span></div><div id="cartEntregaHint" style="font-size:11px;color:#1A5276;font-weight:bold;padding:4px 0;display:none"></div><div class="cart-prog-wrap"><div class="cart-prog-bar" id="cartProgBar" style="width:0%"></div></div><div class="cart-min falta" id="cartMin">⚠️ Mínimo de compra: $40.000</div><div class="cart-esc" id="cartEsc"></div><button class="go-pay-btn" id="goPayBtn" onclick="openPaymentView()" disabled>💳 Elegir método de pago →</button><button class="clear-btn" onclick="clearCart()">🗑 Vaciar carrito</button></div></div><div class="payment-view" id="paymentView"><div class="payment-hdr"><button class="payment-back" onclick="closePaymentView()">← Volver</button><h3>¿Cómo querés pagar?</h3></div><div class="payment-body"><div class="payment-resumen"><div><div class="pr-lbl">Total de tu pedido</div><div class="pr-desc" id="payDescuento"></div></div><div class="pr-total" id="payTotal">$0</div></div><div class="payment-method best"><div class="pm-hdr"><div class="pm-icon">🏦</div><div class="pm-info"><div class="pm-title">Transferencia bancaria</div><div class="pm-sub">Sin recargos + 5% OFF si pagás el total en un pago</div></div><div class="pm-badge badge-verde">⭐ RECOMENDADO</div></div><div class="pm-body"><div class="pd-row"><span class="pd-lbl">Seña mínima para confirmar</span><span class="pd-val naranja" id="payTransfSena">$0</span></div><div class="pd-row"><span class="pd-lbl">Saldo restante al recibir</span><span class="pd-val" id="payTransfResto">$0</span></div><div class="pd-row"><span class="pd-lbl">Recargo por plataforma</span><span class="pd-val verde">Sin recargo</span></div><div class="pd-row"><span class="pd-lbl">Seña mínima para confirmar (50%)</span><span class="pd-val naranja" id="payTransfSena2">$0</span></div><div class="pd-row"><span class="pd-lbl">5% OFF pagando el total en un solo pago</span><span class="pd-val verde">Acumulable con descuentos por volumen</span></div><div class="pp-hi"><div><div class="pp-lbl">Total pagando todo de una vez</div><div style="font-size:10px;color:var(--verde)">Con 5% de descuento aplicado</div></div><div class="pp-val verde" id="payTransfTotal">$0</div></div><div id="payEntregaTransf" style="font-size:11px;font-weight:bold;padding:6px 0;text-align:center"></div><button class="payment-btn-wa" onclick="sendWhatsApp('Transferencia')">📲 Coordinar por WhatsApp</button></div></div><div class="payment-method"><div class="pm-hdr"><div class="pm-icon">💵</div><div class="pm-info"><div class="pm-title">Efectivo</div><div class="pm-sub">Sin recargos — requiere 50% de seña para confirmar</div></div><div class="pm-badge badge-azul">Sin recargo</div></div><div class="pm-body"><div class="pd-row"><span class="pd-lbl">Seña mínima para confirmar</span><span class="pd-val naranja" id="payEfectivoSena">$0</span></div><div class="pd-row"><span class="pd-lbl">Saldo restante (al recibir en Luján)</span><span class="pd-val" id="payEfectivoResto">$0</span></div><div class="pd-row"><span class="pd-lbl">Recargo por plataforma</span><span class="pd-val verde">Sin recargo</span></div><div class="pd-row"><span class="pd-lbl">5% OFF pagando el total en un solo pago</span><span class="pd-val verde">Acumulable con descuentos por volumen</span></div><div class="pp-hi"><div><div class="pp-lbl">Total pagando todo de una vez</div><div style="font-size:10px;color:var(--verde)">Con 5% de descuento aplicado</div></div><div class="pp-val verde" id="payEfectivoTotal">$0</div></div><div id="payEntregaEfectivo" style="font-size:11px;font-weight:bold;padding:6px 0;text-align:center"></div><button class="payment-btn-wa" onclick="sendWhatsApp('Efectivo')">📲 Coordinar por WhatsApp</button></div></div><div class="payment-method mp"><div class="pm-hdr"><div class="pm-icon">💳</div><div class="pm-info"><div class="pm-title">Tarjeta con Mercado Pago</div><div class="pm-sub">Crédito, débito o saldo MP — con recargo</div></div><div class="pm-badge badge-rojo">Tiene recargo</div></div><div class="pm-body"><div class="pd-row"><span class="pd-lbl">Tarjeta de débito</span><span class="pd-val rojo">+1.5% recargo</span></div><div class="pd-row"><span class="pd-lbl">Tarjeta de crédito 1 pago</span><span class="pd-val rojo">+5.2% recargo</span></div><div class="pd-row"><span class="pd-lbl">Cuotas con tarjeta</span><span class="pd-val rojo">+5.2% + intereses del banco</span></div><div class="pd-row"><span class="pd-lbl">Descuento transferencia</span><span class="pd-val" style="color:var(--gris-m)">No aplica</span></div><div class="payment-cuotas-info">
-            💡 <strong>¿Pagás en cuotas?</strong> Vos elegís cuántas cuotas en la pantalla de MP. El recargo de cuotas lo fija tu banco/tarjeta y lo pagás vos. Nosotros recibimos el total de una sola vez.
-          </div><div class="pp-hi"><div><div class="pp-lbl">Total estimado con recargo MP</div><div style="font-size:10px;color:var(--rojo)">Varía según medio de pago elegido</div></div><div class="pp-val azul" id="payMPTotal">$0</div></div><button class="payment-btn-mp" id="mpBtn" onclick="pagarMP()">💳 Pagar con Mercado Pago</button><div id="payEntregaMP" style="font-size:11px;font-weight:bold;padding:6px 0;text-align:center"></div><div class="payment-mp-nota">Al confirmar se abrirá la pantalla de pago de Mercado Pago.<br>También te llegará un resumen del pedido por WhatsApp.</div></div></div></div></div>
-</div>
+
 <div class="cart-bar" id="cartBar"><div class="cbi"><div class="cbi-items" id="cbiItems"></div><div class="cbi-total" id="cbiTotal"></div><div class="cbi-min" id="cbiMin"></div><div class="cbi-desc-hint" id="cbiDescHint" style="font-size:11px;color:#FF6B35;font-weight:bold;margin-top:2px;display:none"></div><div class="cbi-prog"><div class="cbi-prog-fill" id="cbiProgFill" style="width:0%"></div></div></div><button class="cart-bar-btn" onclick="toggleCart()">Ver carrito →</button>
 </div><div class="modal-overlay" id="modalOverlay" onclick="closeModalOut(event)"><div class="modal" id="modalBox"><button class="modal-close" onclick="closeModal()">✕</button><div class="modal-top"><div class="modal-img-wrap" id="modalImgWrap"><button class="modal-nav prev" id="modalPrev" onclick="modalNav(-1)">‹</button><button class="modal-nav next" id="modalNext" onclick="modalNav(1)">›</button></div><div class="modal-info" id="modalInfo"></div></div><div class="modal-related" id="modalRelated" style="display:none"><h3>📦 Productos relacionados</h3><div class="related-grid" id="relatedGrid"></div></div></div>
 </div>
