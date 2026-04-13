@@ -365,7 +365,7 @@ header{background:var(--negro);padding:0 24px;position:fixed;top:var(--bar-h);le
 
 /* ── TOAST & OVERLAY ───────────────────────────────── */
 .toast{position:fixed;bottom:130px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--negro);color:var(--blanco);padding:10px 20px;border-radius:8px;font-size:13px;font-weight:bold;z-index:500;transition:transform .25s;pointer-events:none;white-space:nowrap;opacity:0;visibility:hidden;transition:transform .25s,opacity .25s,visibility .25s}
-.toast.show{transform:translateX(-50%) translateY(0)}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1;visibility:visible}
 
 /* ══ REDES ══ */
 .social-btns{display:flex;gap:10px;align-items:center}
@@ -415,6 +415,31 @@ footer{background:var(--negro);color:var(--gris-m);text-align:center;padding:16p
   overflow:hidden
 }
 .cart-drawer.open{right:0}
+
+/* ── PAYMENT VIEW (base — all screens) ──────────────────────────── */
+.payment-view{
+  display:none;flex-direction:column;
+  position:absolute;top:0;left:0;right:0;bottom:0;
+  background:var(--card-bg);z-index:10;overflow:hidden;
+  -webkit-overflow-scrolling:touch
+}
+.payment-view.open,.payment-view[style*="flex"]{display:flex}
+.payment-hdr{
+  flex-shrink:0;background:var(--negro);color:#fff;
+  padding:14px 18px;display:flex;align-items:center;gap:12px
+}
+.payment-back{
+  background:none;border:none;color:var(--naranja);
+  font-size:13px;font-weight:bold;cursor:pointer;padding:0;white-space:nowrap
+}
+.payment-body{
+  flex:1;min-height:0;
+  padding:12px 14px 80px;
+  display:flex;flex-direction:column;gap:12px;
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+  overscroll-behavior:contain
+}
 @media(max-width:600px){
   header{padding:0 12px}
   /* ── BASE STRUCTURE ─────────────────────────────────── */
@@ -506,7 +531,7 @@ footer{background:var(--negro);color:var(--gris-m);text-align:center;padding:16p
   .toast{bottom:72px;max-width:92vw;font-size:12px;padding:10px 16px}
 
   /* ── PAYMENT ─────────────────────────────────────────── */
-  .payment-view{-webkit-overflow-scrolling:touch}
+  
 
   /* ── CART MOBILE fixes ────────────────────────── */
   .cart-drawer{
@@ -1108,7 +1133,7 @@ footer{background:var(--negro);color:var(--gris-m);text-align:center;padding:16p
     </div>
   </div><div class="overlay" id="overlay" onclick="toggleCart()"></div>
 
-<div class="cart-bar" id="cartBar"><div class="cbi"><div class="cbi-items" id="cbiItems"></div><div class="cbi-total" id="cbiTotal"></div><div class="cbi-min" id="cbiMin"></div><div class="cbi-desc-hint" id="cbiDescHint" style="font-size:11px;color:#FF6B35;font-weight:bold;margin-top:2px;display:none"></div><div class="cbi-prog"><div class="cbi-prog-fill" id="cbiProgFill" style="width:0%"></div></div></div><button class="cart-bar-btn" onclick="toggleCart()">Ver carrito →</button>
+<div class="cart-bar" id="cartBar"><div class="cbi"><div class="cbi-items" id="cartBarItems"></div><div class="cbi-total" id="cartBarTotal"></div><div class="cbi-min" id="cartBarMinimo"></div><div class="cbi-desc-hint" id="cbiDescHint" style="font-size:11px;color:#FF6B35;font-weight:bold;margin-top:2px;display:none"></div><div class="cbi-prog"><div class="cbi-prog-fill" id="cartBarProgressFill" style="width:0%"></div></div></div><button class="cart-bar-btn" onclick="toggleCart()">Ver carrito →</button>
 </div><div class="modal-overlay" id="modalOverlay" onclick="closeModalOut(event)"><div class="modal" id="modalBox"><button class="modal-close" onclick="closeModal()">✕</button><div class="modal-top"><div class="modal-img-wrap" id="modalImgWrap"><button class="modal-nav prev" id="modalPrev" onclick="modalNav(-1)">‹</button><button class="modal-nav next" id="modalNext" onclick="modalNav(1)">›</button></div><div class="modal-info" id="modalInfo"></div></div><div class="modal-related" id="modalRelated" style="display:none"><h3>📦 Productos relacionados</h3><div class="related-grid" id="relatedGrid"></div></div></div>
 </div>
 <div class="how-overlay" id="howOverlay" onclick="closeHowOut(event)"><div class="how-modal"><div class="how-hdr"><h2>❓ ¿Cómo <span>comprar?</span></h2><button class="how-close" onclick="closeHow()">✕</button></div><div class="how-body"><div><div class="hs-title">📋 Paso a paso</div><div class="how-step"><div class="hs-num">1</div><div class="hs-text"><strong>Explorá el catálogo</strong> y agregá los productos al carrito.</div></div><div class="how-step"><div class="hs-num">2</div><div class="hs-text"><strong>Coordiná por WhatsApp</strong> o <strong>pagá con Mercado Pago</strong>.</div></div><div class="how-step"><div class="hs-num">3</div><div class="hs-text"><strong>Abonás una seña del 50%</strong> para confirmar. El resto al recibir. Si pagás el total de una vez, obtenés un <strong>5% OFF adicional</strong>, acumulable con otras promos.</div></div><div class="how-step"><div class="hs-num">4</div><div class="hs-text"><strong>Entrega personal en Luján</strong> — sin cargo en pedidos de $80.000 o más. Pedidos menores tienen un costo de entrega de $9.000.</div></div></div><div><div class="hs-title">💳 Medios de pago</div><div class="hp-grid"><div class="hp-card best"><div class="hp-emoji">🏦</div><div class="hp-name">Transferencia</div><div class="hp-desc">5% OFF pagando el total en 1 pago</div><div class="hp-price">Sin recargo</div></div><div class="hp-card"><div class="hp-emoji">💵</div><div class="hp-name">Efectivo</div><div class="hp-desc">50% de seña + resto al recibir</div><div class="hp-price" style="color:var(--text2);font-size:11px">Sin recargo</div></div><div class="hp-card"><div class="hp-emoji">💳</div><div class="hp-name">Mercado Pago</div><div class="hp-desc">Tarjeta débito, crédito o saldo MP</div><div class="hp-price" style="color:var(--text2);font-size:11px">Recargo según medio</div></div><div class="hp-card"><div class="hp-emoji">📲</div><div class="hp-name">WhatsApp</div><div class="hp-desc">Coordinás el pago directo con nosotros</div><div class="hp-price" style="color:var(--text2);font-size:11px">Flexible</div></div></div></div><div><div class="hs-title">🎉 Descuentos por volumen</div><table class="hs-tbl"><tr><td>$100.000–$199.999 con 3+ productos</td><td>5% OFF</td></tr><tr><td>$200.000–$299.999 con 4+ productos</td><td>8% OFF</td></tr><tr><td>$300.000 o más con 5+ productos</td><td>12% OFF</td></tr><tr><td style="color:var(--text2);font-size:11px" colspan="2">Acumulables con el 5% por pagar el total en un pago.</td></tr></table></div><div><div class="hs-title">🚚 Entrega en Luján</div><table class="hs-tbl"><tr><td>Pedido menor a $80.000</td><td style="color:var(--rojo);font-weight:bold">$9.000</td></tr><tr><td>Pedido de $80.000 o más</td><td style="color:var(--verde);font-weight:bold">Sin cargo ✅</td></tr></table><div style="font-size:11px;color:var(--text2);margin-top:6px">La entrega es personal en Luján. No hacemos envíos por correo ni mensajería.</div></div><div><div class="hs-title">🤝 Sistema de referidos</div><div class="hr-box"><div class="hr-title">Recomendá El Galpón y ganás descuento en tu próxima compra:</div><div class="hr-item">Si tu referido compra $40k – $99k <span>$2.000 OFF</span></div><div class="hr-item">Si tu referido compra $100k – $199k <span>$5.000 OFF</span></div><div class="hr-item">Si tu referido compra $200k – $299k <span>$10.000 OFF</span></div><div class="hr-item">Si tu referido compra $300k o más <span>$20.000 OFF</span></div><div style="font-size:11px;color:var(--gris-m);margin-top:8px">Consultá por WhatsApp para aplicar el descuento.</div></div></div><div><div class="hs-title">🛡️ Garantía</div><div class="hr-gar"><strong>Productos Lambo Tech: 6 meses de garantía</strong> por defectos de fabricación.<br>Para gestionar garantía contactanos por WhatsApp con el código y comprobante de compra.</div></div></div></div>
@@ -1145,9 +1170,7 @@ footer{background:var(--negro);color:var(--gris-m);text-align:center;padding:16p
       <svg viewBox="0 0 24 24" class="svg-fb"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>El Galpón en Facebook
     </a>
   </div>
-  El Galpón &nbsp;·&nbsp; Precios en ARS &nbsp;·&nbsp; Stock sujeto a disponibilidad &nbsp;·&nbsp; Pedidos por WhatsApp
-</footer>
-
+  El Galpón &nbsp;·&nbsp; Precios en ARS &nbsp;·&nbsp; Stock sujeto a disponibilidad &nbsp;·&nbsp; Pedidos por Whats
 <script>
 const MINIMO         = 40000;
 const ENTREGA_GRATIS = 80000;
@@ -1955,6 +1978,9 @@ function toggleCart(){
   const drawer=document.getElementById("cartDrawer");
   const isOpen=drawer.classList.toggle("open");
   document.getElementById("overlay").classList.toggle("open",isOpen);
+  // Hide floating cart bar when drawer is open (it would overlap)
+  var bar=document.getElementById("cartBar");
+  if(bar)bar.style.display=isOpen?"none":"";
 }
 
 function getValidItems(){
@@ -2527,6 +2553,41 @@ window.onload = function(){
     var lc = document.getElementById('landingCount');
     if (lc) lc.textContent = '+' + savedCount;
   }
+
+
+// ── MÁS VENDIDOS AUTOSCROLL ──────────────────────────────────────
+(function initMvAutoScroll(){
+  // Wait for mvGrid to have content
+  var attempts = 0;
+  function tryStart(){
+    var el = document.getElementById('mvGrid');
+    if(!el || el.children.length === 0){
+      if(++attempts < 30) setTimeout(tryStart, 500);
+      return;
+    }
+    var paused = false;
+    var speed  = 0.8; // px per frame
+    var raf;
+    function step(){
+      if(!paused){
+        el.scrollLeft += speed;
+        // Loop: when we reach near end, jump back to start
+        if(el.scrollLeft >= el.scrollWidth - el.clientWidth - 2){
+          el.scrollLeft = 0;
+        }
+      }
+      raf = requestAnimationFrame(step);
+    }
+    el.addEventListener('mouseenter', function(){ paused=true; });
+    el.addEventListener('mouseleave', function(){ paused=false; });
+    el.addEventListener('touchstart', function(){ paused=true; }, {passive:true});
+    el.addEventListener('touchend',   function(){ setTimeout(function(){ paused=false; }, 2000); }, {passive:true});
+    raf = requestAnimationFrame(step);
+    dbg('mvGrid autoscroll started');
+  }
+  tryStart();
+})();
+
 };
 
 </script>
