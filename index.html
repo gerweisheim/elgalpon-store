@@ -368,8 +368,6 @@ header{background:var(--negro);padding:0 24px;position:fixed;top:var(--bar-h);le
 .sug-input:focus{border-color:var(--naranja)}
 .sug-btn{background:var(--naranja);color:var(--blanco);border:none;border-radius:8px;padding:13px;font-size:15px;font-weight:bold;cursor:pointer;width:100%;transition:background .15s}
 .sug-btn:hover{background:var(--naranja2)}
-.sug-btn-float{position:fixed;bottom:80px;right:20px;background:var(--negro);color:var(--blanco);border:2px solid var(--naranja);border-radius:30px;padding:10px 18px;font-size:13px;font-weight:bold;cursor:pointer;display:flex;align-items:center;gap:8px;z-index:var(--z-floating);transition:background .2s,transform .15s;box-shadow:0 4px 16px rgba(0,0,0,.3)}
-.sug-btn-float:hover{background:var(--naranja);transform:translateY(-2px)}
 
 /* ══ TOAST ══ */
 
@@ -452,6 +450,22 @@ footer{background:var(--negro);color:var(--gris-m);text-align:center;padding:16p
   -webkit-overflow-scrolling:touch;
   overscroll-behavior:contain
 }
+
+/* ── SUG FLOAT BTN — aparece en catálogo, nunca dentro del carrito ─ */
+.sug-btn-float{
+  position:fixed;
+  bottom:72px;right:16px;
+  background:var(--negro);color:var(--blanco);
+  border:2px solid var(--naranja);border-radius:30px;
+  padding:10px 18px;font-size:13px;font-weight:bold;
+  cursor:pointer;
+  display:flex;align-items:center;gap:8px;
+  z-index:var(--z-floating);
+  box-shadow:0 4px 16px rgba(0,0,0,.3);
+  transition:background .2s,transform .15s;
+  /* JS controls visibility via style.display */
+}
+.sug-btn-float:hover{background:var(--naranja);transform:translateY(-2px)}
 @media(max-width:600px){
   header{padding:0 12px}
   /* ── BASE STRUCTURE ─────────────────────────────────── */
@@ -593,10 +607,48 @@ footer{background:var(--negro);color:var(--gris-m);text-align:center;padding:16p
     min-width:38px
   }
   /* ── SUG float btn position ───────────────────── */
-  .sug-btn-float{
-    bottom:70px;  /* above cart bar */
-    right:12px
+
+
+  /* ── CART FOOTER MOBILE ──────────────────────────────────── */
+  .cart-footer { padding:12px 16px 20px; gap:12px; }
+  
+  /* Rows */
+  .cart-row-sub   { font-size:14px; }
+  .cart-row-entrega{ font-size:13px; }
+  .cart-row-total { font-size:19px; padding-top:12px; }
+  .cart-row-total span:last-child { font-size:22px; }
+  
+  /* Discount row */
+  .cart-row-descuento { font-size:13px; }
+  
+  /* Minimo */
+  .cart-minimo { font-size:13px; padding:10px 14px; }
+  
+  /* Discount badge */
+  .cart-desc-escalon.activo,
+  .cart-desc-escalon.proximo { font-size:13px; padding:10px 14px; }
+  
+  /* Progress bar: taller on mobile */
+  .cart-progress-wrap { height:10px; margin:4px 0 8px; }
+  
+  /* Pay button: full-size, prominent */
+  .go-pay-btn {
+    font-size:17px;
+    padding:16px;
+    border-radius:12px;
+    min-height:56px;
   }
+  
+  /* Vaciar button: proper size on mobile */
+  .clear-btn {
+    font-size:14px;
+    padding:12px 16px;
+    min-height:46px;
+    border-width:1.5px;
+  }
+  
+  /* Entrega hint */
+  .cart-entrega-hint { font-size:12px; }
 
 }@media(min-width:601px){
   .anuncio-mobile{display:none!important}.anuncio-full{display:flex!important}
@@ -1162,19 +1214,6 @@ footer{background:var(--negro);color:var(--gris-m);text-align:center;padding:16p
 }
 
 /* ── SUG FLOAT BTN — catalog only, never inside cart ───────────── */
-.sug-btn-float {
-  position:fixed;
-  bottom:72px; right:16px;    /* above cart-bar */
-  background:var(--negro); color:var(--blanco);
-  border:2px solid var(--naranja); border-radius:30px;
-  padding:10px 18px; font-size:13px; font-weight:bold;
-  cursor:pointer;
-  display:flex; align-items:center; gap:8px;
-  z-index:var(--z-floating);
-  box-shadow:0 4px 16px rgba(0,0,0,.3);
-  transition:background .2s, transform .15s;
-}
-.sug-btn-float:hover { background:var(--naranja); transform:translateY(-2px); }
 </style>
 
 </head>
@@ -1268,7 +1307,7 @@ footer{background:var(--negro);color:var(--gris-m);text-align:center;padding:16p
     </div>
   </div><div class="overlay" id="overlay" onclick="toggleCart()"></div>
 
-<div class="cart-bar" id="cartBar"><div class="cbi"><div class="cbi-items" id="cartBarItems"></div><div class="cbi-total" id="cartBarTotal"></div><div class="cbi-min" id="cartBarMinimo"></div><div class="cbi-desc-hint" id="cbiDescHint" style="font-size:11px;color:#FF6B35;font-weight:bold;margin-top:2px;display:none"></div><div class="cbi-prog"><div class="cbi-prog-fill" id="cartBarProgressFill" style="width:0%"></div></div></div><button class="cart-bar-btn" onclick="toggleCart()">Ver carrito →</button>
+<div class="cart-bar" id="cartBar"><div class="cart-bar-info"><div class="cart-bar-items" id="cartBarItems"></div><div class="cart-bar-total" id="cartBarTotal"></div><div class="cart-bar-minimo" id="cartBarMinimo"></div><div class="cart-bar-desc-hint" id="cbiDescHint" style="font-size:11px;color:#FF6B35;font-weight:bold;margin-top:2px;display:none"></div><div class="cart-bar-progress"><div class="cart-bar-progress-fill" id="cartBarProgressFill" style="width:0%"></div></div></div><button class="cart-bar-btn" onclick="toggleCart()">Ver carrito →</button>
 </div><div class="modal-overlay" id="modalOverlay" onclick="closeModalOut(event)"><div class="modal" id="modalBox"><button class="modal-close" onclick="closeModal()">✕</button><div class="modal-top"><div class="modal-img-wrap" id="modalImgWrap"><button class="modal-nav prev" id="modalPrev" onclick="modalNav(-1)">‹</button><button class="modal-nav next" id="modalNext" onclick="modalNav(1)">›</button></div><div class="modal-info" id="modalInfo"></div></div><div class="modal-related" id="modalRelated" style="display:none"><h3>📦 Productos relacionados</h3><div class="related-grid" id="relatedGrid"></div></div></div>
 </div>
 <div class="how-overlay" id="howOverlay" onclick="closeHowOut(event)"><div class="how-modal"><div class="how-hdr"><h2>❓ ¿Cómo <span>comprar?</span></h2><button class="how-close" onclick="closeHow()">✕</button></div><div class="how-body"><div><div class="hs-title">📋 Paso a paso</div><div class="how-step"><div class="hs-num">1</div><div class="hs-text"><strong>Explorá el catálogo</strong> y agregá los productos al carrito.</div></div><div class="how-step"><div class="hs-num">2</div><div class="hs-text"><strong>Coordiná por WhatsApp</strong> o <strong>pagá con Mercado Pago</strong>.</div></div><div class="how-step"><div class="hs-num">3</div><div class="hs-text"><strong>Abonás una seña del 50%</strong> para confirmar. El resto al recibir. Si pagás el total de una vez, obtenés un <strong>5% OFF adicional</strong>, acumulable con otras promos.</div></div><div class="how-step"><div class="hs-num">4</div><div class="hs-text"><strong>Entrega personal en Luján</strong> — sin cargo en pedidos de $80.000 o más. Pedidos menores tienen un costo de entrega de $9.000.</div></div></div><div><div class="hs-title">💳 Medios de pago</div><div class="hp-grid"><div class="hp-card best"><div class="hp-emoji">🏦</div><div class="hp-name">Transferencia</div><div class="hp-desc">5% OFF pagando el total en 1 pago</div><div class="hp-price">Sin recargo</div></div><div class="hp-card"><div class="hp-emoji">💵</div><div class="hp-name">Efectivo</div><div class="hp-desc">50% de seña + resto al recibir</div><div class="hp-price" style="color:var(--text2);font-size:11px">Sin recargo</div></div><div class="hp-card"><div class="hp-emoji">💳</div><div class="hp-name">Mercado Pago</div><div class="hp-desc">Tarjeta débito, crédito o saldo MP</div><div class="hp-price" style="color:var(--text2);font-size:11px">Recargo según medio</div></div><div class="hp-card"><div class="hp-emoji">📲</div><div class="hp-name">WhatsApp</div><div class="hp-desc">Coordinás el pago directo con nosotros</div><div class="hp-price" style="color:var(--text2);font-size:11px">Flexible</div></div></div></div><div><div class="hs-title">🎉 Descuentos por volumen</div><table class="hs-tbl"><tr><td>$100.000–$199.999 con 3+ productos</td><td>5% OFF</td></tr><tr><td>$200.000–$299.999 con 4+ productos</td><td>8% OFF</td></tr><tr><td>$300.000 o más con 5+ productos</td><td>12% OFF</td></tr><tr><td style="color:var(--text2);font-size:11px" colspan="2">Acumulables con el 5% por pagar el total en un pago.</td></tr></table></div><div><div class="hs-title">🚚 Entrega en Luján</div><table class="hs-tbl"><tr><td>Pedido menor a $80.000</td><td style="color:var(--rojo);font-weight:bold">$9.000</td></tr><tr><td>Pedido de $80.000 o más</td><td style="color:var(--verde);font-weight:bold">Sin cargo ✅</td></tr></table><div style="font-size:11px;color:var(--text2);margin-top:6px">La entrega es personal en Luján. No hacemos envíos por correo ni mensajería.</div></div><div><div class="hs-title">🤝 Sistema de referidos</div><div class="hr-box"><div class="hr-title">Recomendá El Galpón y ganás descuento en tu próxima compra:</div><div class="hr-item">Si tu referido compra $40k – $99k <span>$2.000 OFF</span></div><div class="hr-item">Si tu referido compra $100k – $199k <span>$5.000 OFF</span></div><div class="hr-item">Si tu referido compra $200k – $299k <span>$10.000 OFF</span></div><div class="hr-item">Si tu referido compra $300k o más <span>$20.000 OFF</span></div><div style="font-size:11px;color:var(--gris-m);margin-top:8px">Consultá por WhatsApp para aplicar el descuento.</div></div></div><div><div class="hs-title">🛡️ Garantía</div><div class="hr-gar"><strong>Productos Lambo Tech: 6 meses de garantía</strong> por defectos de fabricación.<br>Para gestionar garantía contactanos por WhatsApp con el código y comprobante de compra.</div></div></div></div>
