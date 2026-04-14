@@ -222,8 +222,6 @@ header{background:var(--negro);padding:0 24px;position:fixed;top:var(--bar-h);le
 
 
 /* ── CARRITO DRAWER ────────────────────────────────── */
-
-.cart-drawer.open{right:0}
 .cart-
 .cart-header h2{font-size:16px}
 .close-btn{background:none;border:none;color:var(--blanco);font-size:22px;cursor:pointer}
@@ -236,7 +234,6 @@ header{background:var(--negro);padding:0 24px;position:fixed;top:var(--bar-h);le
 .cart-item-price{font-size:13px;font-weight:bold;color:var(--naranja);white-space:nowrap}
 .cart-item-remove{background:none;border:none;color:var(--gris-m);font-size:16px;cursor:pointer;padding:0 4px;transition:color .15s}
 .cart-item-remove:hover{color:var(--rojo)}
-.cart-footer{border-top:2px solid var(--gris-l);padding:16px;display:flex;flex-direction:column;gap:10px;background:var(--card-bg)}
 .cart-total-row{display:flex;justify-content:space-between;align-items:center}
 .cart-total-label{font-size:14px;color:var(--text2)}
 .cart-total-val{font-size:22px;font-weight:bold;color:var(--naranja)}
@@ -411,45 +408,9 @@ footer{background:var(--negro);color:var(--gris-m);text-align:center;padding:16p
 .search-toggle-btn{display:none}
 
 /* ── CART DRAWER — layout base (all screens) ─────────────────────── */
-.cart-drawer{
-  position:fixed;top:0;right:-110vw;
-  width:420px;max-width:100vw;
-  height:100%;           /* fills viewport height */
-  max-height:100vh;
-  background:var(--card-bg);
-  box-shadow:-4px 0 28px rgba(0,0,0,.22);
-  z-index:var(--z-cart);
-  position:relative;
-  display:flex;flex-direction:column;
-  transition:right .28s cubic-bezier(.4,0,.2,1);
-  overflow:hidden
-}
-.cart-drawer.open{right:0}
 
 /* ── PAYMENT VIEW (base — all screens) ──────────────────────────── */
-.payment-view{
-  display:none;flex-direction:column;
-  position:absolute;top:0;left:0;right:0;bottom:0;
-  background:var(--card-bg);z-index:10;overflow:hidden;
-  -webkit-overflow-scrolling:touch
-}
 .payment-view.open,.payment-view[style*="flex"]{display:flex}
-.payment-hdr{
-  flex-shrink:0;background:var(--negro);color:#fff;
-  padding:14px 18px;display:flex;align-items:center;gap:12px
-}
-.payment-back{
-  background:none;border:none;color:var(--naranja);
-  font-size:13px;font-weight:bold;cursor:pointer;padding:0;white-space:nowrap
-}
-.payment-body{
-  flex:1;min-height:0;
-  padding:12px 14px 80px;
-  display:flex;flex-direction:column;gap:12px;
-  overflow-y:auto;
-  -webkit-overflow-scrolling:touch;
-  overscroll-behavior:contain
-}
 
 /* ── SUG FLOAT BTN — aparece en catálogo, nunca dentro del carrito ─ */
 .sug-btn-float{
@@ -465,7 +426,80 @@ footer{background:var(--negro);color:var(--gris-m);text-align:center;padding:16p
   transition:background .2s,transform .15s;
   /* JS controls visibility via style.display */
 }
-.sug-btn-float:hover{background:var(--naranja);transform:translateY(-2px)}
+
+/* ╔══════════════════════════════════════════════════════════════════╗
+   ║  CART DRAWER — single authoritative definition                  ║
+   ╚══════════════════════════════════════════════════════════════════╝ */
+.cart-drawer{
+  position:fixed;           /* must be fixed — only position declaration */
+  top:0;right:-110vw;
+  width:420px;max-width:100vw;
+  height:100vh;             /* full viewport */
+  background:var(--card-bg);
+  box-shadow:-4px 0 28px rgba(0,0,0,.22);
+  z-index:var(--z-cart);
+  display:flex;flex-direction:column;
+  transition:right .28s cubic-bezier(.4,0,.2,1);
+  overflow:hidden           /* clips content — payment-view fills it via absolute */
+}
+.cart-drawer.open{right:0}
+
+/* ── CART HEADER ───────────────────────────────────────────────── */
+.cart-hdr{
+  background:var(--negro);color:var(--blanco);
+  padding:14px 18px;
+  display:flex;align-items:center;justify-content:space-between;
+  flex-shrink:0;
+  position:sticky;top:0;z-index:2;
+  border-bottom:2px solid var(--naranja)
+}
+.cart-hdr h2{font-size:16px;font-weight:900;margin:0;color:var(--blanco)}
+
+/* ── CART FOOTER ───────────────────────────────────────────────── */
+.cart-footer{
+  border-top:2px solid var(--gris-l);
+  padding:16px;
+  display:flex;flex-direction:column;gap:10px;
+  background:var(--card-bg);
+  flex-shrink:0;
+  position:sticky;bottom:0
+}
+
+/* ── PAYMENT VIEW — fills cart-drawer via position:absolute ─────── */
+.payment-view{
+  display:none;
+  flex-direction:column;
+  position:absolute;top:0;left:0;right:0;bottom:0;
+  background:var(--card-bg);
+  z-index:3;                /* above cart content, inside drawer */
+  overflow:hidden
+}
+/* JS sets style.display='flex' — also support .open class */
+.payment-view[style*="flex"]{display:flex}
+.payment-view.open{display:flex}
+
+.payment-hdr{
+  flex-shrink:0;
+  background:var(--negro);color:#fff;
+  padding:14px 18px;
+  display:flex;align-items:center;gap:12px;
+  position:sticky;top:0;z-index:1
+}
+.payment-hdr h3{flex:1;margin:0;font-size:15px;font-weight:900;color:#fff}
+.payment-back{
+  background:none;border:none;color:var(--naranja);
+  font-size:13px;font-weight:bold;cursor:pointer;
+  padding:0;white-space:nowrap
+}
+.payment-body{
+  flex:1;
+  min-height:0;             /* critical for flex children to scroll */
+  padding:14px 14px 80px;
+  display:flex;flex-direction:column;gap:12px;
+  overflow-y:auto;          /* THE scroll */
+  -webkit-overflow-scrolling:touch;
+  overscroll-behavior:contain
+}
 @media(max-width:600px){
   header{padding:0 12px}
   /* ── BASE STRUCTURE ─────────────────────────────────── */
@@ -550,7 +584,6 @@ footer{background:var(--negro);color:var(--gris-m);text-align:center;padding:16p
   .card-body{padding:8px 10px 10px;gap:5px}
 
   /* ── CART ────────────────────────────────────────────── */
-  .cart-drawer{width:100vw}
   .cart-items{-webkit-overflow-scrolling:touch}
 
   /* ── TOAST ───────────────────────────────────────────── */
@@ -560,18 +593,6 @@ footer{background:var(--negro);color:var(--gris-m);text-align:center;padding:16p
   
 
   /* ── CART MOBILE fixes ────────────────────────── */
-  .cart-drawer{
-    width:100vw;
-    /* On mobile, limit to viewport minus browser chrome */
-    height:100%;
-    max-height:-webkit-fill-available;
-    max-height:100dvh
-  }
-  .cart-hdr{
-    padding:12px 16px;
-    position:sticky;top:0;z-index:2;
-    min-height:52px
-  }
   .cart-hdr h2{font-size:15px}
   .close-btn{
     font-size:26px;
@@ -586,13 +607,6 @@ footer{background:var(--negro);color:var(--gris-m);text-align:center;padding:16p
     flex:1;
     overflow-y:auto;
     -webkit-overflow-scrolling:touch
-  }
-  .cart-footer{
-    padding:10px 14px 16px;
-    flex-shrink:0;           /* never get squeezed */
-    position:sticky;bottom:0;
-    background:var(--card-bg);
-    border-top:2px solid var(--border)
   }
   .go-pay-btn{
     min-height:48px;
@@ -610,7 +624,6 @@ footer{background:var(--negro);color:var(--gris-m);text-align:center;padding:16p
 
 
   /* ── CART FOOTER MOBILE ──────────────────────────────────── */
-  .cart-footer { padding:12px 16px 20px; gap:12px; }
   
   /* Rows */
   .cart-row-sub   { font-size:14px; }
@@ -650,6 +663,28 @@ footer{background:var(--negro);color:var(--gris-m);text-align:center;padding:16p
   /* Entrega hint */
   .cart-entrega-hint { font-size:12px; }
 
+
+  /* ── CART DRAWER MOBILE ─────────────────────────────────── */
+  .cart-drawer{
+    width:100vw;
+    height:100%;
+    max-height:100dvh;
+    max-height:-webkit-fill-available
+  }
+  .cart-hdr{padding:12px 16px;min-height:52px}
+  .cart-hdr h2{font-size:15px}
+  .close-btn{
+    width:44px;height:44px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:26px;border-radius:50%;
+    background:rgba(255,255,255,.1)
+  }
+  .cart-footer{padding:12px 14px 18px;gap:11px}
+  .go-pay-btn{font-size:17px;padding:16px;min-height:56px;border-radius:12px}
+  .clear-btn{font-size:14px;padding:12px 16px;min-height:46px}
+  .cart-row-total{font-size:19px;padding-top:12px}
+  .cart-row-total span:last-child{font-size:22px}
+
 }@media(min-width:601px){
   .anuncio-mobile{display:none!important}.anuncio-full{display:flex!important}
   .header-icons-row{display:none!important}
@@ -668,12 +703,12 @@ footer{background:var(--negro);color:var(--gris-m);text-align:center;padding:16p
 .go-pay-btn:disabled{background:#aaa;cursor:not-allowed}
 .go-pay-btn:not(:disabled):hover{background:var(--naranja2)}
 /* Payment view */
-.payment-view{display:none;flex-direction:column;position:absolute;top:0;left:0;right:0;bottom:0;background:var(--card-bg);z-index:10}
-.payment-hdr{flex-shrink:0;background:var(--negro);color:#fff;padding:14px 18px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:1}
-.payment-hdr h3{font-size:15px;font-weight:bold;flex:1;margin:0}
+
+
+
 .payment-back{background:none;border:none;color:var(--naranja);font-size:13px;
   font-weight:bold;cursor:pointer}
-.payment-body{flex:1;min-height:0;padding:12px 14px 80px;display:flex;flex-direction:column;gap:12px;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+
 .pay-resumen{background:var(--gris-l);border-radius:10px;padding:12px 14px;
   display:flex;justify-content:space-between;align-items:center}
 .pay-total-lbl{font-size:12px;color:var(--gris-m)}
@@ -996,14 +1031,7 @@ footer{background:var(--negro);color:var(--gris-m);text-align:center;padding:16p
 }
 
 /* ── CART DRAWER — clases faltantes ──────────────────────────────── */
-.cart-drawer{
-  position:fixed;top:0;right:-110vw;width:420px;max-width:100vw;
-  height:100vh;background:var(--card-bg);
-  box-shadow:-4px 0 28px rgba(0,0,0,.22);
-  z-index:var(--z-cart);display:flex;flex-direction:column;
-  transition:right .28s cubic-bezier(.4,0,.2,1);
-  overflow:hidden
-}
+
 .cart-drawer.open{right:0}
 
 .cart-hdr{
@@ -1462,6 +1490,23 @@ const DEBUG = (
   window.location.hostname === '127.0.0.1' ||
   new URLSearchParams(window.location.search).get('debug') === '1'
 );
+
+// ── VIEW SYSTEM — semantic constants + alias ─────────────────────
+// These map to the existing AppState.view values used by navigateTo()
+const VIEW = {
+  LANDING: 'landing',
+  CATALOG: 'catalogo'
+};
+
+/**
+ * goTo(view) — semantic alias for navigateTo()
+ * Usage: goTo(VIEW.CATALOG) / goTo(VIEW.LANDING)
+ */
+function goTo(view) {
+  navigateTo(view);
+}
+// ─────────────────────────────────────────────────────────────────
+
 function dbg(...args){ if(DEBUG) console.log('[ElGalpon]', ...args); }
 
 // ── C. API ENGINE (JSONP — compatible con GitHub Pages + Apps Script) ──
