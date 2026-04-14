@@ -410,7 +410,7 @@ footer{background:var(--negro);color:var(--gris-m);text-align:center;padding:16p
 /* ── CART DRAWER — layout base (all screens) ─────────────────────── */
 
 /* ── PAYMENT VIEW (base — all screens) ──────────────────────────── */
-.payment-view.open,.payment-view[style*="flex"]{display:flex}
+
 
 /* ── SUG FLOAT BTN — aparece en catálogo, nunca dentro del carrito ─ */
 .sug-btn-float{
@@ -466,39 +466,79 @@ footer{background:var(--negro);color:var(--gris-m);text-align:center;padding:16p
 }
 
 /* ── PAYMENT VIEW — fills cart-drawer via position:absolute ─────── */
-.payment-view{
-  display:none;
-  flex-direction:column;
-  position:absolute;top:0;left:0;right:0;bottom:0;
-  background:var(--card-bg);
-  z-index:3;                /* above cart content, inside drawer */
-  overflow:hidden
-}
-/* JS sets style.display='flex' — also support .open class */
-.payment-view[style*="flex"]{display:flex}
-.payment-view.open{display:flex}
 
-.payment-hdr{
-  flex-shrink:0;
-  background:var(--negro);color:#fff;
-  padding:14px 18px;
-  display:flex;align-items:center;gap:12px;
-  position:sticky;top:0;z-index:1
+/* JS sets style.display='flex' — also support .open class */
+
+
+
+
+
+
+
+
+/* ╔══════════════════════════════════════════════════════════════╗
+   ║  PAYMENT VIEW — full-screen fixed, independent of cart      ║
+   ╚══════════════════════════════════════════════════════════════╝ */
+
+/* Hidden by default — JS sets display:flex to open */
+.payment-view {
+  display: none;
+  flex-direction: column;
+
+  /* Fixed to viewport — completely independent of cart-drawer */
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+
+  background: var(--card-bg);
+  z-index: var(--z-modal);   /* above cart (--z-cart:300), below toast */
 }
-.payment-hdr h3{flex:1;margin:0;font-size:15px;font-weight:900;color:#fff}
-.payment-back{
-  background:none;border:none;color:var(--naranja);
-  font-size:13px;font-weight:bold;cursor:pointer;
-  padding:0;white-space:nowrap
+/* Opened by JS via style="display:flex" */
+.payment-view[style*="flex"] { display: flex; }
+.payment-view.open            { display: flex; }
+
+/* ── HEADER: never scrolls ──────────────────────────────────── */
+.payment-hdr {
+  flex: 0 0 auto;              /* fixed height, never shrinks */
+  background: var(--negro);
+  color: #fff;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  /* No sticky needed — it's already at the top of a fixed container */
 }
-.payment-body{
-  flex:1;
-  min-height:0;             /* critical for flex children to scroll */
-  padding:14px 14px 80px;
-  display:flex;flex-direction:column;gap:12px;
-  overflow-y:auto;          /* THE scroll */
-  -webkit-overflow-scrolling:touch;
-  overscroll-behavior:contain
+.payment-hdr h3 {
+  flex: 1;
+  margin: 0;
+  font-size: 15px;
+  font-weight: 900;
+  color: #fff;
+}
+.payment-back {
+  background: none;
+  border: none;
+  color: var(--naranja);
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 0;
+  white-space: nowrap;
+  min-height: 44px;           /* touch target */
+  display: flex;
+  align-items: center;
+}
+
+/* ── BODY: the ONE scroll container ────────────────────────── */
+.payment-body {
+  flex: 1;
+  min-height: 0;              /* required for flex scroll to work */
+  overflow-y: auto;           /* THE scroll — nothing above clips this */
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  padding: 16px 16px 120px;   /* 120px bottom so last button is reachable */
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
 @media(max-width:600px){
   header{padding:0 12px}
@@ -685,6 +725,12 @@ footer{background:var(--negro);color:var(--gris-m);text-align:center;padding:16p
   .cart-row-total{font-size:19px;padding-top:12px}
   .cart-row-total span:last-child{font-size:22px}
 
+
+  /* ── PAYMENT VIEW MOBILE ─────────────────────────────── */
+  .payment-hdr { padding: 12px 16px; }
+  .payment-hdr h3 { font-size: 14px; }
+  .payment-body { padding: 12px 12px 120px; gap: 12px; }
+
 }@media(min-width:601px){
   .anuncio-mobile{display:none!important}.anuncio-full{display:flex!important}
   .header-icons-row{display:none!important}
@@ -706,8 +752,7 @@ footer{background:var(--negro);color:var(--gris-m);text-align:center;padding:16p
 
 
 
-.payment-back{background:none;border:none;color:var(--naranja);font-size:13px;
-  font-weight:bold;cursor:pointer}
+
 
 .pay-resumen{background:var(--gris-l);border-radius:10px;padding:12px 14px;
   display:flex;justify-content:space-between;align-items:center}
@@ -1214,32 +1259,11 @@ footer{background:var(--negro);color:var(--gris-m);text-align:center;padding:16p
 
 /* ── PAYMENT VIEW LAYOUT FIX ────────────────────────────────────── */
 /* parent .cart-drawer has position:fixed — payment-view fills it absolutely */
-.payment-view {
-  display:none; flex-direction:column;
-  position:absolute; top:0; left:0; right:0; bottom:0;
-  background:var(--card-bg);
-  z-index:var(--z-base);    /* sits above cart content, inside drawer */
-  overflow:hidden;
-}
-.payment-hdr {
-  flex-shrink:0; background:var(--negro); color:#fff;
-  padding:14px 18px; display:flex; align-items:center; gap:12px;
-  position:sticky; top:0;
-}
-.payment-hdr h3 { flex:1; margin:0; font-size:15px; font-weight:900; }
-.payment-back {
-  background:none; border:none; color:var(--naranja);
-  font-size:13px; font-weight:bold; cursor:pointer;
-  padding:0; white-space:nowrap;
-}
-.payment-body {
-  flex:1; min-height:0;
-  padding:14px 14px 80px;
-  display:flex; flex-direction:column; gap:12px;
-  overflow-y:auto;
-  -webkit-overflow-scrolling:touch;
-  overscroll-behavior:contain;
-}
+
+
+
+
+
 
 /* ── SUG FLOAT BTN — catalog only, never inside cart ───────────── */
 </style>
