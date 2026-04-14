@@ -481,31 +481,48 @@ footer{background:var(--negro);color:var(--gris-m);text-align:center;padding:16p
    ╚══════════════════════════════════════════════════════════════╝ */
 
 /* Hidden by default — JS sets display:flex to open */
-.payment-view {
-  display: none;
-  flex-direction: column;
 
-  /* Fixed to viewport — completely independent of cart-drawer */
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-
-  background: var(--card-bg);
-  z-index: var(--z-modal);   /* above cart (--z-cart:300), below toast */
-}
 /* Opened by JS via style="display:flex" */
-.payment-view[style*="flex"] { display: flex; }
-.payment-view.open            { display: flex; }
+
+
 
 /* ── HEADER: never scrolls ──────────────────────────────────── */
+
+
+
+
+/* ── BODY: the ONE scroll container ────────────────────────── */
+
+
+/* ── PAYMENT VIEW — scroll pattern copied from how-overlay ────────
+   how-overlay: position:fixed;inset:0;overflow-y:auto  (outer scrolls)
+   Applying the same: payment-view IS the scroll container.        ── */
+.payment-view {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: var(--card-bg);
+  z-index: var(--z-modal);
+  overflow-y: auto;                  /* ← same as .how-overlay */
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+.payment-view[style*="flex"],
+.payment-view.open {
+  display: block;                    /* block, not flex — content flows naturally */
+}
+
+/* Header: sticky so it stays visible while body scrolls */
 .payment-hdr {
-  flex: 0 0 auto;              /* fixed height, never shrinks */
+  position: sticky;
+  top: 0;
   background: var(--negro);
   color: #fff;
   padding: 14px 18px;
   display: flex;
   align-items: center;
   gap: 12px;
-  /* No sticky needed — it's already at the top of a fixed container */
+  z-index: 1;
 }
 .payment-hdr h3 {
   flex: 1;
@@ -523,19 +540,14 @@ footer{background:var(--negro);color:var(--gris-m);text-align:center;padding:16p
   cursor: pointer;
   padding: 0;
   white-space: nowrap;
-  min-height: 44px;           /* touch target */
+  min-height: 44px;
   display: flex;
   align-items: center;
 }
 
-/* ── BODY: the ONE scroll container ────────────────────────── */
+/* Body: normal flow — no flex gymnastics needed */
 .payment-body {
-  flex: 1;
-  min-height: 0;              /* required for flex scroll to work */
-  overflow-y: auto;           /* THE scroll — nothing above clips this */
-  -webkit-overflow-scrolling: touch;
-  overscroll-behavior: contain;
-  padding: 16px 16px 120px;   /* 120px bottom so last button is reachable */
+  padding: 16px 16px 120px;          /* 120px ensures last button reachable */
   display: flex;
   flex-direction: column;
   gap: 14px;
@@ -727,9 +739,17 @@ footer{background:var(--negro);color:var(--gris-m);text-align:center;padding:16p
 
 
   /* ── PAYMENT VIEW MOBILE ─────────────────────────────── */
+  
+  
+  
+
+
+  /* ── PAYMENT VIEW MOBILE (mirrors how-body mobile) ─────── */
   .payment-hdr { padding: 12px 16px; }
   .payment-hdr h3 { font-size: 14px; }
   .payment-body { padding: 12px 12px 120px; gap: 12px; }
+  /* pay-btn touch targets */
+  .pay-btn-wa, .pay-btn-mp { min-height: 48px; font-size: 14px; }
 
 }@media(min-width:601px){
   .anuncio-mobile{display:none!important}.anuncio-full{display:flex!important}
