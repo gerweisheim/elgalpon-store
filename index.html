@@ -649,6 +649,9 @@ footer{background:var(--negro);color:var(--gris-m);text-align:center;padding:16p
 .pay-btn-mp{width:100%;background:var(--azul-mp);color:#fff;border:none;border-radius:8px;padding:14px;font-size:14px;font-weight:bold;cursor:pointer;margin-top:12px;min-height:48px;display:flex;align-items:center;justify-content:center;gap:8px}
 .pay-btn-mp:hover{opacity:.9}
 @media(max-width:600px){
+  /* Hide desktop-only buttons on mobile — they live in mobileIconsRow */
+  #desktopIG,#desktopFB,#themeBtn,#desktopHow{display:none!important}
+
   header{padding:0 12px}
   /* ── BASE STRUCTURE ─────────────────────────────────── */
   .header-inner{height:auto;flex-wrap:wrap;padding:6px 0 0;gap:4px;align-items:center}
@@ -2557,8 +2560,6 @@ function pagarMP(){
   // Save pedido to Sheet
   const pedidoData={items:items.map(([cod,i])=>({codigo:cod,nombre:i.nombre,precio:i.precio,qty:i.qty})),metodoPago:"Mercado Pago",total,notas:`ID MP: ${pedidoId}`};
   (function(pd){var s=document.createElement('script');s.src=API_URL+'?action=guardarPedido&data='+encodeURIComponent(JSON.stringify(pd))+'&r='+Date.now();document.head.appendChild(s);})(pedidoData);
-  // Also open WA with order detail
-  window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent("📦 PEDIDO CON MERCADO PAGO\n\n"+buildOrderText(items,total)+"\n\nID de referencia: "+pedidoId)}`,"_blank");
 
 
 
@@ -2569,7 +2570,11 @@ function pagarMP(){
     delete window[_mpCb];
     if(result&&result.ok){
       try{localStorage.setItem('galpon_cart_backup',JSON.stringify(cart));}catch(e){}
-      window.location.href=result.url;
+      // 1. Open WA summary (new tab) THEN redirect to MP
+      var waMsg=encodeURIComponent("📦 PEDIDO CON MERCADO PAGO\n\n"+buildOrderText(items,total)+"\n\nID de referencia: "+pedidoId);
+      window.open("https://wa.me/"+WA_NUMBER+"?text="+waMsg,"_blank");
+      // 2. Brief delay so WA tab opens before redirect
+      setTimeout(function(){window.location.href=result.url;},800);
     }else{
       showToast('Error al generar el pago. Usa WhatsApp.');
       document.getElementById('mpBtn').textContent='💳 Pagar con Mercado Pago';
@@ -2813,14 +2818,24 @@ function sendWhatsAppMetodo(metodoPagoId){
   var lineas=items.map(function(x){
     return "- "+x[1].nombre+" x"+x[1].qty+" = $"+(x[1].precio*x[1].qty).toLocaleString("es-AR");
   }).join("\n");
-  var msg="Hola! Pedido El Galpon:\n\n"+lineas+"\n\n";
+  var ahorro = res.subtotal - res.baseVolumen;
+  var msg="Hola! Quiero hacer un pedido en El Galpón 🛍️\n\n";
+  msg+="📦 PRODUCTOS:\n"+lineas+"\n\n";
+  msg+="💰 RESUMEN:\n";
   msg+="Subtotal: $"+res.subtotal.toLocaleString("es-AR")+"\n";
-  if(res.nivelAplicado)msg+=res.labelVolumen+": $"+base.toLocaleString("es-AR")+"\n";
-  msg+="Entrega: "+(costoE===0?"SIN CARGO":"$"+costoE.toLocaleString("es-AR"))+"\n";
-  msg+="Metodo: "+metodo.nombre+"\n";
-  msg+="TOTAL: $"+total.toLocaleString("es-AR")+"\n";
-  if(sena>0)msg+="Sena para confirmar (50%): $"+sena.toLocaleString("es-AR")+"\n";
-  msg+="\nID: "+pedidoId;
+  if(res.nivelAplicado && ahorro>0){
+    msg+="🎉 "+res.labelVolumen+" — Ahorrás $"+ahorro.toLocaleString("es-AR")+"\n";
+    msg+="Base con descuento vol.: $"+res.baseVolumen.toLocaleString("es-AR")+"\n";
+  }
+  if(metodo.descuento>0){
+    var ahorroMetodo=Math.round(res.baseVolumen*metodo.descuento/100)*100;
+    msg+="💸 5% OFF pagando total en 1 pago: -$"+ahorroMetodo.toLocaleString("es-AR")+"\n";
+  }
+  msg+="🚗 Entrega: "+(costoE===0?"SIN CARGO ✅":"$"+costoE.toLocaleString("es-AR"))+"\n";
+  msg+="💳 Método de pago: "+metodo.nombre+"\n";
+  msg+="✅ TOTAL: $"+total.toLocaleString("es-AR")+"\n";
+  if(sena>0)msg+="\n⚡ Seña mínima (50%): $"+sena.toLocaleString("es-AR")+"\n";
+  msg+="\n🔑 ID: "+pedidoId;
   window.open("https://wa.me/"+WA_NUMBER+"?text="+encodeURIComponent(msg),"_blank");
   saveHistory(items,total);
   showConfirm("pedido");
