@@ -497,32 +497,39 @@ footer{background:var(--negro);color:var(--gris-m);text-align:center;padding:16p
 /* ── PAYMENT VIEW — scroll pattern copied from how-overlay ────────
    how-overlay: position:fixed;inset:0;overflow-y:auto  (outer scrolls)
    Applying the same: payment-view IS the scroll container.        ── */
+
+
+
+/* Header: sticky so it stays visible while body scrolls */
+
+
+
+
+/* Body: normal flow — no flex gymnastics needed */
+
+
+/* ── PAYMENT VIEW — original flex-column pattern (restored) ─────── */
 .payment-view {
   display: none;
+  flex-direction: column;
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
   background: var(--card-bg);
   z-index: var(--z-modal);
-  overflow-y: auto;                  /* ← same as .how-overlay */
-  -webkit-overflow-scrolling: touch;
-  overscroll-behavior: contain;
+  overflow: hidden;             /* clips to viewport — body scrolls instead */
 }
 .payment-view[style*="flex"],
-.payment-view.open {
-  display: block;                    /* block, not flex — content flows naturally */
-}
+.payment-view.open { display: flex; }
 
-/* Header: sticky so it stays visible while body scrolls */
+/* Header: fixed height, never scrolls */
 .payment-hdr {
-  position: sticky;
-  top: 0;
+  flex: 0 0 auto;
   background: var(--negro);
   color: #fff;
   padding: 14px 18px;
   display: flex;
   align-items: center;
   gap: 12px;
-  z-index: 1;
 }
 .payment-hdr h3 {
   flex: 1;
@@ -545,13 +552,102 @@ footer{background:var(--negro);color:var(--gris-m);text-align:center;padding:16p
   align-items: center;
 }
 
-/* Body: normal flow — no flex gymnastics needed */
+/* Body: takes remaining height, THIS is the scroll container */
 .payment-body {
-  padding: 16px 16px 120px;          /* 120px ensures last button reachable */
+  flex: 1;
+  min-height: 0;                /* required so flex child can scroll */
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  padding: 16px 16px 100px;     /* 100px bottom = last button always reachable */
   display: flex;
   flex-direction: column;
   gap: 14px;
 }
+
+/* ── PAY-METHOD CARD FIXES ──────────────────────────────────────────
+   Root cause of cut content: overflow:hidden on .pay-method + no
+   height:auto on .pm-body. Cards now grow to fit their content.    ── */
+
+/* Each payment card: grows to fit all content */
+.pay-method {
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  overflow: visible;            /* was:hidden — was clipping btn + rows */
+  height: auto;                 /* explicit: never fixed height */
+  display: flex;
+  flex-direction: column;
+  background: var(--card-bg);
+}
+.pay-method.best { border-color: var(--verde); }
+.pay-method.mp   { border-color: var(--azul-mp); }
+
+/* Card header row */
+.pm-hdr {
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--card-bg);
+  flex-shrink: 0;
+}
+.pm-ico  { font-size: 26px; flex-shrink: 0; }
+.pm-info { flex: 1; }
+.pm-name { font-size: 14px; font-weight: bold; color: var(--text); }
+.pm-sub  { font-size: 11px; color: var(--text2); margin-top: 3px; }
+.pm-badge {
+  font-size: 11px; font-weight: bold;
+  padding: 4px 10px; border-radius: 20px;
+  background: var(--gris-l); color: var(--text2);
+  white-space: nowrap;
+}
+.pm-badge.badge-verde { background: var(--verde); color: #fff; }
+.pm-badge.badge-rojo  { background: var(--rojo);  color: #fff; }
+
+/* Card body: all rows + button — height:auto, shows everything */
+.pm-body {
+  padding: 0 16px 16px;
+  border-top: 1px solid var(--border);
+  background: var(--card-bg);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  height: auto;                 /* never clipped */
+}
+
+/* Detail rows inside pm-body */
+.pd-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+}
+.pd-row:last-of-type { border-bottom: none; }
+.pd-row .naranja { color: var(--naranja); font-weight: bold; }
+.pd-row .verde   { color: var(--verde);   font-weight: bold; }
+.pd-row .rojo    { color: var(--rojo);    font-weight: bold; }
+
+/* Action buttons: always visible, full width */
+
+
+
+
+/* Summary box at top of payment screen */
+.pay-resumen {
+  background: var(--gris-l);
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+.pay-total-lbl { font-size: 12px; color: var(--gris-m); }
+.pay-total-val { font-size: 22px; font-weight: 900; color: var(--naranja); }
+
+/* ── PAYMENT BUTTONS ─────────────────────────────────────────────── */
+.pay-btn-wa{width:100%;background:#25D366;color:#fff;border:none;border-radius:8px;padding:14px;font-size:14px;font-weight:bold;cursor:pointer;margin-top:12px;min-height:48px;display:flex;align-items:center;justify-content:center;gap:8px}
+.pay-btn-wa:hover{background:#1ebe59}
+.pay-btn-mp{width:100%;background:var(--azul-mp);color:#fff;border:none;border-radius:8px;padding:14px;font-size:14px;font-weight:bold;cursor:pointer;margin-top:12px;min-height:48px;display:flex;align-items:center;justify-content:center;gap:8px}
+.pay-btn-mp:hover{opacity:.9}
 @media(max-width:600px){
   header{padding:0 12px}
   /* ── BASE STRUCTURE ─────────────────────────────────── */
@@ -745,14 +841,15 @@ footer{background:var(--negro);color:var(--gris-m);text-align:center;padding:16p
 
 
   /* ── PAYMENT VIEW MOBILE (mirrors how-body mobile) ─────── */
-  .payment-hdr { padding: 12px 16px; }
-  .payment-hdr h3 { font-size: 14px; }
-  .payment-body { padding: 12px 12px 120px; gap: 12px; }
+  
+  
+  
   /* pay-btn touch targets */
-  .pay-btn-wa, .pay-btn-mp { min-height: 48px; font-size: 14px; }
-
-}@media(min-width:601px){
-  .anuncio-mobile{display:none!important}.anuncio-full{display:flex!important}
+  .payment-hdr h3    { font-size: 14px; }
+  .payment-body      { padding: 12px 12px 100px; gap: 12px; }
+  .pm-hdr            { padding: 12px 14px; }
+  .pm-body           { padding: 0 14px 14px; }
+  .pd-row            { font-size: 12px; padding: 7px 0; }.anuncio-full{display:flex!important}
   .header-icons-row{display:none!important}
 }
 .how-table{width:100%;border-collapse:collapse;font-size:12px;margin-top:8px}.how-table th{background:var(--negro);color:#fff;padding:5px 8px;text-align:left}.how-table td{padding:5px 8px;border-bottom:1px solid var(--border)}.how-table tr:last-child td{border-bottom:none}.how-nota{font-size:11px;color:var(--gris-m);margin-top:5px;font-style:italic}
@@ -780,9 +877,9 @@ footer{background:var(--negro);color:var(--gris-m);text-align:center;padding:16p
 .pay-total-val{font-size:20px;font-weight:900;color:var(--naranja)}
 .pay-desc-badge{font-size:11px;background:var(--verde);color:#fff;
   padding:3px 8px;border-radius:20px;font-weight:bold;margin-bottom:4px}
-.pay-method{border:2px solid var(--border);border-radius:12px;overflow:hidden}
-.pay-method.best{border-color:var(--verde)}
-.pay-method.mp{border-color:var(--azul-mp)}
+
+
+
 .pm-hdr{padding:12px 14px;display:flex;align-items:center;gap:10px;background:var(--card-bg)}
 .pm-ico{font-size:24px;flex-shrink:0}
 .pm-info{flex:1}
@@ -799,19 +896,11 @@ footer{background:var(--negro);color:var(--gris-m);text-align:center;padding:16p
 .pd-row .naranja{color:var(--naranja);font-weight:bold}
 .pd-row .verde{color:var(--verde);font-weight:bold}
 .pd-row .rojo{color:var(--rojo);font-weight:bold}
-.pay-btn-wa{width:100%;background:#25D366;color:#fff;border:none;border-radius:8px;
-  padding:12px;font-size:13px;font-weight:bold;cursor:pointer;margin-top:10px}
-.pay-btn-wa:hover{background:#1ebe59}
-.pay-btn-mp{width:100%;background:var(--azul-mp);color:#fff;border:none;border-radius:8px;
-  padding:12px;font-size:13px;font-weight:bold;cursor:pointer;margin-top:10px}
-.pay-btn-mp:hover{opacity:.9}
 
-/* ── Cart descuento row ─────────────────────────────── */
-.cart-row-descuento{display:flex;justify-content:space-between;align-items:center;font-size:12px;padding:3px 0;color:var(--verde)}
 .verde-bold{color:var(--verde);font-weight:bold}
 
 /* ── Pay resumen rows ───────────────────────────────── */
-.pay-resumen-rows{width:100%;display:flex;flex-direction:column;gap:2px}
+.pay-resumen-rows{width:100%;displayap:2px}
 .pay-resumen-row{display:flex;justify-content:space-between;align-items:center;font-size:12px;padding:4px 0;border-bottom:1px solid var(--border)}
 .pay-resumen-row:last-child{border-bottom:none}
 .pay-resumen-row.verde-row{color:var(--verde)}
