@@ -663,9 +663,7 @@ footer{background:var(--negro);color:var(--gris-m);text-align:center;padding:16p
 
   /* Hide desktop-only icons inside header-actions on mobile */
   #desktopIG,
-  #desktopFB,
-  #themeBtn,
-  #desktopHow{display:none!important}
+  
 
   /* Cart button: compact on mobile */
   .cart-btn{
@@ -850,7 +848,7 @@ footer{background:var(--negro);color:var(--gris-m);text-align:center;padding:16p
   .pm-hdr            { padding: 12px 14px; }
   .pm-body           { padding: 0 14px 14px; }
   .pd-row            { font-size: 12px; padding: 7px 0; }.anuncio-full{display:flex!important}
-  .header-icons-row{display:none!important}
+  
 }
 .how-table{width:100%;border-collapse:collapse;font-size:12px;margin-top:8px}.how-table th{background:var(--negro);color:#fff;padding:5px 8px;text-align:left}.how-table td{padding:5px 8px;border-bottom:1px solid var(--border)}.how-table tr:last-child td{border-bottom:none}.how-nota{font-size:11px;color:var(--gris-m);margin-top:5px;font-style:italic}
 
@@ -1375,6 +1373,39 @@ footer{background:var(--negro);color:var(--gris-m);text-align:center;padding:16p
 
 
 /* ── SUG FLOAT BTN — catalog only, never inside cart ───────────── */
+
+@media(min-width:601px){
+  .header-icons-row{display:none!important}
+
+  /* ── PAYMENT VIEW DESKTOP: contained modal, not full-screen ──── */
+  .payment-view {
+    /* Override the fixed full-screen to a centered-overlay pattern */
+    background: rgba(0,0,0,.6);
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 40px;
+    overflow-y: auto;
+  }
+  .payment-view[style*="flex"],
+  .payment-view.open { display: flex; }
+
+  /* The flex children (.payment-hdr + .payment-body) form the card */
+  .payment-hdr {
+    width: 100%;
+    max-width: 600px;
+    border-radius: 14px 14px 0 0;
+    /* margin:0 auto handled by flex-column wrapper below */
+  }
+  .payment-body {
+    width: 100%;
+    max-width: 600px;
+    background: var(--card-bg);
+    border-radius: 0 0 14px 14px;
+    max-height: 75vh;
+    padding-bottom: 40px;
+  }
+
+}
 </style>
 
 </head>
