@@ -198,6 +198,11 @@ header{background:var(--negro);padding:0 24px;position:fixed;top:var(--bar-h);le
 .grid.cols-4 .card-img,.grid.cols-4 .card-img-placeholder{height:130px}
 .grid.cols-4 .card-nombre{font-size:11px}.grid.cols-4 .card-precio{font-size:16px}
 .grid.cols-4 .card-desc{-webkit-line-clamp:2;font-size:10px}
+/* ── ZOOM DE IMAGEN EN CARD ──────────────────────────────────────── */
+.card-img-wrap{display:block;overflow:hidden;position:relative;cursor:zoom-in}
+.grid.cols-1 .card-img-wrap{width:155px;height:155px;flex-shrink:0}
+.card-img-wrap .card-img{transition:transform .3s ease;transform-origin:center center}
+@media(max-width:768px){.card-img-wrap .card-img{transition:none;transform:none!important}}
 
 /* ══ BARRA FLOTANTE ══ */
 .cart-bar{position:fixed;bottom:0;left:0;right:0;background:var(--negro);border-top:2px solid var(--naranja);z-index:var(--z-floating);padding:10px 24px;display:none;align-items:center;gap:14px}
@@ -2086,9 +2091,11 @@ function cardHTML(p){
   const gBadge=esLamboTech(p.producto)?'<span class="garantia-badge">🛡️ 6m garantía</span>':"";
   return `
   <div class="card${ss?' sin-stock':''}" onclick="openModal(${p.codigo},event)">
-    <img class="card-img" src="${p.imagen}" alt="${p.producto}" loading="lazy"
-      onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-    <div class="card-img-placeholder" style="display:none">${icon}</div>
+    <div class="card-img-wrap">
+      <img class="card-img" src="${p.imagen}" alt="${p.producto}" loading="lazy"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="card-img-placeholder" style="display:none">${icon}</div>
+    </div>
     <div class="card-body">
       <div class="card-nombre">${p.producto}</div>
       <div class="card-precio-row">
@@ -2900,6 +2907,37 @@ function renderApp() {
   // Landing se renderiza sola (HTML estático + renderMasVendidos via onProductsLoaded)
 }
 // ── FIN MOTOR DE NAVEGACIÓN ───────────────────────────────────────────
+// ── ZOOM DE IMAGEN EN CARD ────────────────────────────────────────────────────
+function initZoomCards() {
+  var grid = document.getElementById('productGrid');
+  if (!grid) return;
+  if ('ontouchstart' in window) return; // sin zoom en touch/mobile
+  grid.addEventListener('mouseover', function(e) {
+    var wrap = e.target.closest && e.target.closest('.card-img-wrap');
+    if (!wrap) return;
+    var img = wrap.querySelector('.card-img');
+    if (img) img.style.transform = 'scale(1.5)';
+  });
+  grid.addEventListener('mousemove', function(e) {
+    var wrap = e.target.closest && e.target.closest('.card-img-wrap');
+    if (!wrap) return;
+    var img = wrap.querySelector('.card-img');
+    if (!img || !img.style.transform || img.style.transform === 'scale(1)') return;
+    var rect = wrap.getBoundingClientRect();
+    var x = Math.max(0, Math.min(100, ((e.clientX - rect.left) / rect.width) * 100));
+    var y = Math.max(0, Math.min(100, ((e.clientY - rect.top) / rect.height) * 100));
+    img.style.transformOrigin = x + '% ' + y + '%';
+  });
+  grid.addEventListener('mouseout', function(e) {
+    var wrap = e.target.closest && e.target.closest('.card-img-wrap');
+    if (!wrap) return;
+    if (wrap.contains(e.relatedTarget)) return; // sigue dentro del wrap
+    var img = wrap.querySelector('.card-img');
+    if (img) { img.style.transform = 'scale(1)'; img.style.transformOrigin = 'center center'; }
+  });
+}
+// ── FIN ZOOM ──────────────────────────────────────────────────────────────────
+
 window.onload = function(){
 
   // 1. Theme
@@ -2946,6 +2984,8 @@ window.onload = function(){
 
   // 9. Resize handler
   window.addEventListener('resize', fixFilterBarPosition, {passive:true});
+  // 10b. Zoom en imágenes (event delegation — solo desktop)
+  initZoomCards();
 
   // 10. Products load ONLY when user enters the catalog (via navigateTo)
   //     Do NOT call loadProducts() here — landing must stay clean.
